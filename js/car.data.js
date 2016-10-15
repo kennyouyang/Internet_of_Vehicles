@@ -1,0 +1,69 @@
+cardata = [{
+	value: 'jing',text:'京'
+}, {
+	value: 'jin',text:'津'
+}, {
+	value: 'ji',text:'冀'
+}, {
+	value: 'jinj',text:'晋'
+}, {
+	value: 'meng',text:'蒙'
+}, {
+	value: 'liao',text:'辽'
+}, {
+	value: 'ji',text:'吉'
+}, {
+	value: 'hei',text:'黑'
+}, {
+	value: 'hu',text:'沪'
+}, {
+	value: 'su',text:'苏'
+}, {
+	value: 'she',text:'浙'
+}, {
+	value: 'wan',text:'皖'
+}, {
+	value: 'min',text:'闽'
+}, {
+	value: 'gan',text:'赣'
+}, {
+	value: 'lu',text:'鲁'
+}, {
+	value: 'yu',text:'豫'
+}, {
+	value: 'e',text:'鄂'
+}, {
+	value: 'xiang',text:'湘'
+}, {
+	value: 'ee',text:'粤'
+}, {
+	value: 'gui',text:'桂'
+}, {
+	value: 'qiong',text:'琼'
+}, {
+	value: 'yu',text:'渝'
+}, {
+	value: 'chuan',text:'川 / 蜀'
+}, {
+	value: 'gui',text:'贵 / 黔'
+}, {
+	value: 'yun',text:'云 / 滇'
+}, {
+	value: 'zang',text:'藏'
+}, {
+	value: 'shan',text:'陕 / 秦'
+}, {
+	value: 'gan',text:'甘 / 陇'
+}, {
+	value: 'qing',text:'青'
+}, {
+	value: 'ning',text:'宁'
+}, {
+	value: 'xin',text:'新'
+}, {
+	value: 'gang',text:'港'
+}, {
+	value: 'ao',text:'澳'
+}, {
+	value: 'tai',text:'台'
+}, ]
