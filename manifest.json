@@ -1,0 +1,2168 @@
+{
+	"@platforms": [
+		"android",
+		"iPhone",
+		"iPad"
+	],
+	"id": "H56C9C7D3",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "趣加油",/*应用名称，程序桌面图标名称*/
+	"version": {
+		"name": "1.0",/*应用版本名称*/
+		"code": ""
+	},
+	"description": "",/*应用描述信息*/
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+	"developer": {
+		"name": "",/*开发者名称*/
+		"email": "",/*开发者邮箱地址*/
+		"url": ""
+	},
+	"permissions": {
+		"Accelerometer": {
+			"description": "访问加速度感应器"
+		},
+		"Audio": {
+			"description": "访问麦克风"
+		},
+
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+		"Camera": {
+			"description": "访问摄像头"
+		},
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		"Contacts": {
+			"description": "访问系统联系人信息"
+		},
+		"Device": {
+			"description": "访问设备信息"
+		},
+		"Downloader": {
+			"description": "文件下载管理"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"File": {
+			"description": "访问本地文件系统"
+		},
+		"Gallery": {
+			"description": "访问系统相册"
+		},
+		"Geolocation": {
+			"description": "访问位置信息"
+		},
+		"Invocation": {
+			"description": "使用Native.js能力"
+		},
+		"Orientation": {
+			"description": "访问方向感应器"
+		},
+		"Proximity": {
+			"description": "访问距离感应器"
+		},
+		"Storage": {
+			"description": "管理应用本地数据"
+		},
+
+		"Uploader": {
+			"description": "管理文件上传任务"
+		},
+		"Runtime": {
+			"description": "访问运行期环境"
+		},
+		"XMLHttpRequest": {
+			"description": "跨域网络访问"
+		},
+		"Zip": {
+			"description": "文件压缩与解压缩"
+		},
+		"Barcode": {
+			"description": "管理二维码扫描插件"
+		},
+		"Maps": {
+			"description": "管理地图插件"
+		},
+		"Speech": {
+			"description": "管理语音识别插件"
+		},
+		"Webview": {
+			"description": "窗口管理"
+		},
+		"NativeUI": {
+			"description": "原生UI控件"
+		},
+		"Navigator": {
+			"description": "浏览器信息"
+		},
+		"NativeObj": {
+			"description": "原生对象"
+		},
+		"Payment": {},
+		"Push": {},
+		"OAuth": {}
+	},
+	"plus": {
+		"splashscreen": {
+			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+			"waiting": true,
+			"delay": "4000"
+		},
+		"popGesture": "close",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
+		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
+		"distribute": {
+			"plugins": {
+				"oauth": {
+					"sina": {
+						"appkey": "3756925095",
+						"appsecret": "7d09b4ec2e24f35ae799788eb90bc1ef",
+						"redirect_uri": "3756925095"
+					}
+				},
+				"push": {
+					"igexin": {
+						"appid": "0oZMVqffdY8ooQ2pfthZF6",
+						"appkey": "Q35NAsMSgs6DdXQAtQSsY2",
+						"appsecret": "LWeGmiLgvk6oewoq8xIAP6"
+					}
+				},
+				"maps": {
+					"baidu": {
+						"appkey_ios": "1YiNuDFiCRuVwaxKtgzL5caKCVZGmEbg",
+						"appkey_android": "HFD1xL8hwG8TGzNpuullMzE1GVad4nVk",
+						"appkey": "",
+						"description": ""
+					}
+				},
+				"payment": {
+					"alipay": {
+						"description": "阿里支付",
+						"scheme": ""
+					}
+				}
+			},
+			"apple": {
+				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+				"mobileprovision": "",/*iOS应用打包配置文件*/
+				"password": "",/*iOS应用打包个人证书导入密码*/
+				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+				"devices": "universal",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+				"frameworks": []
+			},
+			"google": {
+				"packagename": "",/*Android应用包名，如io.dcloud.HelloH5*/
+				"keystore": "",/*Android应用打包使用的密钥库文件*/
+				"password": "",/*Android应用打包使用密钥库中证书的密码*/
+				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
+				"permissions": [
+					"<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+					"<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+					"<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+					"<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
+					"<uses-permission android:name=\"android.permission.GET_TASKS\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+					"<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+					"<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+					"<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+					"<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+					"<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+					"<uses-feature android:name=\"android.hardware.camera\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+					"<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+					"<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
+					"<uses-permission android:name=\"android.permission.CAMERA\"/>"
+				]
+			},
+			"orientation": [
+				"portrait-primary"
+			],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+			"icons": {
+				"ios": {
+					"prerendered": true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+					"auto": "", /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+					"iphone": {
+						"normal": "unpackage/res/icons/57x57.png", /*iPhone3/3GS程序图标，分辨率：57x57*/
+						"retina": "unpackage/res/icons/114x114.png", /*iPhone4程序图标，分辨率：114x114*/
+						"retina7": "unpackage/res/icons/120x120.png", /*iPhone4S/5/6程序图标，分辨率：120x120*/
+						"retina8": "unpackage/res/icons/180x180.png", /*iPhone6 Plus程序图标，分辨率：180x180*/
+						"spotlight-normal": "unpackage/res/icons/29x29.png", /*iPhone3/3GS Spotlight搜索程序图标，分辨率：29x29*/
+						"spotlight-retina": "unpackage/res/icons/58x58.png", /*iPhone4 Spotlight搜索程序图标，分辨率：58x58*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png", /*iPhone4S/5/6 Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png", /*iPhone4设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png", /*iPhone4S/5/6设置页面程序图标，分辨率：58x58*/
+						"settings-retina8": "unpackage/res/icons/87x87.png"
+					},
+					"ipad": {
+						"normal": "unpackage/res/icons/72x72.png", /*iPad普通屏幕程序图标，分辨率：72x72*/
+						"retina": "unpackage/res/icons/144x144.png", /*iPad高分屏程序图标，分辨率：144x144*/
+						"normal7": "unpackage/res/icons/76x76.png", /*iPad iOS7程序图标，分辨率：76x76*/
+						"retina7": "unpackage/res/icons/152x152.png", /*iPad iOS7高分屏程序图标，分辨率：152x152*/
+						"spotlight-normal": "unpackage/res/icons/50x50.png", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+						"spotlight-retina": "unpackage/res/icons/100x100.png", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+						"spotlight-normal7": "unpackage/res/icons/40x40.png",/*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png",/*iPad设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png"
+					}
+				},
+				"android": {
+					"mdpi": "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
+					"ldpi": "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
+					"hdpi": "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
+					"xhdpi": "unpackage/res/icons/96x96.png",/*720P高分屏程序图标，分辨率：96x96*/
+					"xxhdpi": "unpackage/res/icons/144x144.png"
+				}
+			},
+			"splashscreen": {
+				"ios": {
+					"iphone": {
+						/*iPhone3启动图片选，分辨率：320x480*/
+						"retina35": "",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						"retina40": "",/*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
+						"retina47": "",/*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*/
+						"retina55": "",/*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
+						"retina55l": ""
+					},
+					"ipad": {
+						"portrait": "", /*iPad竖屏启动图片，分辨率：768x1004*/
+						"portrait-retina": "",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+						"landscape": "", /*iPad横屏启动图片，分辨率：1024x748*/
+						"landscape-retina": "", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+						"portrait7": "", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+						"portrait-retina7": "",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+						"landscape7": "", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+						"landscape-retina7": ""
+					}
+				},
+				"android": {"mdpi":"images/welcome/logo_el240_282.png","hdpi":"images/welcome/logo_el480_762.png","ldpi":"images/welcome/logo_el320-442.png","xhdpi":"images/welcome/logo_el720_1242.png","xxhdpi":"images/welcome/logo_el1080.png"}
+			}
+		}
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"href": "index.html",
+				"priority": 0,
+				"resources": [
+					"css/common.css",
+					"js/shortcut.js",
+					"js/immersed.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"index_navigation.html",
+					"index_service.html",
+					"pages/maps.html",
+					"js/weather_gasprice.js"
+				],
+				"refer": [
+					"plus/audio.html",
+					"plus/maps.html",
+					"pages/maps_map.html",
+					"pages/gasStation.html",
+					"pages/tab-webview-main.html",
+					"music.html",
+					"pages/indexed-list.html",
+					"pages/barcode_scan.html",
+					"index_mine.html",
+					"pages/ser_carManage.html",
+					"pages/guide.html",
+					"pages/preference.html"
+				]
+			},
+			"plus/audio.html": {
+				"resources": [
+					"js/common.js",
+					"img/astop.png",
+					"img/arecord.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"plus/maps_map.html": {
+				"resources": [
+					"plus/maps_map_sub.html",
+					"js/common.js",
+					"css/common.css",
+					"js/immersed.js",
+					"js/map.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"plus/offcanvas-drag-right-plus-menu.html",
+					"plus/index-menu.html"
+				],
+				"priority": 0
+			},
+			"plus/maps.html": {
+				"resources": [
+					"js/common.js",
+					"css/common.css",
+					"js/immersed.js"
+				],
+				"refer": [
+					"plus/maps_map.html"
+				],
+				"priority": 0
+			},
+			"plus/index.html": {
+				"resources": [
+					"js/common.js",
+					"js/mui.min.js",
+					"css/app.css",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"plus/maps_map_sub.html",
+					"css/common.css",
+					"js/map.js"
+				],
+				"refer": [
+					"plus/offcanvas-drag-right-plus-menu.html"
+				],
+				"priority": 0
+			},
+			"plus/maps_map_sub.html": {
+				"resources": [
+					"css/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"plus/tab-webview-main.html": {
+				"resources": [
+					"js/mui.min.js",
+					"plus/maps_map.html",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"plus/audio.html",
+					"plus/tab-webview-subpage-chat.html",
+					"plus/peccancy.html",
+					"plus/2.html",
+					"plus/3.html"
+				],
+				"priority": 0
+			},
+			"plus/peccancy.html": {
+				"resources": [
+					"css/common.css",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"plus/offcanvas-drag-right-plus-menu.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/maps_map.html": {
+				"resources": [
+					"js/common.js",
+					"css/common.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/immersed.js",
+					"js/map.js",
+					"pages/maps_map_sub.html",
+					"img/orientationc.png",
+					"img/orientationl.png",
+					"img/add.png",
+					"img/dig.png",
+					"img/db.png",
+					"img/jyz.png",
+					"img/map-marker-marker-inside-azure.png",
+					"images/map-marker-marker-inside-azure.png",
+					"images/dig.png"
+				],
+				"refer": [
+					"pages/offcanvas-drag-right-plus-menu.html",
+					"pages/hotel-detail.html",
+					"pages/gasStationDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/dialog.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/app.css",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/oillist.html": {
+				"resources": [
+					"css/mui.min.css",
+					"listcss/default.css",
+					"js/mui.picker.min.js",
+					"js/oillist.js",
+					"js/mui.min.js",
+					"img/CNPC.png",
+					"img/zhongshihua.png",
+					"js/ems.js",
+					"listcss/mui.picker.min.css",
+					"font-awesome/fonts/fontawesome-webfont.woff",
+					"font-awesome/css/font-awesome.min.css",
+					"fonts/mui.ttf",
+					"listjs/hotel-list-inner.js"
+				],
+				"refer": [
+					"pages/hotel-detail.html"
+				],
+				"priority": 0
+			},
+			"pages/hotel-list-inner.html": {
+				"resources": [
+					"listcss/mui.picker.min.css",
+					"font-awesome/fonts/fontawesome-webfont.woff",
+					"css/mui.min.css",
+					"font-awesome/css/font-awesome.min.css",
+					"listcss/default.css",
+					"pages/hotel-list-inner.js",
+					"js/ems.js",
+					"js/mui.min.js",
+					"libs/utils.js",
+					"libs/ems.js",
+					"libs/vue.js",
+					"common/vue-filter.js",
+					"common/event-binder.js",
+					"common/page-helper.js",
+					"common/element-maper.js",
+					"controls/hotel-price-filter/main.js",
+					"libs/tp.js",
+					"controls/hotel-price-filter/ui.html",
+					"libs/jquery.js",
+					"controls/hotel-price-filter/style.css",
+					"libs/ems-text.js"
+				],
+				"refer": [
+					"pages/hotel-detail.html"
+				],
+				"priority": 0
+			},
+			"pages/hotel-detail.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"font-awesome/fonts/fontawesome-webfont.woff",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"font-awesome/css/font-awesome.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"login.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"images/logo_el.png"
+				],
+				"refer": [
+					"forget_password.html",
+					"reg.html",
+					"index_mine.html"
+				],
+				"priority": 0
+			},
+			"pages/gasStation.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"listcss/default.css",
+					"pages/gasStation.js",
+					"pages/gasStation-inner.html",
+					"js/ems.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/gasStation-inner.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"listcss/default.css",
+					"js/oillist.js",
+					"img/CNPC.png",
+					"img/zhongshihua.png",
+					"img/other.png",
+					"images/CNPC.png",
+					"images/other.png",
+					"images/zhongshihua.png"
+				],
+				"refer": [
+					"pages/hotel-detail.html",
+					"pages/gasStationDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/tab-webview-main.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"pages/maps_map.html",
+					"pages/gasStationDetail.html"
+				],
+				"refer": [
+					"pages/peccancy.html",
+					"pages/2.html"
+				],
+				"priority": 0
+			},
+			"pages/maps_map_sub.html": {
+				"resources": [
+					"css/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/gasStationDetail.html": {
+				"resources": [
+					"listcss/default.css",
+					"js/gasStationDetail.js",
+					"js/ems.js",
+					"pages/gasStationDetail-inner.html",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/gasStationDetail-inner.html": {
+				"resources": [
+					"img/zhongshihua1.png",
+					"img/jiam.png",
+					"img/phone.png",
+					"img/gascard.png",
+					"img/zhe.png",
+					"js/gasStationDetail-inner.js",
+					"img/weiqi.png",
+					"img/map-marker.png",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/ems.js",
+					"listcss/default.css",
+					"js/mui.min.js",
+					"img/CNPC.png",
+					"img/zhongshihua.png",
+					"img/other.png",
+					"images/zhe.png",
+					"images/phone.png",
+					"images/jiam.png",
+					"images/weiqi.png",
+					"images/map-marker.png",
+					"images/gascard.png",
+					"images/CNPC.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"music.html": {
+				"resources": [
+					"src/css/smusic.css",
+					"src/js/smusic.min.js",
+					"src/img/music_icons.png",
+					"images/yangcong.jpg",
+					"images/Maroon5.jpg",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"weather.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/indexed-list.html": {
+				"resources": [
+					"img/carlogo/悍马.gif",
+					"img/carlogo/宝马.gif",
+					"img/carlogo/菲斯克.gif",
+					"img/carlogo/观致.gif",
+					"img/carlogo/北汽幻速.gif",
+					"img/carlogo/华泰.gif",
+					"img/carlogo/标致.gif",
+					"img/carlogo/华普.gif",
+					"img/carlogo/比亚迪.gif",
+					"img/carlogo/法拉利.gif",
+					"img/carlogo/道奇.gif",
+					"img/carlogo/川汽.gif",
+					"img/carlogo/阿斯顿马丁.gif",
+					"img/carlogo/宾利.gif",
+					"img/carlogo/福田.gif",
+					"fonts/mui.ttf",
+					"img/carlogo/本田.gif",
+					"img/carlogo/恒天.gif",
+					"img/carlogo/阿尔法罗密欧.gif",
+					"img/carlogo/大众.gif",
+					"img/carlogo/海马.gif",
+					"img/carlogo/哈飞.gif",
+					"img/carlogo/海格.gif",
+					"img/carlogo/保时捷.gif",
+					"img/carlogo/北京汽车.gif",
+					"img/carlogo/华北.gif",
+					"img/carlogo/广汽.gif",
+					"img/carlogo/大迪.gif",
+					"img/carlogo/东南.gif",
+					"img/carlogo/别克.gif",
+					"img/carlogo/汇众.gif",
+					"img/carlogo/宝骏.gif",
+					"img/carlogo/昌河.gif",
+					"img/carlogo/华翔.gif",
+					"img/carlogo/光冈.gif",
+					"img/carlogo/福特.gif",
+					"js/mui.indexedlist.js",
+					"img/carlogo/布加迪.gif",
+					"img/carlogo/帝豪.gif",
+					"img/carlogo/东风.gif",
+					"img/carlogo/黄海.gif",
+					"img/carlogo/菲亚特.gif",
+					"img/carlogo/丰田.gif",
+					"img/carlogo/丰田Scion.gif",
+					"img/carlogo/红旗.gif",
+					"img/carlogo/奥迪.gif",
+					"css/mui.indexedlist.css",
+					"img/carlogo/福迪.gif",
+					"img/carlogo/大宇.gif",
+					"img/carlogo/奔驰.gif",
+					"img/carlogo/黑豹.gif",
+					"img/carlogo/安驰.gif",
+					"img/carlogo/奔腾.gif",
+					"css/mui.min.css",
+					"img/carlogo/巴博斯.gif",
+					"img/carlogo/北汽制造.gif",
+					"img/carlogo/宝龙.gif",
+					"img/carlogo/af.gif",
+					"js/mui.min.js",
+					"img/5.jpg",
+					"img/carlogo/c3f70203da24f043de5d59bf97bfc12d.gif",
+					"img/carlogo/21ef6cc13886430ce641700bc5c3f03e.gif",
+					"img/carlogo/175a0bbeb71288deb57d1b82d237d995.gif",
+					"img/carlogo/0fcae58e027b340aed9a6492c7c80695.gif",
+					"img/carlogo/87b3c27db40753fbc540536efc8f654a.gif",
+					"img/carlogo/1de9a5e2ea19a724e8917330088b5e16.gif",
+					"img/carlogo/c89fc1b2c9bda5fef4a7dc9b3887f283.gif",
+					"img/carlogo/e007b068cede15b626dc57d5491160e1.gif",
+					"img/carlogo/1f8d836dfd8b865cf79f8bb4b8abaa31.gif",
+					"img/carlogo/87c331694ad98fdeab1a22c17a0f69d5.gif",
+					"img/carlogo/23c1de31f07d6e056f0b552081fc311d.gif",
+					"img/carlogo/85706290cfc485f2a059fc74816d60ac.gif",
+					"img/carlogo/ba6ab8e671f08631e4ffb61e052b0e06.gif",
+					"img/carlogo/a47e3b7657681354a34c17eed2e8bb25.gif",
+					"img/carlogo/f05dec8490a704498f3bd331fc72b62c.gif",
+					"img/carlogo/df2587068f969d96e49416e47e8f7ee7.gif",
+					"img/carlogo/ee5b18a6ceb4a46e66e5393f59044ce7.gif",
+					"img/carlogo/d127bfe48c1954a4a646ee8bb0cdc5b1.gif",
+					"img/carlogo/bcb56023bcb91b2d88f1e1fef05573b9.gif",
+					"img/carlogo/8485583a29a40e7bffa3aae81ecd2041.gif",
+					"img/carlogo/0ca2de02b38fcddc77903914efad73df.gif",
+					"img/carlogo/d3f636d0c07af13e22936b0ba4124435.gif",
+					"img/carlogo/c554ef0e539e6f7684161e452c3e23c7.gif",
+					"img/carlogo/c46730e1fe19ec874251cfadf9456ba7.gif",
+					"img/carlogo/ebd6d25b908209d546d46ef11951b11f.gif",
+					"img/carlogo/585d201f28a8f6f9919dd3a3db5b7077.gif",
+					"img/carlogo/85514a6bcb2a0f743813606d10a2079e.gif",
+					"img/carlogo/45187c9111d9e289485db192aa2d6bad.gif",
+					"img/carlogo/d3c97a5b9eb0bacc2c85b55e94d89e4c.gif",
+					"img/carlogo/3ee9fb2c87cf555d3573913f56d96dae.gif",
+					"img/carlogo/998c013756a2008523dbe4f3c21cbcb1.gif",
+					"img/carlogo/1f7097cd076fd5127cd592c5960bc2d1.gif",
+					"img/carlogo/a19e5b7f03c47ea0c85509b06089cf24.gif",
+					"img/carlogo/8c240d6ae64168344346ef02a8af5794.gif",
+					"img/carlogo/aa6c82c1afc713b97191adfb5a9a0ac1.gif",
+					"img/carlogo/8a52660e1b6d4139fefa9a9dd4936e0c.gif",
+					"img/carlogo/59c83c7889cc8687a000a0b1e9db2f0c.gif",
+					"img/carlogo/7045326d220c496e93b9ddc22f6e4905.gif",
+					"img/carlogo/5bc56ffcfaee4e872265927dcf71c83c.gif",
+					"img/carlogo/ada4f7b634af49547e3df89acc10ebe6.gif",
+					"img/carlogo/6c6e7405d6a41bffcec63eccf6d57e48.gif",
+					"img/carlogo/e460eb7ecd68a02436095b89c3d1ac53.gif",
+					"img/carlogo/721331f53070246762cd006398080eab.gif",
+					"img/carlogo/f32892a16a76a5784a4fe94a7835578a.gif",
+					"img/carlogo/1975b3f30eb1c81af576f7c6f3706f00.gif",
+					"img/carlogo/1df1aa9a0a86d10f9fe23cb8c59f26d6.gif",
+					"img/carlogo/50d0b558a6f4fccb7142aab81f673e83.gif",
+					"img/carlogo/0a865e391561d2b4b37ceaa86eddc5fa.gif",
+					"img/carlogo/7530ef85e1fdcc0668df190db6418666.gif",
+					"img/carlogo/5fdeca26f0f35b170616563aaedbb6d2.gif",
+					"img/carlogo/1d7dabed1d3f25ac1bec31835a71910a.gif",
+					"img/carlogo/a182cde0ce12d7685f1fbd064e1e5b21.gif",
+					"img/carlogo/1307dfacb466d2c3f8d4c0d50084c838.gif",
+					"img/carlogo/e0f4ab46958cde6a6d0cc28f846d6b45.gif",
+					"img/carlogo/38682f11c18c9d777706b10c9c0d1b00.gif",
+					"img/carlogo/c77696caad0a4448ed9542aaec22c9bb.gif",
+					"img/carlogo/469f2440cdfa608def5dbf08c2dad897.gif",
+					"img/carlogo/377ef068c4d15cf0a1341999a1b761e2.gif",
+					"img/carlogo/e49ed1dd4e43d842e81cf28264588243.gif",
+					"img/carlogo/895a57fe6be345c45cfdcd390f41f287.gif",
+					"img/carlogo/d578eec9f95b7b969b5a5065660750d6.gif",
+					"img/carlogo/b2d9d0f490d0ab2ff50662fe57afa1a9.gif",
+					"img/carlogo/5d1b65fd6cd5c909c948cc03613cfcfc.gif",
+					"img/carlogo/9a82fe69722ade54a21e6baad7c14fa2.gif",
+					"img/carlogo/27bd725ade96e7199b8ae49b676325cf.gif",
+					"img/carlogo/52604b10627c8d3471d9ccdb68ff7ba0.gif",
+					"img/carlogo/3a7ff741dd66abad496f5f8d18f0a7a1.gif",
+					"img/carlogo/722d15bc4c11bade8430a6bfb23f77ef.gif",
+					"img/carlogo/3b01fa6d218455c3e18ad496c02a9db8.gif",
+					"img/carlogo/259a19ecc16b6df271fc1493e65eb221.gif",
+					"img/carlogo/3f0cb8b8c238c3b4e08898ce6d449c8d.gif",
+					"img/carlogo/4bdb831e05065ec28f77ebc9dfc7fa5a.gif",
+					"img/carlogo/3d548164f10102a8f22724f7b4e87929.gif",
+					"img/carlogo/65a46ea2a8db7a36d7848c7f3795cc24.gif",
+					"img/carlogo/8c14e56fb0d31f9792b346a6589f5d32.gif",
+					"img/carlogo/402e60681a87b26a15b580e9375ee978.gif",
+					"img/carlogo/a79d7951e852eb248297787cdfc1b4a5.gif",
+					"img/carlogo/8c50ccb7b9291251f8559b0202be51ae.gif",
+					"img/carlogo/bbd5692816bba2557ddf092a5ba59ee0.gif",
+					"img/carlogo/ee36b9d22663b9f7191ea290983a2b9e.gif",
+					"img/carlogo/baac6e1600a9e2d566ed87fe4817c85a.gif",
+					"img/carlogo/0d8bbd4581d4694e99457ea07926017f.gif",
+					"img/carlogo/b149c6b18dcc18d70008b1f37d000555.gif",
+					"img/carlogo/96b2b70aa8e4cbe301ad95559e38b6e3.gif",
+					"img/carlogo/facecce1c4b384cd27332d27582f491e.gif",
+					"img/carlogo/4724b5d5de8fd3ae4ea8d2fb67278173.gif",
+					"img/carlogo/9be6211723964c44a812d19f58d2c300.gif",
+					"img/carlogo/5f539625417f6a2e7fa1682ae35452d5.gif",
+					"img/carlogo/88211711a38488cef955bffb816d9582.gif",
+					"img/carlogo/7632ac41321ef04c872b9c5f835453c8.gif",
+					"img/carlogo/d8e7596414d831ad3da1560ce556f69e.gif",
+					"img/carlogo/07d9fac4a8c48cf3a975555f6a4912b9.gif",
+					"img/carlogo/4a89b48d57b904de3027967ba81f0995.gif",
+					"img/carlogo/c75149dad9c84c8f87f46a493d15c71d.gif",
+					"images/carlogo/3b01fa6d218455c3e18ad496c02a9db8.gif",
+					"images/carlogo/1f8d836dfd8b865cf79f8bb4b8abaa31.gif",
+					"images/carlogo/3a7ff741dd66abad496f5f8d18f0a7a1.gif",
+					"images/carlogo/3d548164f10102a8f22724f7b4e87929.gif",
+					"images/carlogo/87c331694ad98fdeab1a22c17a0f69d5.gif",
+					"images/carlogo/c77696caad0a4448ed9542aaec22c9bb.gif",
+					"images/carlogo/585d201f28a8f6f9919dd3a3db5b7077.gif",
+					"images/carlogo/e007b068cede15b626dc57d5491160e1.gif",
+					"images/carlogo/d578eec9f95b7b969b5a5065660750d6.gif",
+					"images/carlogo/a47e3b7657681354a34c17eed2e8bb25.gif",
+					"images/carlogo/9be6211723964c44a812d19f58d2c300.gif",
+					"images/carlogo/1df1aa9a0a86d10f9fe23cb8c59f26d6.gif",
+					"images/carlogo/0a865e391561d2b4b37ceaa86eddc5fa.gif",
+					"images/carlogo/45187c9111d9e289485db192aa2d6bad.gif",
+					"images/carlogo/3ee9fb2c87cf555d3573913f56d96dae.gif",
+					"images/carlogo/895a57fe6be345c45cfdcd390f41f287.gif",
+					"images/carlogo/469f2440cdfa608def5dbf08c2dad897.gif",
+					"images/carlogo/377ef068c4d15cf0a1341999a1b761e2.gif",
+					"images/carlogo/87b3c27db40753fbc540536efc8f654a.gif",
+					"images/carlogo/f05dec8490a704498f3bd331fc72b62c.gif",
+					"images/carlogo/38682f11c18c9d777706b10c9c0d1b00.gif",
+					"images/carlogo/a182cde0ce12d7685f1fbd064e1e5b21.gif",
+					"images/carlogo/c554ef0e539e6f7684161e452c3e23c7.gif",
+					"images/carlogo/5f539625417f6a2e7fa1682ae35452d5.gif",
+					"images/carlogo/5d1b65fd6cd5c909c948cc03613cfcfc.gif",
+					"images/carlogo/df2587068f969d96e49416e47e8f7ee7.gif",
+					"images/carlogo/ba6ab8e671f08631e4ffb61e052b0e06.gif",
+					"images/carlogo/b149c6b18dcc18d70008b1f37d000555.gif",
+					"images/carlogo/5fdeca26f0f35b170616563aaedbb6d2.gif",
+					"images/carlogo/ee5b18a6ceb4a46e66e5393f59044ce7.gif",
+					"images/carlogo/c3f70203da24f043de5d59bf97bfc12d.gif",
+					"images/carlogo/21ef6cc13886430ce641700bc5c3f03e.gif",
+					"images/carlogo/1307dfacb466d2c3f8d4c0d50084c838.gif",
+					"images/carlogo/8c240d6ae64168344346ef02a8af5794.gif",
+					"images/carlogo/52604b10627c8d3471d9ccdb68ff7ba0.gif",
+					"images/carlogo/50d0b558a6f4fccb7142aab81f673e83.gif",
+					"images/carlogo/1de9a5e2ea19a724e8917330088b5e16.gif",
+					"images/carlogo/88211711a38488cef955bffb816d9582.gif",
+					"images/carlogo/0ca2de02b38fcddc77903914efad73df.gif",
+					"images/carlogo/1d7dabed1d3f25ac1bec31835a71910a.gif"
+				],
+				"refer": [
+					"pages/car_list.html"
+				],
+				"priority": 0
+			},
+			"pages/car_list.html": {
+				"resources": [
+					"img/carlogo/029a38f39167dc9c57ca9bb1318bcccc.gif",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"logo.png",
+					"img/zwtp.jpg",
+					"images/zwtp.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/barcode_scan.html": {
+				"resources": [
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_music.html": {
+				"resources": [
+					"images/Maroon5.jpg",
+					"images/1.jpg",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/smusic.css",
+					"images/music_icons.png",
+					"js/smusic.min.js",
+					"js/mui.min.js",
+					"mp3/TheDawn.mp3",
+					"mp3/shou.mp3",
+					"mp3/pg.mp3",
+					"css/common.css",
+					"mp3/Summer.mp3",
+					"mp3/piano.mp3"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"index_list.html": {
+				"resources": [
+					"css/common.css",
+					"js/mui.min.js",
+					"js/shortcut.js",
+					"js/immersed.js"
+				],
+				"refer": [
+					"pages/ser_music.html",
+					"pages/ser_add_brands.html",
+					"pages/maps.html",
+					"pages/map_gasStation.html",
+					"index.html",
+					"pages/ser_QRCode.html",
+					"pages/ser_add_scan.html",
+					"testpages/weather.html",
+					"testpages/file.html",
+					"testpages/file2.html",
+					"testpages/music.html"
+				],
+				"priority": 0
+			},
+			"pages/ser_add_brands.html": {
+				"resources": [
+					"images/carlogo/3b01fa6d218455c3e18ad496c02a9db8.gif",
+					"images/carlogo/1f8d836dfd8b865cf79f8bb4b8abaa31.gif",
+					"images/carlogo/3d548164f10102a8f22724f7b4e87929.gif",
+					"images/carlogo/3a7ff741dd66abad496f5f8d18f0a7a1.gif",
+					"images/carlogo/87c331694ad98fdeab1a22c17a0f69d5.gif",
+					"images/carlogo/c77696caad0a4448ed9542aaec22c9bb.gif",
+					"images/carlogo/585d201f28a8f6f9919dd3a3db5b7077.gif",
+					"images/carlogo/e007b068cede15b626dc57d5491160e1.gif",
+					"images/carlogo/d578eec9f95b7b969b5a5065660750d6.gif",
+					"images/carlogo/a47e3b7657681354a34c17eed2e8bb25.gif",
+					"images/carlogo/9be6211723964c44a812d19f58d2c300.gif",
+					"images/carlogo/1df1aa9a0a86d10f9fe23cb8c59f26d6.gif",
+					"images/carlogo/0a865e391561d2b4b37ceaa86eddc5fa.gif",
+					"images/carlogo/45187c9111d9e289485db192aa2d6bad.gif",
+					"images/carlogo/3ee9fb2c87cf555d3573913f56d96dae.gif",
+					"images/carlogo/895a57fe6be345c45cfdcd390f41f287.gif",
+					"images/carlogo/469f2440cdfa608def5dbf08c2dad897.gif",
+					"images/carlogo/377ef068c4d15cf0a1341999a1b761e2.gif",
+					"images/carlogo/87b3c27db40753fbc540536efc8f654a.gif",
+					"images/carlogo/f05dec8490a704498f3bd331fc72b62c.gif",
+					"images/carlogo/38682f11c18c9d777706b10c9c0d1b00.gif",
+					"js/mui.indexedlist.js",
+					"images/carlogo/a182cde0ce12d7685f1fbd064e1e5b21.gif",
+					"images/carlogo/c554ef0e539e6f7684161e452c3e23c7.gif",
+					"images/carlogo/5f539625417f6a2e7fa1682ae35452d5.gif",
+					"images/carlogo/5d1b65fd6cd5c909c948cc03613cfcfc.gif",
+					"images/carlogo/df2587068f969d96e49416e47e8f7ee7.gif",
+					"css/mui.indexedlist.css",
+					"images/carlogo/ba6ab8e671f08631e4ffb61e052b0e06.gif",
+					"images/carlogo/b149c6b18dcc18d70008b1f37d000555.gif",
+					"images/carlogo/5fdeca26f0f35b170616563aaedbb6d2.gif",
+					"images/carlogo/ee5b18a6ceb4a46e66e5393f59044ce7.gif",
+					"images/carlogo/c3f70203da24f043de5d59bf97bfc12d.gif",
+					"images/carlogo/21ef6cc13886430ce641700bc5c3f03e.gif",
+					"images/carlogo/1307dfacb466d2c3f8d4c0d50084c838.gif",
+					"images/carlogo/8c240d6ae64168344346ef02a8af5794.gif",
+					"images/carlogo/52604b10627c8d3471d9ccdb68ff7ba0.gif",
+					"images/carlogo/50d0b558a6f4fccb7142aab81f673e83.gif",
+					"images/carlogo/1de9a5e2ea19a724e8917330088b5e16.gif",
+					"images/carlogo/88211711a38488cef955bffb816d9582.gif",
+					"images/carlogo/0ca2de02b38fcddc77903914efad73df.gif",
+					"images/carlogo/1d7dabed1d3f25ac1bec31835a71910a.gif",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/mui.min.js",
+					"images/60x60.gif",
+					"js/mui.lazyload.js",
+					"js/mui.lazyload.img.js"
+				],
+				"refer": [
+					"pages/ser_add_bra_model.html",
+					"pages/ser_notfind.html"
+				],
+				"priority": 0
+			},
+			"pages/ser_add_bra_model.html": {
+				"resources": [
+					"images/zwtp.jpg",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/mui.lazyload.js",
+					"js/mui.lazyload.img.js",
+					"images/60x60.gif",
+					"js/gv.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/maps.html": {
+				"resources": [
+					"js/common.js",
+					"images/map-marker-marker-inside-azure.png",
+					"images/dig.png",
+					"js/map.js",
+					"pages/map_controls.html",
+					"css/common.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/immersed.js",
+					"images/ad/ad.jpg",
+					"images/search_bg.png"
+				],
+				"refer": [
+					"pages/menu.html",
+					"pages/map_gasStationDetail.html",
+					"pages/map_gasStation.html",
+					"pages/map_controls2.html",
+					"pages/map_search.html",
+					"pages/ser_music.html",
+					"pages/map_controls_route.html",
+					"pages/map_navigation.html",
+					"pages/map_imessage.html",
+					"pages/map_navigation-inner.html",
+					"pages/map_controls_switch.html",
+					"pages/map_tips.html"
+				],
+				"priority": 0
+			},
+			"pages/map_gasStationDetail.html": {
+				"resources": [
+					"js/gasStationDetail.js",
+					"js/ems.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"pages/map_gasStationDetail-inner.html",
+					"css/default.css",
+					"css/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_gasStationDetail-inner.html": {
+				"resources": [
+					"images/zhe.png",
+					"images/phone.png",
+					"images/jiam.png",
+					"js/gasStationDetail-inner.js",
+					"images/weiqi.png",
+					"images/map-marker.png",
+					"images/gascard.png",
+					"images/other.png",
+					"images/way.png",
+					"images/zhongshihua1.png",
+					"images/like.png",
+					"js/ems.js",
+					"css/default.css",
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/loading/loading1.gif",
+					"images/loading/big_loading.gif",
+					"images/warning.png",
+					"images/zhongshihua.png",
+					"images/CNPC.png",
+					"images/brand.png",
+					"images/collect.png",
+					"images/bg/gasdetailsbg.jpg",
+					"images/brand/yzpp_zghy_map.9.png",
+					"images/bg/gasdetailsbg2.jpg",
+					"images/brand/yzpp_minying_map.9.png",
+					"images/brand/yzpp_zsh_map.9.png",
+					"images/brand/yzpp_zsy_map.9.png",
+					"images/brand/yzpp_buxiang_map.9.png",
+					"images/brand/yzpp_zhongyoubp_map.9.png",
+					"images/brand/yzpp_jiadeshi_map.9.png",
+					"js/app.js"
+				],
+				"refer": [
+					"pages/map_orderGas.html",
+					"login.html"
+				],
+				"priority": 0
+			},
+			"pages/map_gasStation.html": {
+				"resources": [
+					"css/default.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/ems.js",
+					"js/gasStation.js",
+					"pages/map_gasStation-inner.html",
+					"css/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_QRCode.html": {
+				"resources": [
+					"js/qrcode/jquery.qrcode.min.js",
+					"js/qrcode/jquery.min.js",
+					"js/mui.zoom.js",
+					"images/01.png",
+					"js/mui.previewimage.js",
+					"images/car_repai.png",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_add_scan.html": {
+				"resources": [
+					"js/common.js",
+					"css/common.css",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_gasStation-inner.html": {
+				"resources": [
+					"images/CNPC.png",
+					"images/other.png",
+					"images/zhongshihua.png",
+					"js/oillist.js",
+					"css/default.css",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/map_gasStation-inner_list.js",
+					"images/brand/yzpp_zsy_map.9.png",
+					"images/brand/yzpp_minying_map.9.png",
+					"images/brand/yzpp_buxiang_map.9.png",
+					"images/brand/yzpp_zsh_map.9.png",
+					"images/brand/yzpp_zghy_map.9.png",
+					"fonts/mui.ttf",
+					"images/loading/no_message.png"
+				],
+				"refer": [
+					"pages/map_gasStationDetail.html"
+				],
+				"priority": 0
+			},
+			"index0.html": {
+				"resources": [
+					"images/05.png",
+					"images/minus.png",
+					"fonts/mui.ttf",
+					"images/find.png",
+					"images/09.png",
+					"images/map.png",
+					"images/01.png",
+					"js/mui.min.js",
+					"css/common.css",
+					"css/app.css",
+					"css/mui.min.css",
+					"images/car.png",
+					"images/music.png",
+					"images/plus.png",
+					"images/car_repai.png"
+				],
+				"refer": [
+					"pages/ser_addcar.html",
+					"pages/ser_music.html",
+					"pages/ser_maintenanceInfor.html",
+					"pages/ser_searchViolation.html"
+				],
+				"priority": 0
+			},
+			"pages/ser_addcar.html": {
+				"resources": [
+					"js/addcar.js",
+					"js/ems.js",
+					"pages/ser_addcar-inner.html",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/common.css"
+				],
+				"refer": [
+					"pages/ser_add_scan.html",
+					"testpages/testbar.html",
+					"testpages/barcode_scan.html"
+				],
+				"priority": 0
+			},
+			"pages/ser_searchViolation.html": {
+				"resources": [
+					"js/searchViolation.js",
+					"pages/ser_searchViolation-inner.html",
+					"js/ems.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/common.css"
+				],
+				"refer": [
+					"pages/ser_sv_addcar.html"
+				],
+				"priority": 0
+			},
+			"pages/ser_maintenanceInfor.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_searchViolation-inner.html": {
+				"resources": [
+					"js/searchViolation-inner.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/acar.png",
+					"images/BC.jpg",
+					"images/aodi.jpg",
+					"js/app.js",
+					"js/encrypt/core.js",
+					"images/arrow.png",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [
+					"pages/ser_sv_addcar.html",
+					"pages/ser_violationResult.html"
+				],
+				"priority": 0
+			},
+			"pages/ser_addcar-inner.html": {
+				"resources": [
+					"js/mui.picker.js",
+					"js/car.data.js",
+					"js/mui.poppicker.js",
+					"css/mui.poppicker.css",
+					"css/mui.picker.css",
+					"js/addcar-inner.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/ems.js",
+					"js/gv.js",
+					"js/app.js",
+					"js/encrypt/core.js",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [
+					"pages/ser_add_brands.html",
+					"pages/ser_music.html",
+					"pages/ser_addcar_provinceCode.html"
+				],
+				"priority": 0
+			},
+			"testpages/weather.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_controls.html": {
+				"resources": [
+					"css/common.css",
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/v_location.png",
+					"images/traffic_false.png",
+					"images/v_location_pressed.png",
+					"images/traffic_true.png",
+					"images/moreStation.png",
+					"images/moreStation_pressed.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"testpages/file.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/common.js",
+					"css/common.css",
+					"js/immersed.js",
+					"images/fdisk.png",
+					"images/fup.png",
+					"images/fdir.png",
+					"images/ffile.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"testpages/file2.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"testpages/music.html": {
+				"resources": [
+					"testpages/images/V5i67V2.png",
+					"testpages/images/xlBv5aR.png",
+					"testpages/js/index.js",
+					"testpages/images/bodyBg.jpg",
+					"testpages/images/tsqwz1N.png",
+					"testpages/images/338F8MX.png",
+					"testpages/images/Mb6Nzj5.png",
+					"testpages/js/jplayer.playlist.min.js",
+					"testpages/js/jquery-1.8.3.min.js",
+					"testpages/images/E09T8tf.png",
+					"testpages/images/3iirf2f.png",
+					"testpages/images/541438e7cd272.gif",
+					"testpages/js/jquery.jplayer.min.js",
+					"testpages/css/style.css",
+					"testpages/images/PGIC6ME.png",
+					"testpages/images/yqB0erk.jpg",
+					"testpages/images/AQAxRxS.png",
+					"testpages/images/lIhwduj.png",
+					"testpages/css/reset.css",
+					"testpages/images/82fLDu4.jpg",
+					"testpages/images/qqdoddi.png",
+					"testpages/images/LIqj0nr.png",
+					"testpages/images/540847298c9e0.gif",
+					"testpages/css/images/fastforward.png",
+					"testpages/js/jquery-1.7.2.min.js",
+					"testpages/js/script.js",
+					"testpages/css/images/shuffle.png",
+					"testpages/css/images/pause.png",
+					"testpages/css/images/playing.png",
+					"testpages/css/images/rewind.png",
+					"testpages/css/images/bodyBg.jpg",
+					"testpages/img/1.jpg",
+					"testpages/js/jquery-ui-1.8.17.custom.min.js",
+					"testpages/css/images/volume.png",
+					"testpages/css/images/repeat.png",
+					"testpages/css/stylesheets/style.css",
+					"testpages/css/images/play.png",
+					"testpages/img/3.jpg",
+					"testpages/img/2.jpg",
+					"js/common.js",
+					"css/common.css",
+					"js/immersed.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_notfind.html": {
+				"resources": [
+					"css/mui.min0.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"index_service.html": {
+				"resources": [
+					"images/05.png",
+					"images/cbd.jpg",
+					"images/01.png",
+					"images/car.png",
+					"images/shuijiao.jpg",
+					"images/find.png",
+					"images/music.png",
+					"images/car_repai.png",
+					"images/09.png",
+					"js/mui.min.js",
+					"css/common.css",
+					"css/mui.min.css",
+					"images/weather/10.png",
+					"images/weather/13.png",
+					"images/weather/15.png",
+					"images/weather/14.png",
+					"images/more.png",
+					"images/weather/4.png",
+					"images/weather/0.png",
+					"js/weather_gasprice.js",
+					"js/app.js",
+					"images/weather/11.png",
+					"images/ad/ad.jpg",
+					"images/weather/9.png",
+					"images/ad/ad3.jpg",
+					"images/ad/ad2.jpg",
+					"images/weather.png",
+					"images/ad/ad1.jpg",
+					"images/weather/16.png"
+				],
+				"refer": [
+					"pages/ser_searchViolation.html",
+					"pages/ser_addcar.html",
+					"pages/ser_maintenanceInfor.html",
+					"pages/ser_music.html",
+					"pages/ser_addcarMethod.html",
+					"pages/ser_carManage.html",
+					"login.html",
+					"pages/ser_weather.html",
+					"pages/ser_news.html"
+				],
+				"priority": 0
+			},
+			"index_navigation.html": {
+				"resources": [
+					"images/map.png",
+					"images/minus.png",
+					"css/common.css",
+					"images/plus.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_addcarMethod.html": {
+				"resources": [
+					"js/addcarMethod.js",
+					"js/ems.js",
+					"pages/ser_addcarMethod-inner.html",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_addcarMethod-inner.html": {
+				"resources": [
+					"pages/ser_addcar.html",
+					"js/addcarMethod-inner.js",
+					"images/plus1.png",
+					"images/code.png",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/ems.js"
+				],
+				"refer": [
+					"pages/ser_add_scan.html",
+					"testpages/barcode_scan.html"
+				],
+				"priority": 0
+			},
+			"pages/menu.html": {
+				"resources": [
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_controls2.html": {
+				"resources": [
+					"images/map_scale_zoomin_gray.png",
+					"images/map_scale_zoomout_gray.png",
+					"css/common.css",
+					"js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"testpages/push.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"index_mine.html": {
+				"resources": [
+					"css/common.css",
+					"fonts/mui.ttf",
+					"images/forget.png",
+					"images/order.png",
+					"images/mail.png",
+					"images/us.png",
+					"images/shuijiao.jpg",
+					"images/personInfo.png",
+					"images/head.png",
+					"images/mine_main_page_info_layout_bg.png",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/app.js",
+					"images/daiping.png",
+					"images/sidebar_icn_head.png",
+					"images/daixiao.png",
+					"images/daifu.png"
+				],
+				"refer": [
+					"pages/mine_setting.html",
+					"pages/mine_advanceOrder.html",
+					"pages/mine_message.html",
+					"login.html",
+					"forget_password.html",
+					"pages/mine_info.html"
+				],
+				"priority": 0
+			},
+			"testpages/toDB.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_carManage-inner.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/acar.png",
+					"images/BC.jpg",
+					"images/aodi.jpg",
+					"js/app.js",
+					"images/carlogo/d578eec9f95b7b969b5a5065660750d6.gif",
+					"js/encrypt/core.js",
+					"images/arrow.png",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [
+					"pages/ser_addcarMethod.html",
+					"pages/ser_maintenanceInfor.html",
+					"pages/ser_addcar.html",
+					"pages/ser_editcar.html"
+				],
+				"priority": 0
+			},
+			"pages/ser_carManage.html": {
+				"resources": [
+					"pages/ser_carManage-inner.html",
+					"fonts/mui.ttf",
+					"css/common.css",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"pages/ser_addcar.html"
+				],
+				"priority": 0
+			},
+			"pages/mine_setting.html": {
+				"resources": [
+					"pages/mine_setting-inner.html",
+					"css/common.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_advanceOrder.html": {
+				"resources": [
+					"pages/mine_advanceOrder-inner.html",
+					"css/common.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_message.html": {
+				"resources": [
+					"pages/mine_message-inner.html",
+					"css/common.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/app.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_message-inner.html": {
+				"resources": [
+					"images/cbd.jpg",
+					"images/shuijiao.jpg",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/warning.png",
+					"images/loading/mine_order_no_data_logo.png",
+					"images/loading/no_message.png",
+					"js/app.js",
+					"images/trouble/failed.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_advanceOrder-inner.html": {
+				"resources": [
+					"images/shuijiao.jpg",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/zhongshihua.png",
+					"images/loading/car_loading.gif",
+					"images/loading/loading3.gif",
+					"images/loading/mine_order_no_data_logo.png",
+					"js/app.js",
+					"images/brand/yzpp_buxiang_map.9.png",
+					"images/brand/yzpp_guoqi_map.9.png",
+					"images/brand/yzpp_zsy_map.9.png",
+					"images/brand/yzpp_minying_map.9.png",
+					"images/brand/yzpp_zsh_map.9.png",
+					"images/brand/yzpp_zghy_map.9.png",
+					"images/brand/yzpp_qiaopai_map.9.png",
+					"js/encrypt/core.js",
+					"images/trouble/failed.png",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [
+					"pages/map_gasStationDetail.html",
+					"pages/mine_advanceOrderDetail.html",
+					"pages/mine_evaluate.html",
+					"pages/map_orderGas_again.html",
+					"pages/ser_QRCode.html",
+					"pages/map_orderWay.html"
+				],
+				"priority": 0
+			},
+			"testpages/barcode.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_search.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"testpages/order.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/qrcode/jquery.qrcode.min.js",
+					"js/qrcode/jquery.min.js",
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"reg.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"login.html"
+				],
+				"priority": 0
+			},
+			"pages/mine_setting-inner.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/app.js"
+				],
+				"refer": [
+					"pages/mine_about.html",
+					"pages/mine_feedback.html",
+					"pages/preference.html"
+				],
+				"priority": 0
+			},
+			"pages/mine_advanceOrderDetail.html": {
+				"resources": [
+					"css/default.css",
+					"js/mui.min.js",
+					"css/common.css",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"pages/map_gasStationDetail-inner.html",
+					"pages/mine_advanceOrderDetail-inner.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_advanceOrderDetail-inner.html": {
+				"resources": [
+					"css/default.css",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"images/dcode.png",
+					"js/qrcode/jquery.qrcode.min.js",
+					"js/qrcode/jquery.min.js",
+					"images/loading/loading1.gif",
+					"js/app.js",
+					"js/encrypt/core.js",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [
+					"pages/ser_addcarMethod.html",
+					"pages/mine_map_station.html",
+					"pages/ser_QRCode.html",
+					"pages/map_orderWay.html",
+					"pages/mine_evaluate.html"
+				],
+				"priority": 0
+			},
+			"pages/ser_sv_addcar.html": {
+				"resources": [
+					"css/common.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/app.js"
+				],
+				"refer": [
+					"pages/ser_violationResult.html",
+					"pages/ser_mycarlist.html",
+					"pages/ser_sv_addcar_location.html"
+				],
+				"priority": 0
+			},
+			"pages/map_orderGas-inner.html": {
+				"resources": [
+					"js/mui.picker.min.js",
+					"js/gas.data.js",
+					"css/mui.picker.min.css",
+					"css/default.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/loading/loading1.gif",
+					"js/app.js",
+					"js/encrypt/core.js",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [
+					"pages/mine_advanceOrder-inner.html",
+					"pages/mine_advanceOrderDetail.html",
+					"pages/map_price_select.html"
+				],
+				"priority": 0
+			},
+			"pages/map_orderGas.html": {
+				"resources": [
+					"pages/map_orderGas-inner.html",
+					"css/default.css",
+					"js/mui.min.js",
+					"css/common.css",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"forget_password.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_info.html": {
+				"resources": [
+					"pages/mine_info-inner.html",
+					"css/common.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_info-inner.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/head.png",
+					"js/app.js",
+					"images/loading/loading1.gif",
+					"images/sidebar_icn_head.png",
+					"js/encrypt/core.js",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [
+					"pages/mine_info_changepassword.html"
+				],
+				"priority": 0
+			},
+			"testpages/pay.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_price_select.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_about.html": {
+				"resources": [
+					"pages/mine_about-inner.html",
+					"css/common.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_about-inner.html": {
+				"resources": [
+					"images/head.png",
+					"js/mui.min.js",
+					"images/logo_el.png",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_feedback-inner.html": {
+				"resources": [
+					"js/feedback.js",
+					"css/feedback-page.css",
+					"js/feedback-page.js",
+					"images/iconfont-tianjia.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_feedback.html": {
+				"resources": [
+					"css/common.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"pages/mine_feedback-inner.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"testpages/barcode_scan.html": {
+				"resources": [
+					"js/common.js",
+					"css/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_weather-inner.html": {
+				"resources": [
+					"images/weather/a.png",
+					"images/weather/rain.jpg",
+					"images/weather/4.png",
+					"images/weather/9.png",
+					"images/weather/14.png",
+					"images/loading/loading1.gif",
+					"images/weather/16.png",
+					"images/weather/sunshine.jpg",
+					"images/weather/0.png",
+					"images/weather/cloud.jpg",
+					"images/weather/10.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_weather.html": {
+				"resources": [
+					"pages/ser_weather-inner.html",
+					"css/common.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_controls_route.html": {
+				"resources": [
+					"images/controller/icon_home_route.png",
+					"images/moreStation.png",
+					"css/common.css",
+					"js/mui.min.js",
+					"images/controller/icon_home_route_pressed.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_addcar_provinceCode.html": {
+				"resources": [
+					"css/mui.indexedlist.css",
+					"js/mui.indexedlist.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_navigation.html": {
+				"resources": [
+					"images/switch.png",
+					"js/mui.min.js",
+					"css/common.css",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"pages/map_navigation-inner.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_navigation-inner.html": {
+				"resources": [
+					"images/switch.png",
+					"js/mui.min.js",
+					"css/common.css",
+					"css/mui.min.css",
+					"images/map/new-route-retian_39406a2.png",
+					"images/map/revert_9adb172.png"
+				],
+				"refer": [
+					"pages/map_route_point.html",
+					"pages/map_route_point_end.html"
+				],
+				"priority": 0
+			},
+			"pages/map_route_point.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_route_point_end.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_map_station.html": {
+				"resources": [
+					"js/common.js",
+					"js/immersed.js",
+					"js/map.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_controls_switch.html": {
+				"resources": [
+					"images/controller/icon_home_route.png",
+					"images/controller/icon_home_route_pressed.png",
+					"css/common.css",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_evaluate.html": {
+				"resources": [
+					"images/evaluate/img3.png",
+					"images/evaluate/img4.png",
+					"images/evaluate/img5.png",
+					"images/evaluate/img1.png",
+					"images/evaluate/img2.png",
+					"images/evaluate/img11.png",
+					"images/evaluate/img51.png",
+					"images/evaluate/img21.png",
+					"images/evaluate/img31.png",
+					"images/evaluate/img41.png",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/encrypt/core.js",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_orderGas_again-inner.html": {
+				"resources": [
+					"js/mui.picker.min.js",
+					"js/gas.data.js",
+					"images/loading/loading1.gif",
+					"css/mui.picker.min.css",
+					"js/app.js",
+					"css/default.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/encrypt/core.js",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [
+					"pages/map_select_price.html",
+					"pages/mine_advanceOrderDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/map_orderGas_again.html": {
+				"resources": [
+					"css/default.css",
+					"pages/map_orderGas_again-inner.html",
+					"css/common.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_news.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/ad/ad2.jpg",
+					"images/ad/ad3.jpg",
+					"images/ad/ad1.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_editcar-inner.html": {
+				"resources": [
+					"css/mui.poppicker.css",
+					"css/mui.picker.css",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/encrypt/core.js",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [
+					"pages/ser_add_brands.html"
+				],
+				"priority": 0
+			},
+			"pages/ser_editcar.html": {
+				"resources": [
+					"pages/ser_editcar-inner.html",
+					"js/mui.min.js",
+					"css/common.css",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_violationResult.html": {
+				"resources": [
+					"images/loading/loading1.gif",
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/aodi.jpg",
+					"images/fen.png",
+					"images/money.png",
+					"js/encrypt/core.js",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_mycarlist.html": {
+				"resources": [
+					"css/common.css",
+					"pages/ser_mycarlist-inner.html",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_sv_addcar_location.html": {
+				"resources": [
+					"css/mui.indexedlist.css",
+					"js/mui.indexedlist.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/ser_mycarlist-inner.html": {
+				"resources": [
+					"js/app.js",
+					"js/encrypt/core.js",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_orderWay.html": {
+				"resources": [
+					"images/zhi.png",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/monipay.png",
+					"images/loading/loading1.gif",
+					"js/app.js",
+					"js/common.js",
+					"images/dcode.png",
+					"js/encrypt/core.js",
+					"js/encrypt/sha256.js",
+					"js/encrypt/hmac.js"
+				],
+				"refer": [
+					"pages/payment_iap.html"
+				],
+				"priority": 0
+			},
+			"pages/payment_iap.html": {
+				"resources": [
+					"css/common.css",
+					"js/immersed.js",
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/preference.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/mine_info_changepassword.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pages/map_tips.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/loading/loading1.gif",
+					"images/brand/location_buxiang_map.9.png",
+					"images/map-marker.png",
+					"images/brand/yzpp_zsy_map.9.png",
+					"images/brand/yzpp_buxiang_map.9.png",
+					"images/brand/yzpp_minying_map.9.png",
+					"images/brand/yzpp_zsh_map.9.png",
+					"images/brand/yzpp_zghy_map.9.png"
+				],
+				"refer": [
+					"pages/map_gasStationDetail.html"
+				],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": []
+		}
+	}
+}

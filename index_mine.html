@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/common.css" charset="utf-8" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			header {
+				line-height: 40px;
+			}
+			
+			.imessage {
+				background: no-repeat center center url(images/mail.png);
+				background-size: 35px 35px;
+			}
+		
+			
+			.mui-btn-link {
+				/*color: #FFFFFF;*/
+				padding-top: 11px;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				height: 50px;
+			}
+			
+			.mui-table-view-cell {
+				padding: 15px 15px;
+			}
+			
+			p {
+				width: 78%;
+			}
+			
+			label {
+				float: left;
+				margin-left: 10px;
+			}
+			
+			div ul li div img {
+				width: 20px;
+				height: 20px;
+			}
+			
+			.mui-grid-view.mui-grid-9 {
+				background-color: white;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				font-size: 15px;
+				color: black;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				padding-top: 0px;
+			}
+		</style>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+			var state0 = null;
+			mui.plusReady(function() {
+				/*				state0=app.getState();   
+								alert(JSON.stringify(state0));
+								alert(state0.account); 
+								document.getElementById("login").innerText = state0.account;*/
+				updatestate(); //更新状态
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					scrollIndicator: "none"
+				});
+				document.getElementById("mine_message").addEventListener('tap', function() {
+					var state = app.getState();
+					if (state.account == '' || state.account == null || state.account == '{}') {
+						mui.toast("请先登录！");
+						mui.openWindow({
+							url: 'login.html',
+							id: 'login',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					} else {
+					 
+						mui.openWindow({
+							url: 'pages/mine_message.html',
+							id: 'mine_message',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}
+				});
+				document.getElementById("mine_setting").addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'pages/mine_setting.html',
+						id: 'ser_setting',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide',
+								hardwareAccelerated :false
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				document.getElementById("mine_advanceOrder").addEventListener('tap', function() {
+					open_mine_advanceOrder(1);
+				});
+				document.getElementById("mine_advanceOrder_payment").addEventListener('tap', function() {
+				open_mine_advanceOrder(2);
+				});
+				document.getElementById("mine_advanceOrder_consume").addEventListener('tap', function() {
+				open_mine_advanceOrder(3);
+				});
+				document.getElementById("mine_advanceOrder_comment").addEventListener('tap', function() {
+				open_mine_advanceOrder(4);
+				});
+/*				document.getElementById("forgetPassword").addEventListener('tap', function() {
+				 
+					{
+						mui.openWindow({
+							url: 'forget_password.html',
+							id: 'forget_password',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}
+				});*/
+				document.getElementById("info").addEventListener('tap', function() {
+					var state = app.getState();
+					if (state.account == '' || state.account == null || state.account == '{}') {
+						mui.toast("请先登录！");
+						mui.openWindow({
+							url: 'login.html',
+							id: 'login',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					} else {
+						mui.openWindow({
+							url: 'pages/mine_info.html',
+							id: 'mine_info',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}
+				});
+				document.getElementById("login_info").addEventListener('tap', function() {
+					if (state0.account == null) {
+						mui.openWindow({
+							url: 'login.html',
+							id: 'login',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					} else {
+						mui.openWindow({
+							url: 'pages/mine_info.html',
+							id: 'mine_info',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}
+				});
+				/*	document.getElementById("about").addEventListener('tap', function() {
+						mui.openWindow({
+							url: 'pages/mine_about.html',
+							id: 'about',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					});*/
+			});
+
+			function updatestate() {
+				state0 = app.getState();
+				//console.log("updatestate" + JSON.stringify(state0));
+				if (JSON.stringify(state0) == "{}" || JSON.stringify(state0) == "") {
+					//alert("未登录or退出登录");
+					document.getElementById("login_info").innerText = "请点击登录";
+				} else {
+					//alert("state0!=\'\'");
+					document.getElementById("login_info").innerText = state0.account;
+				}
+			}
+			
+			function open_mine_advanceOrder(listType){
+					var state = app.getState();
+					if (state.account == '' || state.account == null || state.account == '{}') {
+						mui.toast("请先登录！");
+						mui.openWindow({
+							url: 'login.html',
+							id: 'login',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					} else {
+						mui.openWindow({
+							url: 'pages/mine_advanceOrder.html',
+							id: 'mine_advanceOrder',
+							show: {
+								aniShow: 'pop-in'
+							},
+							extras: {
+								listType:listType
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="tabbar-with-contact" class="mui-control-content mui-active">
+
+			<header id="header" class="mui-bar mui-bar-nav hotel-header">
+				<h1 class="mui-title">我的</h1>
+				<a class="mui-pull-right mui-icon mui-icon-bars" id="mine_setting"></a>
+			</header>
+
+			<div style="position:absolute;top:44px;width: 100%;">
+				<!--background-image: url(images/mine_main_page_info_layout_bg.png);background-repeat: no-repeat;-->
+				<div style="height: 150px;background-color: white;">
+					<div>
+						<img src="images/sidebar_icn_head.png" href="#" style="height: 130px;padding:20px 10px 0 20px;float: left;" />
+					</div>
+					<div style="float: left;padding-top: 65px;padding-left: 10px;">
+						<div id="login_info" style="color: black; font-size: 20px;font-weight:bold">请点击登录</div>
+					</div>
+				</div>
+
+				<div>
+					<ul class="mui-table-view" style="margin-top: 5px;">
+						<li id="mine_advanceOrder" class="mui-table-view-cell">
+
+							<div><img src="images/order.png" style="float: left;" /></div>
+							<label>预约订单</label>
+							<div>
+								<p class=" mui-navigate-right" style="width: 65%;"></p>
+							</div>
+						</li>
+					</ul>
+					<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-bottom: 5px;">
+						<li id="mine_advanceOrder_payment" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+							<a href="#" style="height: 65px;">
+								<img src="images/daifu.png" width="30px" />
+								<label style="margin-left: 22px;">待付款</label>
+							</a>
+						</li>
+						<li id="mine_advanceOrder_consume" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+							<a href="#" style="height: 65px;">
+								<img src="images/daixiao.png" width="33px" />
+								<label style="margin-left: 25px;">待消费</label>
+							</a>
+						</li> 
+						<li id="mine_advanceOrder_comment" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+							<a href="#" style="height: 65px;">
+								<img src="images/daiping.png" width="33px" />
+								<label style="margin-left: 25px;">待评价</label>
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div>
+					<ul class="mui-table-view mui-table-view-chevron">
+						<li id="mine_message" class="mui-table-view-cell">
+							<div><img src="images/mail.png" style="float: left;" /></div>
+							<label>消息中心</label>
+							<div>
+								<p class=" mui-navigate-right" style="width: 65%;"></p>
+							</div>
+						</li>
+						<li id="info" class="mui-table-view-cell">
+
+							<div><img src="images/personInfo.png" style="float: left;" /></div>
+							<label>个人信息</label>
+							<div>
+								<p class=" mui-navigate-right" style="width: 65%;"></p>
+							</div>
+						</li>
+						<!--<li id="mine_advanceOrder" class="mui-table-view-cell">
+							
+							<div><img src="images/order.png" style="float: left;" /></div>
+							<label>预约订单</label>				        
+							<div><p  class=" mui-navigate-right" style="width: 65%;"></p></div>
+						</li>-->
+						<!--<li id="forgetPassword" class="mui-table-view-cell">
+
+							<div><img src="images/forget.png" style="float: left;" /></div>
+							<label>忘记密码</label>
+							<div>
+								<p class=" mui-navigate-right" style="width: 65%;"></p>
+							</div>
+						</li>
+						<li id="about" class="mui-table-view-cell">
+							
+							<div><img src="images/us.png" style="float: left;" /></div>
+							<label>关于我们</label>				        
+							<div><p  class=" mui-navigate-right" style="width: 65%;"></p></div>
+						</li>-->
+					</ul>
+
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

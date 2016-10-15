@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/common.css" charset="utf-8" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<style>
+			.imessage {
+				background: no-repeat center center url(images/mail.png);
+				background-size: 35px 35px;
+			}
+			
+			tr td img {
+				width: 35px;
+			}
+			
+			#slider {
+				height: 130px;
+			}
+			
+			.mui-slider-item img {
+				height: 130px;
+			}
+			
+			li a img {
+				width: 60%;
+			}
+			
+			.tr1 {
+				color: #EA8010;
+				font-size: 18px;
+			}
+			
+			.mui-table-view-cell {
+				padding: 8px 15px;
+			}
+			
+			.weather_img {
+				width: 25px;
+			}
+			
+			#img_today {
+				width: 48px;
+			}
+			
+			#detail div {
+				margin-bottom: 5px;
+				width: 55px;
+				white-space: nowrap;
+				overflow: hidden;
+			}
+		</style>
+
+		<script>
+			mui.init();
+			/*
+			 * 打开页面“消息”
+			 */
+			mui.plusReady(function() {
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					scrollIndicator: "none"
+				});
+				//获取天气信息和油价
+				updatew_g();
+				//打开新页面
+				mui("#div_slider").on('tap', 'div', function() {
+					/*var idd = this.querySelector("ser_news").value; */
+					var newsid = this.querySelector("a").getAttribute("newsid");
+					console.log(newsid);
+					//打开详情
+					mui.openWindow({
+						id: 'ser_news',
+						url: 'pages/ser_news.html',
+						extras: {
+							newsid: newsid
+						},
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				})
+				document.getElementById("carManage").addEventListener('tap', function() {
+					var state = app.getState();
+					console.log(JSON.stringify(state))
+					if (state.account == '' || state.account == null || state.account == '{}') {
+						mui.toast("请先登录");
+						mui.openWindow({
+							url: 'login.html',
+							id: 'login',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					} else {
+						mui.openWindow({
+							url: 'pages/ser_carManage.html',
+							//url:'pages/ser_addcar.html',
+							id: 'ser_carManage',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}
+				});
+				document.getElementById("searchViolation").addEventListener('tap', function() {
+					var state = app.getState();
+					if (state.account == '' || state.account == null || state.account == '{}') {
+						mui.toast("请先登录！");
+						mui.openWindow({
+							url: 'login.html',
+							id: 'login',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					} else {
+						mui.openWindow({
+							url: 'pages/ser_searchViolation.html',
+							id: 'searchViolation',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+								hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}
+				});
+				document.getElementById("div_weather").addEventListener('tap', function() {
+					var state = app.getState();
+					mui.openWindow({
+						url: 'pages/ser_weather.html',
+						id: 'ser_weather',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide',
+							hardwareAccelerated :false
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				document.getElementById("music").addEventListener('tap', function() {
+					openmusic();
+				});
+			});
+			/*
+			 * 轮播的JS
+			 */
+			var slider = mui("#slider");
+			slider.slider({
+				interval: 5000
+			});
+
+			function openmusic() {
+				plus.webview.show("ser_music.html", 'zoom-fade-out');
+				//music.show();
+			}
+			//获取天气信息和油价
+			function updatew_g() {
+				var city = document.getElementById("city");
+				var last_update = document.getElementById("last_update");
+				var degree = document.getElementById("degree");
+				var wind = document.getElementById("wind");
+				var text_day = document.getElementById("text_day");
+				var day = document.getElementById("day");
+				var tips = document.getElementById("tips");
+				var img_today = document.getElementById("img_today");
+				var weather = JSON.parse(localStorage.getItem('$weather') || '[]');
+				var mlocation = JSON.parse(localStorage.getItem('$myLocation'));
+				console.log("mlocation获取我的位置:" + JSON.stringify(mlocation));
+				console.log("mlocation获取我的城市" + mlocation["city"]);
+				var citypy = mlocation["citypy"];
+				var weatherurl = 'https://api.thinkpage.cn/v3/weather/daily.json?key=kltw7jmgxvmm6qls&location=' + citypy + '&language=zh-Hans&unit=c&start=-1&days=5';
+				console.log(weatherurl);
+				mui.ajax(weatherurl, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						//将信息写入页面
+						var da = data.results[0];
+						var daily = da['daily'];
+						city.innerText = da['location']['name'];
+						last_update.innerHTML = da['last_update'].substring(0, 10);
+						degree.innerHTML = daily[0]['low'] + "℃";
+						scale = daily[0]['wind_scale'] + "级";
+						wind.innerHTML = daily[0]['wind_direction'] + '风' + scale;
+						text_day.innerHTML = daily[0]['text_day'];
+						img_today.src = 'images/weather/' + daily[0]['code_day'] + '.png';
+						for (i = 0; i < 3; i++) {
+							var daytemp = "day" + i;
+							var imgtemp = "img" + i;
+							var degreetemp = "degree" + i;
+							var dayn = document.getElementById(daytemp);
+							var imgn = document.getElementById(imgtemp);
+							var degreen = document.getElementById(degreetemp);
+							degreen.innerText = daily[i]['high'] + '/' + daily[i]['low'] + "℃";
+							imgn.src = 'images/weather/' + daily[i]['code_day'] + '.png';
+							var dday = new Array("日", "一", "二", "三", "四", "五", "六");
+							var myDate = new Date(daily[i]['date'].substring(0, 10))
+							var week = myDate.getDay(myDate);
+							dayn.innerText = "星期" + dday[week];
+						}
+						//将信息存入key-value中
+						var da = data.results[0];
+						weatherInfo = new Object();
+						weatherInfo.city = da['location']['name'];
+						weatherInfo.last_update = da['last_update'].substring(0, 10);
+						var ary = [];
+						for (i = 0; i < daily.length; i++) {
+							ary.push({
+								date: daily[i]['date'],
+								text_day: daily[i]['text_day'],
+								code_day: daily[i]['code_day'],
+								text_night: daily[i]['text_night'],
+								code_night: daily[i]['code_night'],
+								high: daily[i]['high'],
+								low: daily[i]['low'],
+								precip: daily[i]['precip'],
+								wind_direction: daily[i]['wind_direction'],
+								wind_direction_degree: daily[i]['wind_direction_degree'],
+								wind_speed: daily[i]['wind_speed'],
+								wind_scale: daily[i]['wind_scale']
+							});
+						}
+						weatherInfo.weather = ary; //{d1:{date: "2016-05-09",text_day: "大雨"},d2:{date: "2016-05-10",text_day: "大雨"},d3:{date: "2016-05-11",text_day: "大雨"}};
+						//更新天气信息 
+						localStorage.setItem('$weather', JSON.stringify(weatherInfo));
+					},
+					error: function(xhr, type, errorThrown) {
+						if (type == "timeout" || type == "abort") {
+							//天气预报
+							if (weather != "") {
+								city.innerText = weather.city;
+								last_update.innerText = '更新日期：' + weather.last_update;
+								degree.innerText = weather.weather[0]['low'] + "℃";
+								text_day.innerText = weather.weather[0]['text_day'];
+								img_today.src = 'images/weather/' + weather.weather[0]['code_day'] + '.png';
+								var scale = "";
+								if (weather.weather[0]['wind_scale'] != "") {
+									scale = weather.weather[0]['wind_scale'] + "级"
+								}
+								wind.innerText = weather.weather[0]['wind_direction'] + '风' + scale;
+								weathers = weather.weather;
+								for (i = 0; i < 3 /*weathers.length*/ ; i++) {
+									var daytemp = "day" + i;
+									var imgtemp = "img" + i;
+									var degreetemp = "degree" + i;
+									var dayn = document.getElementById(daytemp);
+									var imgn = document.getElementById(imgtemp);
+									var degreen = document.getElementById(degreetemp);
+									degreen.innerText = weathers[i]['high'] + '/' + weathers[i]['low'] + "℃";
+									imgn.src = 'images/weather/' + weathers[i]['code_day'] + '.png';
+									var dday = new Array("日", "一", "二", "三", "四", "五", "六");
+									var myDate = new Date(weathers[i]['date'].substring(0, 10))
+									var week = myDate.getDay(myDate);
+									dayn.innerText = "星期" + dday[week];
+								}
+							}
+						} else {
+							mui.toast("服务器异常，请稍候再试...");
+						}
+						//异常处理；
+						console.log(type);
+					}
+				});
+				//今日油价	
+				var p90 = document.getElementById("p90");
+				var p93 = document.getElementById("p93");
+				var p97 = document.getElementById("p97");
+				var p0 = document.getElementById("p0");
+				var gas_title = document.getElementById("gas_title");
+				var gas_date = document.getElementById("gas_date");
+				var pro = mlocation["province"];
+				if (pro != null) {
+					pro = pro.replace(/省|自治区|壮族|市|维吾尔/g, "");
+				}
+				console.log("更新今日油价省份：" + pro);
+				Oilurl = 'https://route.showapi.com/138-46?prov=' + pro + '&showapi_appid=18724&showapi_sign=b1bd5a8107be49c78adb5171c7691c1b';
+				console.log(Oilurl);
+				mui.ajax(Oilurl, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						//将信息写入页面
+						var da = data.showapi_res_body["list"];
+						p90.innerHTML=da[0]["p90"];
+						p93.innerHTML=da[0]["p93"];
+						p97.innerHTML=da[0]["p97"];
+						p0.innerHTML=da[0]["p0"];
+						gas_title.innerText = da[0]["prov"] + "省控油价";
+						gas_date.innerText = "更新日期：" + da[0]["ct"].substring(0, 10);
+						//将信息存入key-value中						
+						gasPrice = new Object();
+						gasPrice = {
+							ct: da[0]["ct"],
+							p0: da[0]["p0"],
+							p90: da[0]["p90"],
+							p93: da[0]["p93"],
+							p97: da[0]["p97"],
+							prov: da[0]["prov"]
+						};
+						localStorage.setItem('$gasPrince', JSON.stringify(gasPrice));
+						console.log("更新油价成功！");
+					},
+					error: function(xhr, type, errorThrown) {
+						if (type == "timeout" || type == "abort") {
+							//油价
+							setTimeout(function() { 
+								var Price = JSON.parse(localStorage.getItem('$gasPrince') || '[]');
+								console.log("读取本地油价&更新mine_service：" + JSON.stringify(Price));
+								if (Price != "") {
+									p90.innerText = "￥" + Price.p90;
+									p93.innerText = "￥" + Price.p93;
+									p97.innerText = "￥" + Price.p97;
+									p0.innerText = "￥" + Price.p0;
+									gas_title.innerText = Price.prov + "省控油价";
+									gas_date.innerText = "更新日期：" + Price.ct.substring(0, 10);
+								}
+							}, 100);
+						} else {
+							mui.toast("服务器异常，请稍候再试...");
+						}
+						//异常处理；
+						console.log(type);
+					}
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="tabbar-with-service" class="mui-control-content mui-active">
+			<header id="header" class="mui-bar mui-bar-nav hotel-header">
+				<h1 class="mui-title">服务</h1>
+			</header>
+
+			<div style="position:relative;top:44px">
+				<!--描述：图像轮播-->
+				<div id="slider" class="mui-slider">
+					<div id="div_slider" class="mui-slider-group mui-slider-loop" style="">
+						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a newsid="1" class="ser_news">
+								<img src="images/ad/ad1.jpg">
+							</a>
+						</div>
+						<!-- 第一张 -->
+						<div class="mui-slider-item">
+							<a newsid="1" class="ser_news">
+								<img src="images/ad/ad1.jpg">
+							</a>
+						</div>
+						<!-- 第二张 -->
+						<div class="mui-slider-item">
+							<a newsid="2" class="ser_news">
+								<img src="images/ad/ad2.jpg">
+							</a>
+						</div>
+						<!-- 第三张 -->
+						<div class="mui-slider-item">
+							<a newsid="3" class="ser_news">
+								<img src="images/ad/ad3.jpg">
+							</a>
+						</div>
+						<!-- 第四张 -->
+						<div class="mui-slider-item">
+							<a newsid="4" class="ser_news">
+								<img src="images/ad/ad1.jpg">
+							</a>
+						</div>
+						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a newsid="1">
+								<img src="images/ad/ad1.jpg">
+							</a>
+						</div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+					</div>
+				</div>
+
+				<!--车辆管理等等-->
+				<div id="service_item">
+					<ul class="mui-table-view mui-grid-view mui-grid-9">
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="carManage">
+							<a href="#">
+								<img src="images/car.png">
+								<div class="mui-media-body">车辆管理</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="searchViolation">
+							<a href="#">
+								<img src="images/find.png">
+								<div class="mui-media-body">违章查询</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="music">
+							<a href="#">
+								<img src="images/music.png">
+								<div class="mui-media-body">音乐</div>
+							</a>
+						</li>
+					</ul>
+
+				</div>
+				<div id="div_weather" style="background-color: #FFFFFF;width:100%;height: 120px;font-size: 13px;padding-right:10px;">
+					<div style="height: 35px;" class="mui-table-view-cell">
+						<div style="float: left;">天气预报</div>
+						<div style="float: right;" id="last_update">时间：2016-05-09</div>
+					</div>
+					<div style="padding: 5px 0 10px 20px;">
+						<div style="width:20%;float: left; text-align: center;padding-right: 18px;">
+							<div id="city">桂林</div>
+							<div>
+								<!--<img id="img0" src="images/09.png">-->
+								<img id="img_today" class="weather_img" src="images/weather/10.png">
+
+							</div>
+
+						</div>
+						<div id="detail" style="width:20%;float: left;">
+							<div id="text_day">大部多云</div>
+							<div id="degree">21度</div>
+							<div id="wind">东风2级</div>
+
+							<!--<div>湿度45%</div>
+							<div>空气：</div>-->
+						</div>
+						<div style="width:20%;float: left;">
+							<div id="day0">星期一</div>
+							<div><img id="img0" class="weather_img" src="images/09.png"></div>
+							<div id="degree0">23/21度</div>
+						</div>
+						<div style="width:20%;float: left;">
+							<div id="day1">星期二</div>
+							<div><img id="img1" class="weather_img" src="images/01.png"></div>
+							<div id="degree1">23/21度</div>
+						</div>
+						<div style="width:20%;float: left;">
+							<div id="day2">星期三</div>
+							<div><img id="img2" class="weather_img" src="images/05.png"></div>
+							<div id="degree2">23/21度</div>
+						</div>
+					</div>
+				</div>
+
+				<div style="background-color: #FFFFFF;font-size: 13px;height: 110px;padding-right: 10px;    margin-top: 15px;">
+					<div style="" class="mui-table-view-cell">
+						<div style="float: left;" id="gas_title">省控油价</div>
+						<div style="float: right;" id="gas_date">时间：2016-05-09</div>
+					</div>
+					<div style="padding: 10px 0 10px 10px; text-align: center;">
+						<table width="100%" height="60px">
+							<tr class="tr1">
+								<td>#90</td>
+								<td>#93</td>
+								<td>#97</td>
+								<td>#0</td>
+							</tr>
+							<tr>
+								<td id="p90">￥5.4</td>
+								<td id="p93">￥5.6</td>
+								<td id="p97">￥5.3</td>
+								<td id="p0">￥5.0</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/common.css" charset="utf-8" />
+		<style>
+			header {
+				line-height: 40px;
+				
+			}
+			
+			input[type=search] {
+				background-color: #efeff4
+			}
+			
+			.imessage {
+				background: no-repeat center center url(images/mail.png);
+				background-size: 35px 35px;
+			}
+			
+			.mui-input-row {
+				clear: right;
+				overflow: hidden
+			}
+			
+			.mui-search {
+				color: #999;
+			}
+			
+			.mui-search .mui-placeholder {
+				line-height: 44px;
+			}
+			
+			.mui-search:before {
+				margin-top: -25px;
+				
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="tabbar-with-map" class="mui-control-content mui-active">
+			<header id="header">
+				
+				<div class="mui-input-row mui-search mui-plus-visible" style="width: 93%;margin-left: 10px;">
+					<input id="search" type="search" class="mui-input-speech mui-input-clear" placeholder="搜索">
+				</div>
+			</header>
+
+			<!--
+            	作者：578428576@qq.com
+            	时间：2016-04-24
+            	描述：需要替换成百度地图
+            	onclick="this.src='myimages/readCondition1.png'"这句没问题            	
+                -->
+			<div>
+				<img src="images/map.png" height="100%" width="100%">
+				<div class="my-card" style="position: absolute;left:17em;top:4em">
+					<li class="mui-table-view-cell" style=" list-style-type:none;width: 35px;height: 45px;"></li>
+				</div>
+				<div class="my-card1" style="position: absolute;left:17em;top:7em">
+					<li class="mui-table-view-cell" style=" list-style-type:none;width: 35px;height: 45px;"></li>
+				</div>
+			</div>
+			<div style="position: absolute;top: 28em;left:1em;">
+				<div style="margin-top: 0;">
+					<button type="button"><img src="images/plus.png"></button>
+				</div>
+				<div style="margin-top: 0; height: 32px;">
+					<button type="button"><img src="images/minus.png"></button>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+			mui.init();
+			
+			/*
+			 * 打开页面“消息”
+			 */
+			mui.plusReady(function() {			
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					scrollIndicator: "none"
+				})
+			})	
+			
+			//语音识别完成事件
+			document.getElementById("search").addEventListener('recognized', function(e) {
+				console.log(e.detail.value);
+			});
+		</script>
+	</body>
+
+</html>
