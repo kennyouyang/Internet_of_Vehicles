@@ -1,0 +1,168 @@
+body {
+	font: 400 14px/1.5 Arial, "Lucida Grande", Verdana, "Microsoft YaHei", hei !important;
+}
+
+h5 {
+	padding: 0px 8px;
+}
+
+.hotel-color-orange {
+	color: #ff9a14 !important;
+}
+
+.hotel-bar-away {
+	font-size: 12px;
+	z-index: 1000;
+	padding: 4px 0 4px 10px;
+	line-height: 24px;
+	min-height: 33px;
+	color: #555;
+	width: 100%;
+}
+
+.hotel-bar-away {
+	position: relative;
+}
+
+.hotel-bar-away:after {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	height: 1px;
+	content: '';
+	background-color: #c8c7cc;
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+}
+
+.hetol-placeholder {
+	width: 75px !important;
+	height: 75px !important;
+}
+
+.mui-table-view-cell {
+	background-color: transparent;
+}
+
+.mui-table-view .mui-media-object {
+	max-width: 75px;
+	height: 75px;
+	line-height: 75px;
+}
+
+.mui-content>.mui-table-view:first-child {
+	margin-top: 0px;
+}
+
+.mui-content {
+	/*padding-bottom: 50px;*/
+}
+
+.mui-media-body p {
+	font-size: 12px;
+	padding: 1px 50px 1px 0px;
+	position: relative;
+}
+
+.mui-media-body p span,
+.mui-media-body p i {
+	padding-right: 8px;
+}
+
+.mui-media-body .hotel-price {
+	position: absolute;
+	right: 0px;
+	font-weight: bold;
+	font-size: 14px;
+	text-align: right;
+}
+
+.mui-media-body .hotel-gift {
+	position: absolute;
+	right: 0px;
+	top: 4px;
+	text-align: right;
+}
+
+.mui-media-body .hotel-away {
+	position: absolute;
+	right: 0px;
+	text-align: right;
+}
+
+::-webkit-scrollbar {
+	width: 0px !important;
+	display: none !important;
+}
+
+.mui-table-view:first-child:before,
+.mui-table-view-cell:first-child:before {
+	display: none;
+}
+
+
+.hotel-footer {
+	position: fixed;
+	border: solid 1px #ddd;
+	background-color: #eee;
+	/*box-shadow: 0px -5px 5px 0px rgba(0, 0, 0, 0.05);*/
+	
+	left: 0px;
+	bottom: 0px;
+	height: 51px;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+.hotel-footer-menu {
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+	font-size: 0px;
+}
+.hotel-footer-menu li {
+	list-style-type: none;
+	display: inline-block;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	margin: 0px;
+	padding: 10px;
+	font-size: 10px;
+	position: relative;
+	color: #888;
+}
+.hotel-footer-menu li:active {
+	color: #333;
+}
+.hotel-footer-menu li i.fa {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	font-weight: 100;
+	font-size: 18px;
+	left: 50%;
+	margin-left: -8px;
+	top: 8px;
+	display: block;
+}
+.hotel-footer-menu li:first-child {
+	border-left: none;
+}
+.hotel-footer-menu-c4 li {
+	width: 25%;
+}
+.hotel-footer-menu-c6 li {
+	width: 16.5%;
+}
+.hotel-bar-away {
+	font-size: 12px;
+	z-index: 1000;
+	padding: 4px 0 4px 10px;
+	line-height: 24px;
+	min-height: 33px;
+	color: #555;
+	width: 100%;
+}
