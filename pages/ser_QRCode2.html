@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type='text/javascript' src='../js/qrcode/jquery.min.js'></script>
+		<script type="text/javascript" src="../js/qrcode/jquery.qrcode.min.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		 
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=xfEU0Ci9OIcmui3umUB1emThG3lTRr8G"></script>
+		<link rel="stylesheet" href="../css/mui.min.css" />
+			 
+		<style>
+			#qrcode {
+				text-align: center;
+			}
+			
+			div {
+				text-align: center;
+			}
+		</style>
+
+		<style type="text/css">
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+			.mui-bar
+			{
+				z-index: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">标题</h1>-->
+				<div class="mui-input-row mui-search <!--mui-plus-visible-->">
+					
+					<input id="search" type="search" class="mui-input-speech mui-input-clear" placeholder="请输入地标名"  >
+						<!--<input id="search"   type="search" class="mui-input-speech mui-input-clear" placeholder="带语音输入的搜索框">
+				--></div>
+		</header>
+		<br><br><br>
+			
+			<div id="l-map"></div>
+	<div id="r-result"><span class="mui-icon mui-icon-weixin"></span>请输入:<input  onkeyup="value=value.replace(/[\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\d]/g,''))" type="text" id="suggestId2" size="20" value="百度" style="width:150px;" /></div>
+	<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+			<div>订单号</div>
+		<div id="qrcode0"></div>
+		<div>车辆信息</div>
+		<div id="qrcode"></div>
+		<br />
+		<div>预约加油订单信息</div>
+		<div id="qrcode2"></div>
+
+		<div class="mui-content-padded">
+			<p>
+				<img src="../images/car_repai.png" data-preview-src="" data-preview-group="1" />
+			</p>
+			<p>
+				<img src="../images/car_repai.png" data-preview-src="" data-preview-group="1" />
+			</p>
+
+		</div>
+
+	</body>
+	<script>
+	jQuery('#qrcode0').qrcode({ /*width: 300,height: 300,*/
+			//text: "{\"brand\":\"Dazhong\",\"type\":\"POLO\",\"LPN\":\"粤P145852\",\"ESN\":\"145455645\",\"Km\":\"200\",\"Gas\":\"40\",\"EP\":\"1\",\"TP\":\"1\",\"light\":\"1\"}"
+		text:"20160610012609820wZPmFb5g"
+		});
+		//jQuery('#qrcode').qrcode("{\"brand\":\"大众\",\"type\":\"POLO\",\"LPN\":\"粤P145852\",\"ESN\":\"145455645\",\"Km\":\"200\",\"Gas\":\"40\",\"EP\":\"好\",\"TP\":\"好\",\"light\":\"好\"}");
+		jQuery('#qrcode').qrcode({ /*width: 300,height: 300,*/
+			//text: "{\"brand\":\"Dazhong\",\"type\":\"POLO\",\"LPN\":\"粤P145852\",\"ESN\":\"145455645\",\"Km\":\"200\",\"Gas\":\"40\",\"EP\":\"1\",\"TP\":\"1\",\"light\":\"1\"}"
+		text:"{\"BRA\":\"DZ\",\"MOD\":\"POLO\",\"PNO\":\"粤P14585\",\"VNO\":\"545624\",\"ENO\":\"145455645\",\"KM\":\"200\",\"GAS\":\"40\",\"EP\":\"1\",\"TP\":\"1\",\"light\":\"1\",\"GL\":\"19\"}"
+		});
+		jQuery('#qrcode2').qrcode({ /*width: 300,height: 300,*/
+			text: "{\"OrderID\":\"1605030010001\",\"Phone\":\"13800138000\",\"LPN\":\"粤P145852\",\"Gas\":\"40\",\"GasType\":\"#1\",\"Price\":\"200\"}"
+		});
+	</script>
+	<script src="../js/mui.zoom.js"></script>
+	<script src="../js/mui.previewimage.js"></script>
+	<script>
+		mui.previewImage();
+	</script>
+
+</html>
+
+
+<script type="text/javascript">
+	// 百度地图API功能
+	function G(id) {
+		return document.getElementById(id);
+	}
+
+	var map = new BMap.Map("l-map");
+	map.centerAndZoom("桂林",12);                   // 初始化地图,设置城市和地图级别。
+
+	var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+		{"input" : "search"
+		,"location" : map
+	});
+
+	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+	var str = "";
+		var _value = e.fromitem.value;
+		var value = "";
+		if (e.fromitem.index > -1) {
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+		
+		value = "";
+		if (e.toitem.index > -1) {
+			_value = e.toitem.value;
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+		G("searchResultPanel").innerHTML = str;
+	});
+
+
+
+	var myValue;
+	ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+		var _value = e.item.value;
+		//alert(JSON.stringify(_value));
+		NGeocoding(_value.business,_value.city);
+		
+		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+		
+		setPlace();
+	});
+
+	function setPlace(){
+		map.clearOverlays();    //清除地图上所有覆盖物
+		function myFun(){
+			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+			map.centerAndZoom(pp, 18);
+			map.addOverlay(new BMap.Marker(pp));    //添加标注
+		}
+		var local = new BMap.LocalSearch(map, { //智能搜索
+		  onSearchComplete: myFun
+		});
+		local.search(myValue);
+	}
+	
+	//地址逆解析
+	function NGeocoding(address,pro)
+	{
+					// 创建地址解析器实例
+	var myGeo = new BMap.Geocoder();
+	// 将地址解析结果显示在地图上,并调整地图视野
+	myGeo.getPoint(address, function(point){
+		if (point) {
+        var aass =  JSON.stringify(point);
+         	 alert(aass);  
+			/*map.centerAndZoom(point, 16);
+			map.addOverlay(new BMap.Marker(point));*/
+		}else{
+			alert("您选择地址没有解析到结果!");
+		}
+	}, pro);
+	}
+
+</script>
+

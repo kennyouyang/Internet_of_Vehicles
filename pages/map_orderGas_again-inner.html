@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/default.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+
+	</head>
+	<style>
+		.mui-input-row label {
+			width: 37%;
+		}
+		
+		.mui-switch:before {
+			font-size: 15px;
+			position: absolute;
+			top: -5px;
+			right: 15px;
+			content: '升';
+			text-transform: uppercase;
+			/*color: #999*/
+			color: white;
+		}
+		
+		.mui-switch {
+			border-color: #4cd964;
+			background-color: #4cd964;
+		}
+		
+		.mui-switch.mui-active:before {
+			right: auto;
+			left: 15px;
+			content: '元';
+			color: #fff;
+		}
+		
+		.mui-input-row label~input,
+		.mui-input-row label~select,
+		.mui-input-row label~textarea {
+			width: 60%;
+		}
+		
+		h5 {
+			padding: 8px;
+		}
+		
+		.mui-content {
+			padding-bottom: 44px;
+		}
+		
+		.mui-table-view {
+			margin-bottom: 20px;
+		}
+		
+		.mui-table-view-cell .hotel-right-text {
+			position: absolute;
+			font-size: 14px;
+			height: 16px;
+			line-height: 16px;
+			right: 40px;
+			top: 50%;
+			margin-top: -8px;
+		}
+		
+		.mui-input-row>label {
+			padding: 0px 15px;
+			line-height: 40px;
+		}
+		
+		.mui-input-row>input {
+			font-size: 14px;
+		}
+		
+		.hotel-tips {
+			margin: 10px;
+		 	margin-bottom: 60px;
+			font-size: 10px;
+			background-color: #fff;
+			padding: 8px;
+			border-radius: 3px;
+		}
+		
+		.hotel-bar-submit {
+			position: fixed;
+			bottom: 0px;
+			left: 0px;
+			right: 0px;
+			background: #FF9913;
+			height: 44px;
+			line-height: 44px;
+			padding: 0px 140px 0px 15px;
+			color: #fff;
+			font-size: 16px;
+		}
+		
+		.hotel-submit-btn {
+			position: absolute;
+			width: 80px;
+			background-color: #ff7d13;
+			text-align: center;
+			right: 0px;
+			color: #fff;
+		}
+		
+		.hotel-pay-detail {
+			position: absolute;
+			width: 60px;
+			text-align: center;
+			right: 80px;
+			color: #fff;
+		}
+		
+		.hotel-pay-detail .mui-icon {
+			font-size: 18px;
+			line-height: 44px;
+		}
+		
+		#gas_amount {
+			color: darkgrey;
+			margin-left: 25px;
+		}
+		#select_item{
+			font-size:14px ;
+			width: 110px;
+			float: right;
+			text-align: right;
+				margin-right: -10px;
+		}#select_car_item{
+			width: 110px;
+			float: right;
+		}
+		#select_item_mycar
+		{
+			font-size:14px ;
+			width: 110px;
+			float: right;
+			text-align: right;
+			margin-right: -10px;
+		}
+		li input{
+			font-size:14px ;
+			float: right;
+			text-align: right;
+			margin-right: 23px;
+		}
+		option { text-align: right }
+		 
+		
+		 
+		
+		.mui-content {
+			text-align: center;
+		}
+		
+		ul button {
+			width: 80px;
+			height: 50px;
+			margin: 30px 10px 10px 10px;
+		}
+	/*	.mui-input-row .mui-btn{
+			width: 80px;
+			height: 50px;
+			margin: 10px 10px 10px 10px;
+			
+		}*/
+		.ul1{
+			text-align: center;
+		}
+		
+		.mui-content {
+			/*border: solid #C0C0C0 1px;*/
+			background-color: white;
+			height: 220px;
+		}
+		
+		.mui-content span {
+			margin-top: 15px;
+		}
+		
+		.mui-input-row .mui-btn {
+			float: none;
+		}.mui-table-view:after
+		{
+			height: auto;
+		}
+		.mui-table-view-cell_my {
+			background-color: transparent;
+			    position: relative;
+			    overflow: hidden;
+			    padding: 11px 15px;
+			    -webkit-touch-callout: none;
+			    
+		}
+	</style>
+
+	<body>
+		<div id="map_orderGas-inner">
+			<h5 id="stastion_name">加油站</h5>
+			<span id="stastion_brand" hidden="hidden"></span>
+			<ul class="mui-table-view mui-input-group">
+ 
+			<!--	<li id='showUserPicker' class="mui-input-row mui-table-view-cell">
+					<a class="mui-navigate-right">
+						加油类型
+						<span class="hotel-right-text"  id="sp_gastype">请选择 </span>						
+				</a>
+				</li>-->
+				<li id='mycar' class="mui-input-row mui-table-view-cell">
+					<a class="mui-navigate-right"> 
+						车辆
+					<select id="select_item_mycar" class="mui-btn mui-btn-block"  >
+					<option value="0">请选择</option>
+					<!--<option value="item-2">item-2</option>
+					<option value="item-3">item-3</option>
+					<option value="item-4">item-4</option>
+					<option value="item-5">item-5</option>-->
+				
+					</select> 
+				</a>
+				</li>
+				
+				
+				<li id='showUserPicker2' class="mui-input-row mui-table-view-cell">
+					<a> 
+						加油类型
+					 <span  id="sp_gastype" class="hotel-right-text"><img src="../images/loading/loading1.gif"></span>
+				</a>
+				</li>
+			 
+			 
+				<li class="mui-input-row mui-table-view-cell" data-event="tap>setArrivalTime">
+					<a>
+						油价/每升
+						<span id="pricePerLitre" class="hotel-right-text"><img src="../images/loading/loading1.gif"></span>
+					</a>
+				</li>
+
+			
+				<li id="gas_amount2" class="mui-input-row mui-table-view-cell">
+					<a  > 
+						加油数量 
+						<span id="gas_amount" class="hotel-right-text">&darr;请按金额或按升数选择</span>
+				</a>
+				</li>
+				
+					<li id="gas_amount2" class=" mui-table-view-cell_my " >
+					<div style="padding-top: 10px;">
+						<div id="" class="mui-segmented-control mui-segmented-control-inverted mui-bg-primary ">
+							<a class="mui-control-item mui-active " href="#item1">按金额</a>
+							<a class="mui-control-item" href="#item2">按升数</a>
+						</div>
+					</div>
+					<div>
+						<div id="item1" class="mui-control-content mui-active">
+						 
+								<ul id="inner_ul" class="ul1 mui-table-view">									
+									<button type="button" class="mui-btn  mui-btn-outlined" >￥10</button>
+									<button type="button" class="mui-btn  mui-btn-outlined" >￥20</button>
+									<button type="button" class="mui-btn  mui-btn-outlined" >￥50</button>
+									<button type="button" class="mui-btn  mui-btn-outlined" >￥100</button>
+									<button type="button" class="mui-btn  mui-btn-outlined" >￥200</button>
+									<button type="button" class="mui-btn  mui-btn-outlined" >￥500</button>										
+								</ul>
+							 
+						</div>
+						<div id="item2" class="mui-control-content"> 
+							<ul class="ul1 mui-table-view">
+								<button type="button" class="mui-btn   mui-btn-outlined" >5L</button>
+								<button type="button" class="mui-btn   mui-btn-outlined" >10L</button>
+								<button type="button" class="mui-btn   mui-btn-outlined" >20L</button>
+								<button type="button" class="mui-btn   mui-btn-outlined" >30L</button>
+								<button type="button" class="mui-btn   mui-btn-outlined" >40L</button>
+								<button type="button" class="mui-btn   mui-btn-outlined" >50L</button>
+							</ul>
+						</div>
+					</div>
+				</li>
+				</ul>
+			<ul class="mui-table-view mui-input-group">
+			<li id="li_name" class="mui-input-row mui-table-view-cell">
+					<a class=""> 
+						姓名
+						<input style="" id="in_name" placeholder="请输入加油人姓名"/>
+						<!--<span id="sp_name" class="hotel-right-text">欧先生</span>-->
+					</a>  
+				</li>
+				<li id="li_phone" class="mui-input-row mui-table-view-cell">
+					<a class=""> 
+						手机号
+						<input style=" " id="in_phone" placeholder="请输入加油人手机"/>
+						<!--<span id="sp_phone" class="hotel-right-text">13800138000</span>-->
+					</a>  
+				</li>
+				<li id="date" class="mui-input-row mui-table-view-cell">
+					<a class="mui-navigate-right"> 
+						到达日期 
+						<span id="sp_date" class="hotel-right-text"><img src="../images/loading/loading1.gif"></span>
+				</a>
+				</li>
+				</li>
+				<li id="time" class="mui-input-row mui-table-view-cell">
+					<a class="mui-navigate-right"> 
+						到达时间
+						<span id="sp_time" class="hotel-right-text"><img src="../images/loading/loading1.gif"></span>
+				</a>
+				</li>
+			</ul>
+			<p class="hotel-tips">订单提交后我们将先进行预授权操作，订单确认后再操作扣款。该订单确认后不可被取消修改，若未加油或取消修改，我们将收取您违约费5%。</p>
+		</div>
+		<div class="hotel-bar-submit">
+			<span>总额</span>
+			<strong id="sum">50<!--<img src="../images/loading/loading1.gif">--></strong>
+			<span class="hotel-submit-btn" id="booking" data-url="./booking-done.html">提交订单</span>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript" src="../js/app.js"></script>
+	<script src="../js/mui.picker.min.js"></script>
+	<script src="../js/gas.data.js" type="text/javascript" charset="utf-8"></script>
+	  <script src ="../js/encrypt/core.js"></script>
+          <script src= "../js/encrypt/hmac.js" ></script>
+          <script src= "../js/encrypt/sha256.js" ></script>
+
+	<script>
+		var cardata2 = [];
+		mui.plusReady(function() {
+			
+			wv = plus.webview.currentWebview().parent();
+		 
+			var state = app.getState();
+			//到达日期、时间
+			var data_time = new Date();
+			
+			//--------------初始化--------------//
+			document.getElementById("sp_date").innerText =  data_time.getFullYear() + "-" + (""+(data_time.getMonth() + 101)).substring(1) + "-" + ("" + (data_time.getDate() + 100)).substr(1);
+			document.getElementById("sp_time").innerText = ("" + (data_time.getHours() + 100)).substr(1) + ":" + ("" + (data_time.getMinutes() + 101)).substr(1);
+			document.getElementById("stastion_name").innerText = wv.station;
+			document.getElementById("stastion_brand").innerText = wv.brand;
+			document.getElementById('sp_gastype').innerText=wv.gas_types;
+ 			document.getElementById("pricePerLitre").innerText=wv.gas_price; 
+			document.getElementById("in_name").value=wv.name; 
+			document.getElementById("in_phone").value=wv.phone;  
+			 //车辆选择
+			 var sign = CryptoJS.HmacSHA256(state.token + state.account,state.token)+"";
+  			console.log(sign);
+
+			mui.ajax('http://115.28.16.183:8080/car_server/GetCarsServlet', {
+                                    data : {
+                                          username : state.account,
+                                          sign:sign
+                                     },
+                                    dataType : 'json', //服务器返回json格式数据
+                                      type: 'post' , //HTTP请求类型
+                                      timeout: 10000 , //超时时间设置为10秒；
+                                     beforeSend:function (xhr)
+                                    {
+                                        
+                                          
+                                    },
+                                    success : function( data) {
+                                    	 
+                                             //服务器返回响应，根据响应结果，分析是否注册成功；
+                                           if (data.result_code == '1') {
+                                           	
+                                           	var select_item_mycar = document.getElementById('select_item_mycar');
+			 								 
+											for (i=0;i<data.cars.length;i++)
+										    { 
+											   	var varItem2 = new Option(data.cars[i]["plateNo"], data.cars[i]["plateNo"]);      
+								      			select_item_mycar.options.add(varItem2);    
+											 
+										    } 
+										    	var Item_other = new Option("其他", "其他");      
+								      			select_item_mycar.options.add(Item_other);   
+                                                
+                                          } else {
+                                                 
+                                                 plus.nativeUI.toast(data.result_code);
+                                          }
+                                    },
+                                     error: function (xhr, type, errorThrown) {
+                                         
+                                           //异常处理；
+                                           if(type=="timeout")
+							{
+								mui.toast("连接超时，请稍后再试");
+							}
+							else if(type=="abort")
+							{
+								mui.toast("您没有连接网络，请连接网络后再试");
+							}
+							else if(type=="error")
+							{
+								mui.toast("服务端异常，请稍后再试");
+							}
+							else{
+								mui.toast(type);
+							}
+                                           console.log(xhr);
+                                           console.log(type);
+                                           console.log(errorThrown);
+                                    }
+            });
+            //--------------------------//
+            
+            
+            			
+			document.getElementById("date").addEventListener('tap', function() { 
+				plus.nativeUI.pickDate(function(e) {
+					var d = e.date;
+					 
+					//console.log("选择的日期：" + d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate());
+					document.getElementById("sp_date").innerText = d.getFullYear() + "-" + (""+(d.getMonth() + 101)).substring(1) + "-" + ("" + (d.getDate() + 100)).substr(1);
+				}, function(e) { 
+					//console.log("未选择日期：" + e.message);
+				}, {
+					title: "请选择日期："
+				});
+			})
+			document.getElementById("time").addEventListener('tap', function() {
+					plus.nativeUI.pickTime(function(e) {
+						var d = e.date;
+						//console.log("选择的时间：" + d.getHours() + ":" + d.getMinutes());
+						document.getElementById("sp_time").innerText = ("" + (d.getHours() + 100)).substr(1) + ":" + ("" + (d.getMinutes() + 100)).substr(1);
+					}, function(e) {
+						//console.log("未选择时间：" + e.message);
+					}, {
+						title: "请选择时间："
+					});
+				})
+				//加油数量
+			mui("ul").on("tap","button",function(){ 
+			 
+				var gas_amount = this.innerText;
+				console.log(gas_amount); 
+				console.log(gas_amount.indexOf("L")+"ins"); 
+				if(gas_amount.indexOf("L")>0){//按升
+					 
+					var lit = gas_amount.replace("L","");
+					var gasPrice = document.getElementById("pricePerLitre").innerText;
+					var sp_gastype = document.getElementById("sp_gastype").innerText;
+					console.log(gasPrice+"--"+lit) 
+					if(sp_gastype=="")
+					{
+						mui.toast("请先选择油型");
+						document.getElementById("sum").innerText = "";
+					}
+					else
+					{
+						
+						var sum= Number(gasPrice) * Number(lit);
+						document.getElementById("sum").innerText = "￥"+sum.toFixed(2);
+						console.log("￥"+ sum.toFixed(2)); 
+					}
+					
+					
+				}
+				else{//按金额
+					var sp_gastype = document.getElementById("sp_gastype").innerText;
+					console.log(sp_gastype+"--")
+					if(sp_gastype=="")
+					{
+						mui.toast("请先选择油型");
+						document.getElementById("sum").innerText = "";
+						return;
+						
+					} 
+					document.getElementById("sum").innerText=gas_amount;
+				} 
+				
+				document.getElementById("gas_amount").innerText=gas_amount; 
+				document.getElementById("gas_amount").style.color = "#000000";
+				
+			});
+		
+					//预订
+			document.getElementById("booking").addEventListener('tap', function(event) {
+				var waitingwv = null;
+				//创建订单
+				var gasType = document.getElementById("sp_gastype").innerText;
+				var pricePerLitre = document.getElementById("pricePerLitre").innerText;
+				pricePerLitre = pricePerLitre.replace("￥", "");
+				var litre = "";
+				/*var switch_state = document.getElementById("switch_state").innerText; 
+				if (switch_state == "yuan") {
+					var litre = "";
+				} else {
+					var litre = document.getElementById("gas_amount").innerText;
+				}*/
+				
+				
+				var sp_date = document.getElementById("sp_date").innerText;
+				var sp_time = document.getElementById("sp_time").innerText;
+				var nowdate = new Date();
+				var nar_date = new Date(sp_date + " " + sp_time);
+				if (nar_date - nowdate < 0) {
+					mui.toast("所选到达日期及时间有误");
+					return;
+				}
+				/*alert(nowdate);
+				alert(nar_date);
+				alert(nar_date-nowdate);
+				return;*/
+				var phone = document.getElementById("in_phone").value;
+				var gasStationName = document.getElementById("stastion_name").innerText;
+				var brand = document.getElementById("stastion_brand").innerText;
+				var gasStationPosition = "{\"lng\":\"" + plus.webview.currentWebview().parent().lon + "\",\"lat\":\"" + plus.webview.currentWebview().parent().lat + "\"}";
+				var PlateNo = document.getElementById("select_item_mycar").options[document.getElementById("select_item_mycar").options.selectedIndex].text;
+				if (PlateNo == "" || PlateNo == "请选择") {
+					mui.toast("请选择您的车辆");
+					return;
+				}
+				//console.log(PlateNo);return;
+				//console.log(gasStationPosition);return;
+				var name = document.getElementById("in_name").value;
+				
+				if (gasType == 0 || gasType == "请选择") {
+					mui.toast("请选择加油类型");
+					return;
+				}
+				
+				
+				var gas_amount = document.getElementById("gas_amount").innerText;
+				if(gas_amount=="↓请按金额或按升数选择")
+				{
+					mui.toast("请按金额或按升数选择加油数量");
+					
+					return;
+				}
+				if(gas_amount.indexOf("L")>0)//按升数-- 
+				{
+					litre = gas_amount.replace("L","");
+					console.log(litre);
+					 
+				}
+				var yuan = document.getElementById("sum").innerText;
+				yuan=yuan.replace("￥","")
+				 
+					
+				if(phone=="")
+				{
+					mui.toast("请填写加油人号码");
+					return;
+				}
+				if(name=="")
+				{
+					mui.toast("请填写加油人姓名");
+					return;
+				}
+				
+			 
+				/*console.log(gasType + "-" + pricePerLitre + "-" + yuan + "-litre:" + litre + "-" + sp_date + "-" + sp_time);
+				return;*/
+				 
+				var sign2 = CryptoJS.HmacSHA256(state.token+state.account +PlateNo+phone+name+gasStationName,state.token)+"";
+  				console.log("sign:"+sign2);
+				
+				alert(sign2);
+				console.log("brand:"+brand); 
+				alert(brand);
+				mui.ajax('http://115.28.16.183:8080/car_server/CreateOrderServlet', {
+					data: {
+						username: state.account,
+						PlateNo: PlateNo,
+						phone: phone,
+						name: name,
+						gasStationName: gasStationName,
+						gasStationBrand: brand,
+						gasType: gasType,
+						pricePerLitre: pricePerLitre,
+						gasStationPosition: gasStationPosition,
+						yuan: yuan,
+						litre: litre,
+						sp_date: sp_date,
+						sp_time: sp_time,
+						sign:sign2
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 15000, //超时时间设置为10秒；
+					beforeSend: function(xhr) {
+						waitingwv = plus.nativeUI.showWaiting("创建订单中，请等待...", {
+							loading: {
+								/*icon: "../images/loading/big_loading.gif"*/
+							}
+						});
+					},
+					success: function(data) {
+						//waitingwv.setTitle("创建订单成功!");
+						waitingwv.close();
+						console.log(JSON.stringify(data));
+						//alert("创建订单成功:" + JSON.stringify(data));
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if (data.result_code == "1") {
+							console.log(data["orderId"]);
+							mui.toast("创建预约订单成功!");
+							mui.openWindow({
+								url: 'mine_advanceOrderDetail.html',
+								id: 'mine_advanceOrderDetail',
+								show: {
+									aniShow: 'pop-in'
+								},
+								styles: {
+									popGesture: 'hide',
+									hardwareAccelerated :false
+								},
+								waiting: {
+									autoShow: false
+								},
+								extras: {
+									orderid: data["orderId"]
+								}
+							});
+						} else {
+							mui.toast(data.result_code);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						waitingwv.close();
+						//异常处理；
+						console.log(xhr);
+						console.log(type);
+						if (type == "timeout") {
+							mui.toast("连接超时，请检查网络是否连接！");
+						} else {
+							mui.toast(type);
+						}
+						console.log(errorThrown);
+					}
+				});
+			});
+		 
+		});
+		
+
+		
+		
+ 
+
+	 
+		 
+		function upadte_price(){
+			/*alert(document.getElementById("select_item").value);*/
+			if(document.getElementById("select_item").value==0)
+			{
+				document.getElementById("pricePerLitre").innerText ="";
+				document.getElementById("sum").innerText ="";
+				
+			}
+			else
+			{
+				document.getElementById("pricePerLitre").innerText = "￥"+document.getElementById("select_item").value;
+				var switch_state = document.getElementById("switch_state").innerText;
+				 
+					if (document.getElementById("gas_amount").innerText != "请选择加油钱数"&&document.getElementById("gas_amount").innerText != "请选择加油升数") { 
+						if (switch_state == "yuan") {
+							document.getElementById("sum").innerText = document.getElementById("gas_amount").innerText;
+						} else {
+							document.getElementById("sum").innerText = Number(document.getElementById("select_item").value) * Number(document.getElementById("gas_amount").innerText);
+						}
+					}
+					else
+					{
+						 
+						document.getElementById("sum").innerText = "";
+					}
+			
+			}
+		}
+		
+		function showPrompt(message, tip,element_id) {
+				var bts = ["确认", "取消"]; 
+				plus.nativeUI.prompt(message, function(e) {
+					//e.value=document.getElementById(element_id).innerText;
+					 
+					var i = e.index;
+					if (e.index == 0) {
+						/*alert("确认");*/
+						//alert(e.value);
+						if(e.value == "")
+						{
+							mui.toast("手机号不能为空");
+							return
+						}
+						document.getElementById("sp_phone").innerText = e.value;
+					}
+					if (e.index == 1) {
+					/*	alert("取消");*/
+					}
+					//outLine("按\"" + ((i >= 0) ? bts[e.index] : "返回") + "\"关闭：" + e.value);
+				}, "", tip, bts);
+			}
+	</script>
+
+</html>

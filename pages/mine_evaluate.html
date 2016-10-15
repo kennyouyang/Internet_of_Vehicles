@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script src ="../js/encrypt/core.js"></script>
+          <script src= "../js/encrypt/hmac.js" ></script>
+          <script src= "../js/encrypt/sha256.js" ></script>
+
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-bar-submit {
+				position: fixed;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				/*background: #FF9913;*/
+				height: 44px;
+				line-height: 44px;
+				padding: 0px 140px 0px 15px;
+				color: #fff;
+				font-size: 16px;
+			}
+			
+			.mui-submit-btn {
+				position: absolute;
+				width: 80px;
+				background-color: #ff7d13;
+				text-align: center;
+				right: 0px;
+				color: #fff;
+			}
+			
+			.mui-new {
+				float: left;
+			}
+			
+			.mui-grid-view.mui-grid-9 {
+				background-color: white;
+			}
+			
+			.mui5 {
+				padding: 5px 0 5px 5px;
+			}
+			
+			li a img {
+				width: 25px;
+			}
+			
+			li a {
+				height: 60px;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				font-size: 13px;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				font-size: 30px;
+			}
+		</style>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			mui.plusReady(function() {
+				ws = plus.webview.currentWebview();
+				document.getElementById("sp_stationname").innerText = ws.gasStation;
+				document.querySelector('.mui-grid-9.mui-table-view-radio').addEventListener('selected', function(e) {
+					var elem_id = e.detail.el.querySelector("img").getAttribute("id");
+					document.getElementById("elem_id").innerText = elem_id;
+					var imgn = document.getElementById(elem_id);
+					var str = imgn.src;
+					if (elem_id != null) {
+						for (i = 1; i <= 5; i++) {
+							var imgtemp = 'img' + i;
+							var img = document.getElementById(imgtemp);
+							if (img.src != imgn.src) {
+								img.src = '../images/evaluate/img' + i + '.png';
+							}
+						}
+						imgn.src = '../images/evaluate/' + elem_id + '1.png';
+					} else {
+						imgn.src = '../images/evaluate/' + elem_id + '.png';
+					}
+				});
+				state = app.getState();
+				document.getElementById("evaluate").addEventListener("tap", function() {
+					var waitingwv = null;
+					waitingwv = plus.nativeUI.showWaiting("正在发表...", {
+						loading: {
+							//  icon: "../images/loading/big_loading.gif"
+						}
+					});
+					console.log(document.getElementById("elem_id").innerText);
+					var score = document.getElementById("elem_id").innerText;
+					var ta_textarea = document.getElementById("ta_textarea").value;
+					score = score.substring(3);
+					if (score == null || score == "") {
+						mui.toast("您还没有打分哦，请先打分后在发表评价");
+						waitingwv.close();
+						return;
+					}
+					if (ta_textarea == "") {
+						waitingwv.close();
+						mui.toast("您还没有写评价，请先写好评价再发表评价");
+						return;
+					}
+					console.log(score);
+					mui.ajax('http://115.28.16.183:8080/car_server/createCommentServlet', {
+						data: {
+							username: state.account,
+							token: state.token,
+							orderId: ws.orderid,
+							rating: score, //获取到评分
+							content: ta_textarea,
+							gasStation: ws.gasStation
+						},
+						datatype: "json",
+						type: "post",
+						timeout: 10000,
+						success: function(data) {
+							waitingwv.close();
+							data = JSON.parse(data);
+							if (data.result_code == "1") {
+								update_status(ws.orderid);//修改状态应该在服务端进行
+								
+								plus.webview.getWebviewById("mine_advanceOrder-inner").evalJS("ajax_list();");
+								mui.toast("发表成功");
+								mui.back();
+							} else {
+								mui.toast(data.result_code);
+							}
+							console.log(JSON.stringify(data))
+						},
+						error: function(xhr, type, errorThrown) {
+							waitingwv.close();
+							//异常处理；
+							if (type == "timeout") {
+								mui.toast("连接超时，请稍后再试");
+							} else if (type == "abort") {
+								mui.toast("您没有连接网络，请连接网络后再试");
+							} else if (type == "error") {
+								mui.toast("服务端异常，请稍后再试");
+							} else {
+								mui.toast(type);
+							}
+							console.log(xhr);
+							console.log(type);
+							console.log(errorThrown);
+						}
+					});
+				});
+			});
+			function update_status(orderid){
+		 
+				state = app.getState();
+				var sign = CryptoJS.HmacSHA256(state.token + state.account+orderid+"已完成",state.token)+"";
+				console.log(state.token +"-"+ state.account +"-"+orderid+"已完成")
+				console.log(sign);
+
+				mui.ajax('http://115.28.16.183:8080/car_server/updateOrderByOrderIdServlet', {
+					data: {
+						username: state.account, //"kenny",
+						OrderId: orderid,
+						orderStatus: "已完成"
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					beforeSend: function(xhr) {},
+					success: function(data) {
+						//waitingwv.close();
+						console.log(JSON.stringify(data));
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if (data.result_code == '1') {
+							 
+							 
+						} else {
+							console.log("更新状态失败");
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+					 
+						//异常处理；
+						console.log(xhr);
+						console.log(type);
+				 
+						console.log(errorThrown);
+					}
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav hotel-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">评价</h1>
+		</header>
+		<span id="elem_id" hidden="hidden"></span>
+		<div class="mui-content">
+			<form>
+				<h5 class="mui5"><span id="sp_stationname"></span></h5>
+				<ul class="mui-table-view mui-grid-view mui-grid-9 mui-table-view-radio" style="margin-bottom: 5px;">
+					<li class="mui-table-view-cell mui-media mui-col-sm-2" style="width: 20%;">
+						<a>
+							<img src="../images/evaluate/img1.png" id="img1" />
+							<div class="mui-media-body ">很差</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-sm-2" style="width: 20%;">
+						<a>
+							<img src="../images/evaluate/img2.png" id="img2" />
+							<div class="mui-media-body ">较差</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-sm-2" style="width: 20%;">
+						<a>
+							<img src="../images/evaluate/img3.png" id="img3" />
+							<div class="mui-media-body ">一般</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-sm-2" style="width: 20%;">
+						<a>
+							<img src="../images/evaluate/img4.png" id="img4" />
+							<div class="mui-media-body ">较好</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-sm-2" style="width: 20%;">
+						<a>
+							<img src="../images/evaluate/img5.png" id="img5" />
+							<div class="mui-media-body">很好</div>
+						</a>
+					</li>
+				</ul>
+				<textarea id="ta_textarea" rows="5" placeholder="亲，服务周到吗？环境怎么样？"></textarea>
+				<div class="mui-bar-submit">
+					<div>
+						<span class="mui-submit-btn" id="evaluate" data-url="./booking-done.html">发表评价</span></div>
+				</div>
+			</form>
+		</div>
+
+	</body>
+
+</html>

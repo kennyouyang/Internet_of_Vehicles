@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<!--<script src="../js/ems.js" data-main='../js/addcarMethod-inner.js'></script>-->
+		<script src="../js/mui.min.js"></script>
+
+	</head>
+
+	<body>
+		<div id="addcarMethod-inner">
+			<button type="button" id="scan" class="mui-btn" style="width: 130px;height 130px;margin: 20px 0 0 20px;">
+			 <img src="../images/code.png"><div>扫一扫</div> 
+		</button>
+
+			<button type="button" id="Manadd" class="mui-btn" style="width: 130px;height 130px;margin: 20px 20px 0 0px;float:right">
+ <img src="../images/plus1.png"><div>手动添加车辆信息</div> 
+		</button>
+		</div>
+	</body>
+	<script>
+		mui.plusReady(function() {
+			document.getElementById("scan").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'ser_add_scan.html', 
+					//url: '../testpages/barcode_scan.html',
+				
+					id: 'ser_add_scan.html',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide',
+					hardwareAccelerated :false
+						},
+						waiting: {
+							autoShow: false
+						}
+				});
+			});
+			document.getElementById("Manadd").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'ser_addcar.html',
+					id: 'ser_addcar',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide',
+					hardwareAccelerated :false
+						},
+						waiting: {
+							autoShow: false
+						}
+				});
+			});
+		})
+	</script>
+
+</html>

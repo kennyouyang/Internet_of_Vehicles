@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>偏好设置</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mycss{
+				padding-top: 7px;
+			}
+			
+			.mui-btn-block {
+				margin: 25px 0 0 0;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.mui-card{
+				margin: 0;
+				border-radius:0;
+			}
+
+		</style>
+	</head>
+	<script src="../js/mui.min.js"></script>
+	<script>
+	mui.back = function() {};
+		mui.plusReady(function() { 
+            //获取用户的偏好
+			oil = document.getElementById("oil");
+			document.querySelector('.mui-table-view.mui-table-view-radio.myoil').addEventListener('selected', function(e) {
+				oil.innerHTML = e.detail.el.innerText;//.replace("\n",'');
+			});
+
+			state = document.getElementById("state");
+			mui(".mui-input-group").on('tap', '.mui-radio.mui-left.mycss1', function(e) {
+				state.innerHTML =  this.innerText;   				
+			});
+
+			distance = document.getElementById("distance");
+			mui(".mui-input-group").on('tap', '.mui-radio.mui-left.mycss2', function(e) {
+				distance.innerHTML =  this.innerText;   				
+			});
+			
+			//立即体验按钮点击事件，并将用户偏好设置存入localStorage
+			document.getElementById("close").addEventListener('tap', function(event) {				
+				var preference=new Object();
+				preference.oil=oil.innerText;
+				preference.state=state.innerText;
+				preference.distance=distance.innerText;								 
+				localStorage.setItem('$prefs',JSON.stringify(preference));
+				//var prefs=JSON.parse(localStorage.getItem('$prefs') || '[]');
+				console.log(localStorage.getItem('$prefs') || '[]');
+				
+				plus.storage.setItem("lauchFlag", "true");
+				plus.navigator.setFullscreen(false);
+				plus.webview.currentWebview().close();
+			}, false);
+			
+			//从localStorage中读取偏好设置，将其显示出来
+			var prefs=JSON.parse(localStorage.getItem('$prefs')||'[]');	
+			oil.innerText=prefs.oil;
+			state.innerText=prefs.state;
+			distance.innerText=prefs.distance;
+			var oils=document.querySelectorAll(".mui-table-view-cell"); 
+			for(i=0;i<5;i++)
+			{
+				//console.log(oils[i].innerText+"-"+prefs.oil);
+				if(oils[i].innerText==prefs.oil)
+				{
+					oils[i].setAttribute("class","mui-table-view-cell mui-selected"); 
+				}				 
+			}
+			var states=document.querySelectorAll(".mui-radio.mui-left.mycss1");
+			var states_input=document.querySelectorAll(".states"); 	
+			for(j=0;j<3;j++){  
+				if(states[j].innerText==prefs.state) 
+				{	/*console.log("111");
+					console.log(states_input[j].value);*/
+					states_input[j].setAttribute("checked","checked"); 
+				}
+			}
+			var distances=document.querySelectorAll(".mui-radio.mui-left.mycss2");
+			var distances_input=document.querySelectorAll(".distances"); 	
+			for(m=0;m<3;m++){  
+				if(distances[m].innerText==prefs.distance) 
+				{	/*console.log("111");
+					console.log(states_input[j].value);*/
+					distances_input[m].setAttribute("checked","checked"); 
+				}
+			} 
+			
+		});
+	</script>
+
+	<body>
+		<header class="mui-bar mui-bar-nav hotel-header">
+			
+			<h1 class="mui-title">偏好设置</h1>
+		</header>
+		<div class="mui-content">
+			<h5 class="mui-content-padded">您常用的油品类型：</h5>
+			<ul class="mui-table-view mui-table-view-radio myoil">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">97号汽油</a>
+				</li>
+				<li class="mui-table-view-cell ">
+					<a class="mui-navigate-right ">93号汽油</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">90号汽油</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">0号柴油</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">无偏好</a>
+				</li>
+			</ul>
+
+			<h5 class="mui-content-padded">您常用的加油站品牌：</h5>			
+			<div class="mui-card">
+				<form class="mui-input-group">
+					<div class="mui-radio mui-left mycss1"style="float: left;height: 35px; ">						
+						<input name="radio1" type="radio" class="states" >
+						<label class="mycss">中石油</label> 						
+					</div>
+					<div class="mui-radio mui-left mycss1" style="float: left;">						
+						<input name="radio1" type="radio" class="states">
+						<label class="mycss">中石化</label>
+					</div>	
+					<div class="mui-radio mui-left mycss1" style="float: left;">						
+						<input name="radio1" type="radio" class="states">
+						<label class="mycss">全部</label>
+					</div>	
+				</form>
+			</div>
+
+			<h5 class="mui-content-padded">您希望的检索距离是：</h5>
+			<div class="mui-card">
+				<form class="mui-input-group">
+					<div class="mui-radio mui-left mycss2"style="float: left;height: 35px; ">						
+						<input name="radio1" type="radio" class="distances">
+						<label class="mycss">1km</label> 						
+					</div>
+					<div class="mui-radio mui-left mycss2" style="float: left;">						
+						<input name="radio1" type="radio" class="distances">
+						<label class="mycss">5km</label>
+					</div>	
+					<div class="mui-radio mui-left mycss2" style="float: left;">						
+						<input name="radio1" type="radio" class="distances">
+						<label class="mycss">10km</label>
+					</div>	
+				</form>
+			</div>
+			
+
+			<div class="mui-content-padded" hidden="hidden">
+				<p id="oil"></p>
+				<p id="state"></p>
+				<p id="distance"></p>
+			</div>
+			<div style="text-align: center;" class="mui-content-padded">			
+				<button id='close' class="mui-btn mui-btn-primary mui-btn-block">立即体验</button>
+			</div>
+			
+		</div>
+	</body>
+</html>

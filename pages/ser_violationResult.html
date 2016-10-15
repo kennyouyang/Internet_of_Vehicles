@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/app.js" ></script>
+		<script src ="../js/encrypt/core.js"></script>
+          <script src= "../js/encrypt/hmac.js" ></script>
+          <script src= "../js/encrypt/sha256.js" ></script>
+
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+		.mui-table-view-chevron .mui-table-view-cell>a:not(.mui-btn){
+			margin-right: -105px;
+		}
+			.mui-table-view .mui-media-object {
+				width: 70px;
+				max-width: 100px;
+			}
+			
+			.p_item {
+				display: inline;
+				color: #111210;
+			}
+			
+			.p_item label {
+				color: #C9151B;
+				margin-right: 10px;
+			}
+			
+			#ul_addcar {
+				margin-top: 10px;
+				text-align: center;
+			}
+			.mui-card .mui-control-content {
+				padding: 10px;
+			}
+			
+			.mui-control-content {
+				height: 500px;				
+			}
+			
+			.mui-navigate-right:after, .mui-push-left:after, .mui-push-right:after{
+				top:55%
+			}
+			
+			.mui-navigate-right:after, .mui-push-right:after{
+				right: 8px;
+			}
+			.mui-p4{
+				color: #007aff;padding: 10px 0 10px 0;
+			}
+			.mui-p5{
+				padding-bottom: 5px;
+			}
+			.mui-money{
+				width: 60%;float: left;padding-left:15%;position: relative;top: 10px;
+			}
+			.mui-moneys{
+				padding-left: 5px;position: relative;top: -5px;
+			}
+			.mui-score{
+				position: relative;top: -2px;
+			}
+			.mui-score-image{
+				position: relative;top: 8px;
+			}
+			.mui-segmented-control{
+				background-color: white;
+			}
+			
+		</style>
+		
+		<script>
+			mui.init({
+				swipeBack:true //启用右滑关闭功能
+			});
+			(function($) {
+				$('#scroll').scroll({
+					indicators: true //是否显示滚动条
+				});
+				
+			})(mui);
+			   mui.plusReady(function() {
+			   		state = app.getState();
+                        ws = plus.webview.currentWebview();
+                        ws.setStyle({
+                              scrollIndicator : "none",
+					hardwareAccelerated :false
+                        });
+                        var accesstype = ws.type;
+                        document.getElementById("h_plateNo").innerText = ws.plateNo;
+                    
+                       	if(accesstype=="history"){
+                       		    
+                       		document.getElementById("lb_sumCores").innerText = ws.sumCores;	
+	                        document.getElementById("lb_sumFines").innerText = ws.sumFines;
+	                        document.getElementById("lb_peccancyNum").innerText = ws.peccancyNum; 
+                       	}
+                       
+                       
+                        ajax_submit(accesstype);
+                 
+			   	document.getElementById("refresh").addEventListener("tap",function(){
+			   		ajax_submit("refresh");
+			   	})
+			   
+			   })
+
+			
+				function ajax_submit(accesstype){ 
+					var url="getPeccancyLogAPI";
+					var type = accesstype;
+					var mydata;
+					if(type=="history"){
+						url="getPeccancyLogByUsernameAndPlateNo";
+						 var sign = CryptoJS.HmacSHA256(state.token + state.account+ws.plateNo,state.token)+"";
+ 		
+						mydata={username : state.account,plateNo: ws.plateNo,sign:sign} 
+					}
+					else if(type=="refresh"){
+						 /*alert(state.account+ ws.plateNo+ ws.vinNo+ ws.engineNo+ws.lstype+ws.carorg);*/
+						 var sign = CryptoJS.HmacSHA256(state.token + state.account+ws.plateNo+ws.vinNo+ws.engineNo+ws.lstype+ws.carorg,state.token)+"";
+ 		
+
+						 mydata={
+						 		username : state.account, //state.account
+                                          plateNo: ws.plateNo,
+                                          vinNo : ws.vinNo,
+                                          engineNo : ws.engineNo,
+                                          lstype : ws.lstype,
+                                          carorg : ws.carorg,
+                                          sign:sign
+						 }
+					}
+					else{
+						  var sign = CryptoJS.HmacSHA256(state.token + state.account+ws.plateNo+ws.vinNo+ws.engineNo+ws.lstype+ws.carorg,state.token)+"";
+ 		
+						 mydata={ username : state.account, //state.account
+                                          plateNo: ws.plateNo,
+                                          vinNo : ws.vinNo,
+                                          engineNo : ws.engineNo,
+                                          lstype : ws.lstype,
+                                          carorg : ws.carorg,
+                                          sign:sign
+						 }
+					 
+					}
+					
+					console.log(JSON.stringify(mydata));
+					 
+				      mui.ajax('http://115.28.16.183:8080/car_server/'+url, { 
+                                    data : mydata,
+                                    dataType : 'json', //服务器返回json格式数据
+                                      type: 'post' , //HTTP请求类型
+                                      timeout: 10000 , //超时时间设置为10秒；
+                                     beforeSend:function (xhr)
+                                    {
+                                          
+                                          
+                                    },
+                                    success : function(data) {
+                                    	console.log(JSON.stringify(data));
+                                         //alert(JSON.stringify(data));
+             						 		plus.webview.getWebviewById("searchViolation-inner").evalJS("ajax_list();");
+                                            
+                                           if (data.result_code == '1') {
+                                           	if(type!="history"){
+                                           		 
+	                                           	document.getElementById("lb_sumCores").innerText = data.sumCores;	
+	                                           	document.getElementById("lb_sumFines").innerText = data.sumFines;
+	                                           	document.getElementById("lb_peccancyNum").innerText = data.peccancyNum;
+                                           	}
+                                          
+                                         	var str="";
+                                         	for(i=0;i<data.peccancyLogs.length;i++){
+                                         		str+='<li class=\"mui-table-view-cell\"><h5>'+
+                                         		data.peccancyLogs[i]["peccancyTime"]+'</h5><div class=\"mui-navigate-right\"style=\"margin-right:15px;\"><h4 class=\"mui-ellipsis mui-p4\">'+
+                                         		data.peccancyLogs[i]["peccancyPlace"]+'</h4><h5 class=\"mui-ellipsis mui-p5\">'+
+                                         		data.peccancyLogs[i]["peccancyBehavior"]+'</h5></div><div><div class=\"mui-money\"><img src=\"../images/money.png\"width=\"23px\"/><span class=\"mui-moneys\">'+
+                                         		data.peccancyLogs[i]["fines"]+'元</span></div><div class=\"mui-score\"><img src=\"../images/fen.png\"width=\"30px\"class=\"mui-score-image\"/><span>'+
+                                         		data.peccancyLogs[i]["points"]+'分</span></div></div></li>';
+                                         		
+                                         	}
+                                         	if(data.message!=""&&data.message!=null)
+                                         	{ 
+                                         		//mui.toast(data.message);
+                                         		mui.toast(ws.plateNo+'在'+ws.carorg+data.message);
+                                         	}
+                                         	document.getElementById("inner_ul").innerHTML = str;
+                                          
+                                         
+                                          } else {
+                                                 /*plus.nativeUI.toast(data.result_code);*/
+                                                 //plus.nativeUI.toast(data.result_code); 
+                                                 mui.toast(ws.plateNo+'在'+ws.carorg+data.result_code);
+                                          }
+                                    },
+                                     error: function (xhr, type, errorThrown) {
+                                           
+                                           //异常处理；
+                                           console.log(xhr);
+                                           console.log(type);
+                                           console.log(errorThrown);
+                                    }
+                              });
+					 
+						 
+				
+			}
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">违章查询结果</h1>
+			
+			<a id="refresh" class="mui-icon mui-icon-refresh mui-pull-right"></a>
+			<!--<a id="edit" class="mui-icon mui-icon-compose mui-pull-right"></a>-->
+		</header>
+
+		<div class="mui-content">
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell mui-media">
+					<a>
+						<img class="mui-media-object mui-pull-left" src="../images/aodi.jpg">
+						<div class="mui-media-body">
+							<h4 id="h_plateNo"><img src="../images/loading/loading1.gif"></h4>
+							<p class="p_item">违章 <label id="lb_peccancyNum">0</label></p>
+							<p class="p_item">罚款 <label id="lb_sumFines">0</label></p>
+							<p class="p_item">扣分 <label id="lb_sumCores">0</label></p>
+						</div>
+					</a>
+				</li> 
+			</ul>
+
+			<div style="padding-top: 10px;">
+				<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted mui-bg-primary ">
+					<a class="mui-control-item mui-active " href="#item1">
+				违章信息</a>
+					<a class="mui-control-item" href="#item2">
+				敬请期待</a>
+				</div>
+			</div>
+			<div>
+				<div id="item1" class="mui-control-content mui-active">
+					<div id="scroll" class=" ">
+						<div class="mui-scroll">
+							<ul id="inner_ul" class="mui-table-view">
+						<!--	 <li class="mui-table-view-cell ">
+									<h5>2016-06-06 12:00:00</h5>	
+									<div class="mui-navigate-right" style="margin-right: 15px;">
+									<h4 class="mui-ellipsis mui-p4">桂林市七星区金鸡岭1号桂林电子科技大学东区</h4>								
+									<h5 class="mui-ellipsis mui-p5 " >机动车违反规定停车、临时停车，妨碍其他车辆通行</h5>
+									</div>
+									<div>
+										<div class="mui-money" ><img src="../images/money.png" width="23px"/><span class="mui-moneys">200元</span></div>
+										<div class="mui-score"><img src="../images/fen.png" width="30px" class="mui-score-image"/><span>0分</span></div>
+									</div>
+								</li>
+								<li class="mui-table-view-cell ">
+									<h5>2016-06-06 12:00:00</h5>	
+									<div class="mui-navigate-right" style="margin-right: 15px;">
+									<h4 class="mui-ellipsis mui-p4">桂林市七星区金鸡岭1号桂林电子科技大学东区</h4>								
+									<h5 class="mui-ellipsis mui-p5 " >机动车违反规定停车、临时停车，妨碍其他车辆通行</h5>
+									</div>
+									<div>
+										<div class="mui-money" ><img src="../images/money.png" width="23px"/><span class="mui-moneys">200元</span></div>
+										<div class="mui-score"><img src="../images/fen.png" width="30px" class="mui-score-image"/><span>0分</span></div>
+									</div>
+								</li> -->
+							 
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item2" class="mui-control-content">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							敬请期待-1
+						</li>
+						<li class="mui-table-view-cell">
+							敬请期待-2
+						</li>
+					 
+					</ul>
+				</div>
+			</div>		
+		</div>
+	</body>
+
+</html>

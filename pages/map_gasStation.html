@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>加油站信息</title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/common.css" rel="stylesheet" />
+		<link href="../css/default.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			//mui初始化
+			mui.init();
+			//添加内页
+			var menu = null,
+				main = null;
+			var showMenu = false;
+			mui.init({
+				swipeBack: false,
+				statusBarBackground: '#f7f7f7',
+				gestureConfig: {
+					doubletap: true
+				},
+				subpages: [{
+					id: 'map_gasStation-inner',
+					url: 'map_gasStation-inner.html',
+					styles: {
+						top: '75px',
+						bottom: 0,
+						bounce: 'vertical',
+					hardwareAccelerated :false
+					}
+				}]
+			});
+			//不要滑动条
+			mui.plusReady(function() {
+				/*	ws = plus.webview.currentWebview();
+					ws.setStyle({
+						scrollIndicator: "none"
+					});*/
+				
+				plus.geolocation.getCurrentPosition(function(p) {
+					var poiName=p.address.poiName;
+					var lat = p.coords.latitude;
+					var lng = p.coords.longitude;
+					/*alert(JSON.stringify(p)); */ 
+					if(poiName==null||poiName==""||poiName==undefined)
+					{
+						document.getElementById("distance").innerText = "距离：" + "您的位置";
+					}
+					else
+					{
+						document.getElementById("distance").innerText = "距离：" + poiName;
+					}
+					wv = plus.webview.getWebviewById("map_gasStation-inner");
+					wv.evalJS("ajax_list('" + lat + "','" + lng + "');"); 
+					//wv.evalJS("list();"); 
+					
+					
+					//wv.evalJS("locate_error();"); 
+					console.log(JSON.stringify(p));
+					/*alert(p.addresses); 
+					alert( "Geolocation\nLatitude:" + p.coords.latitude + "\nLongitude:" + p.coords.longitude + "\nAltitude:" + p.coords.altitude );*/
+				}, function(e) {
+					wv = plus.webview.getWebviewById("map_gasStation-inner");
+					mui.toast("Geolocation error: " + e.message);
+					 
+					wv.evalJS("locate_error();"); 
+				 	document.getElementById("distance").innerText = "";
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav hotel-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">附近加油站列表</h1>
+		</header>
+		<div class="mui-content">
+			<div class="hotel-bar-away" id="distance"></div>
+		</div>
+	</body>
+
+</html>

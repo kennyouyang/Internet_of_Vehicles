@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/default.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/app.js" ></script>
+		<script>
+			mui.plusReady(function() {
+				document.getElementById("goto").addEventListener('tap', function(event) {
+					plus.geolocation.getCurrentPosition(function(p) {
+						console.log(JSON.stringify(p));
+						/*alert(p.addresses); 
+						alert( "Geolocation\nLatitude:" + p.coords.latitude + "\nLongitude:" + p.coords.longitude + "\nAltitude:" + p.coords.altitude );*/
+						var stationname = ws.parent().datas["name"];
+						 console.log(ws.parent().datas["lon"]+"-"+ ws.parent().datas["lat"]);
+						 console.log(ws.parent().datas["position"]);
+			  
+					  
+				/*	  plus.maps.Map.geocode(stationname,{city:p.address.city},function(event){
+						var address = event.address;  // 转换后的地理位置
+						var point = event.coord;  // 转换后的坐标信息
+						var coordType = event.coordType;	// 转换后的坐标系类型
+						console.log("Coord:"+JSON.stringify(point));
+					},function(e){
+						alert("Failed:"+JSON.stringify(e));
+					});*/
+					   
+					  	
+						var dst = new plus.maps.Point(ws.parent().datas["lon"], ws.parent().datas["lat"]); //  终点
+						var src = new plus.maps.Point(p.coords.longitude, p.coords.latitude); // 桂电
+						plus.maps.openSysMap(dst, stationname, src);
+					}, function(e) {
+						alert("Geolocation error: " + e.message);
+					});
+				}); 
+				document.getElementById("order").addEventListener('tap', function(event) {
+					console.log(ws.parent().datas['gastprice']);
+					var state = app.getState();
+					if (state.account == '' || state.account == null || state.account == '{}') {
+						mui.toast("请先登录！");
+						mui.openWindow({
+							url: '../login.html',
+							id: 'login',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide',
+					hardwareAccelerated :false
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					} 
+					else{
+						mui.openWindow({
+						url: '../pages/map_orderGas.html',
+						id: 'map_orderGas',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide',
+					hardwareAccelerated :false
+						},
+						extras: {
+							station: document.getElementById("stastion_name").innerText,
+							brand:document.getElementById("stastion_brand").innerText,
+							lon: ws.parent().datas['lon'],
+							lat: ws.parent().datas['lat'],
+							oil_types_price: ws.parent().datas['gastprice'] //该加油站油型及油价
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+					}
+					
+					
+				});
+			})
+		</script>
+		<style>
+			p {
+				width: 78%;
+			}
+			
+			label {
+				float: left;
+				margin-left: 5px;
+			}
+			
+			div ul li div img {
+				width: 20px;
+				height: 20px;
+			}
+			
+			#brandimg {
+				width: 90px;
+				float: left;margin: 0 10px 10px 10px;
+			}
+			
+			.mui-table-view {
+				
+				margin-top: 5px;
+			}
+			
+			.mui-btn,
+			button {
+				font-size: 17px;
+				float: right;
+				line-height: 40px;
+				padding-top: 5px;
+			}
+			
+			.mui-table-view-cell:after {
+				left: 0px
+			}
+			
+			#map_gasStationDetail-inner {
+				text-align: center;
+				background-color: #FFFFFF;
+				padding-top: 10px;
+				background-image: url(../images/bg/gasdetailsbg2.jpg);
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				height: 180px;
+			}
+			
+			.loading {
+				margin: 4px 0 0 15px;
+				text-align: center;
+			}
+			
+			#stastion_name {
+				height: 30px;
+				color: white;
+				font-size: 20px;
+			}
+			
+			.oil_tr {
+				height: 35px;
+			}
+			
+			.map-bar-submit {
+				position: fixed;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				background: #f7f7f7;
+				height: 40px;
+				line-height: 40px;
+				padding: 0px 140px 0px 15px;
+				color: #fff;
+				font-size: 16px;
+			}
+			
+			.map-submit-btn {
+				position: absolute;
+				width: 90px;
+				background-color: #007aff;
+				text-align: center;
+				right: 0px;
+				color: #fff;
+			}
+			
+			#order {
+				height: 100%;
+			}
+			
+			.mui-card{
+				margin: 5px 5px 0 5px;
+			}
+			#goto{
+				float: left;margin-top: 25px;width: 32px;height: 32px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="map_gasStationDetail-inner">
+			<!--	<img id = "brandimg" style="width: 100px;" src="" >-->
+			<div id="stastion_name"><!--桂电加油站--> <img src="../images/loading/loading1.gif"></div>
+			<div>
+				<p class="mui-ellipsis" style="width: 100%;color: white;">正常营业</p>
+				<img src="../images/collect.png" style="float: left;margin-left: 25%;margin-top: 25px;width: 32px;height: 32px;" />
+				<img id="brandimg" src="../images/loading/big_loading.gif"/>
+				<img id="goto" src="../images/way.png"/>
+
+			</div>
+		</div>
+		<ul class="mui-table-view mui-card">
+			<table width="100%" style="margin:5px 10px 0 5px;text-align: center;">
+				<tr id="oil_type" class="oil_tr" >
+					<td>
+						<p class="hotel-color-orange">93#</p>
+					</td>
+					<td>
+						<p class="hotel-color-orange">97#</p>
+					</td>
+					<td>
+						<p class="hotel-color-orange">0#</p>
+					</td>
+					<td>
+						<p class="hotel-color-orange">95#</p>
+					</td>
+
+				</tr>
+				<tr id="oil_price" class="oil_tr">
+					<td>
+						<p style="color:#8f8f94">￥5.4</p>
+					</td>
+					<td>
+						<p style="color:#8f8f94">￥5.92</p>
+					</td>
+					<td>
+						<p style="color:#8f8f94">￥5.06</p>
+					</td>
+					<td>
+						<p style="color:#8f8f94">暂无</p>
+					</td>
+
+				</tr>
+			</table>
+		</ul>
+
+		<div>
+			<ul class="mui-table-view mui-card">
+				<li class="mui-table-view-cell mui-ellipsis">
+					<div>
+						<img src="../images/map-marker.png" style="float: left;" />
+					</div>
+					<label>
+						地址：
+					</label>
+					<div>
+						<p id="stastion_add" class=" mui-navigate-right mui-ellipsis"> <img class="loading" src="../images/loading/loading1.gif"></p>
+					</div>
+				</li>
+
+				<li class="mui-table-view-cell ">
+					<div>
+						<img src="../images/brand.png" style="float: left;" />
+					</div>
+					<label>
+						品牌：
+					</label>
+					<div>
+						<p id="stastion_brand" class=" mui-navigate-right mui-ellipsis"> <img class="loading" src="../images/loading/loading1.gif"></p>
+					</div>
+				</li>
+
+				<li class="mui-table-view-cell">
+					<div>
+						<img src="../images/zhe.png" style="float: left;" />
+					</div>
+					<label>
+						是否打折加油站：
+					</label>
+					<div>
+						<p id="stastion_discount" class=" mui-navigate-right mui-ellipsis" style="width: 55%;"> <img class="loading" src="../images/loading/loading1.gif"></p>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div>
+						<img src="../images/jiam.png" style="float: left;" />
+					</div>
+					<label>
+						加油站类型：
+					</label>
+					<div>
+
+						<p id="stastion_type" class=" mui-navigate-right mui-ellipsis" style="width: 65%;"> <img class="loading" src="../images/loading/loading1.gif"></p>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div>
+						<img src="../images/weiqi.png" style="float: left;" />
+					</div>
+					<label>
+						尾气排放标准：
+					</label>
+					<div>
+
+						<p id="stastion_exhaust" class=" mui-navigate-right mui-ellipsis" style="width: 60%;"> <img class="loading" src="../images/loading/loading1.gif"></p>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div>
+						<img src="../images/gascard.png" style="float: left;" />
+					</div>
+					<label>
+						加油卡信息：
+					</label>
+					<div>
+
+						<p id="stastion_fwlsmc" class=" mui-navigate-right mui-ellipsis" style="width: 65%;"> <img class="loading" src="../images/loading/loading1.gif"></p>
+					</div>
+				</li>
+				<li class="mui-table-view-cell" style="margin-bottom: 40px;">
+					<div>
+						<img src="../images/phone.png" style="float: left;" />
+					</div>
+					<label>
+						联系电话：
+					</label>
+					<div>
+						<a href="tel:10086" class=" mui-navigate-right">0773-147258</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="map-bar-submit mui-table-view-cell">
+			<span id="order" class="map-submit-btn">预约加油</span>
+		</div>
+
+		<script src="../js/ems.js" data-main='../js/gasStationDetail-inner.js'></script>
+	</body>
+
+</html>

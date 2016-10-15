@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=xfEU0Ci9OIcmui3umUB1emThG3lTRr8G"></script>
+	
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			#header #searchdiv {
+				/*margin-left: auto;
+				margin-right: auto;*/
+				width: 85%;
+ 				float: left;
+			}
+			
+			#se {
+				margin: 10px 0 0 0;
+				float: right;
+			}
+			.mui-bar
+			{
+				z-index: 0;
+			}
+		</style>
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+			  mui.plusReady(function() {
+                       document.getElementById("search").focus();
+                       
+                    /*   document.getElementById("se").addEventListener('tap',function(){
+                       	 NGeocoding(document.getElementById("se").value,"");
+                       	
+                       	 czwv = plus.webview.getWebviewById("pages/maps.html" );
+						 //console.log(lableaddress+"lableaddress");
+						 czwv.evalJS("createMarkerFromSearch('"+ point.lng +"','"+point.lat +"','"+ document.getElementById("se").value +"');");
+						 plus.webview.currentWebview().close();
+                       	
+                       })*/
+                       wv = plus.webview.getWebviewById("map_navigation-inner");
+				 
+				 
+				 
+				document.getElementById("se").addEventListener('tap',function(){
+					//alert(document.getElementById("search").value);
+					wv.evalJS("start_point('"+document.getElementById("search").value+"')");
+					plus.webview.currentWebview().close();
+				});
+                  })
+
+		</script>
+
+	</head>
+
+	<body>
+			<div id="l-map"></div>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">标题</h1>-->
+			<!--<div class="mui-input-row mui-search mui-plus-visible">-->
+			<div id="searchdiv" class="mui-input-row mui-search">
+				<input id="search" type="search" class="mui-input-speech mui-input-clear" placeholder="请输入地标名"  >
+			</div>
+			<div id="se">搜索</div>
+
+		</header>
+	</body>
+
+</html>
+
+
+<script type="text/javascript">
+	// 百度地图API功能
+	function G(id) {
+		return document.getElementById(id);
+	}
+
+	var map = new BMap.Map("l-map");
+	map.centerAndZoom("桂林",12);                   // 初始化地图,设置城市和地图级别。
+
+	var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+		{"input" : "search"
+		,"location" : map
+	});
+
+	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+	var str = "";
+		var _value = e.fromitem.value;
+		var value = "";
+		if (e.fromitem.index > -1) {
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+		
+		value = "";
+		if (e.toitem.index > -1) {
+			_value = e.toitem.value;
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+		G("searchResultPanel").innerHTML = str;
+	});
+
+
+
+	var myValue;
+	ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+		var _value = e.item.value;
+		//alert(JSON.stringify(_value));
+		NGeocoding(_value.business,_value.city);
+		
+		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+		
+		setPlace();
+	});
+
+	function setPlace(){
+		map.clearOverlays();    //清除地图上所有覆盖物
+		function myFun(){
+			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+			map.centerAndZoom(pp, 18);
+			map.addOverlay(new BMap.Marker(pp));    //添加标注
+		}
+		var local = new BMap.LocalSearch(map, { //智能搜索
+		  onSearchComplete: myFun
+		});
+		local.search(myValue);
+	}
+	
+	//地址逆解析
+	function NGeocoding(address, pro) {
+		// 创建地址解析器实例
+		lableaddress = address;
+		var myGeo = new BMap.Geocoder();
+		// 将地址解析结果显示在地图上,并调整地图视野
+		myGeo.getPoint(address, function(point) {
+			if (point) {
+				/*var aass = JSON.stringify(point);
+				alert(aass);
+				alert(point.lng);*/
+				//evalJS传值
+				 czwv = plus.webview.getWebviewById("pages/maps.html" );
+				 console.log(lableaddress+"lableaddress");
+				 czwv.evalJS("createMarkerFromSearch('"+ point.lng +"','"+point.lat +"','"+lableaddress +"');");
+				 plus.webview.currentWebview().close();
+				/*map.centerAndZoom(point, 16);
+				map.addOverlay(new BMap.Marker(point));*/
+			} else {
+				alert("您选择地址没有解析到结果!");
+			}
+		}, pro);
+	}
+</script>

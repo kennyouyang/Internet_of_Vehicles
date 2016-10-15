@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/app.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script>
+			mui.init();
+			/*
+			 * 打开页面“消息”
+			 */
+			mui.plusReady(function() {
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					scrollIndicator: "none",
+					hardwareAccelerated :false
+				});
+				console.log(JSON.stringify(ws));
+				console.log(JSON.stringify(ws.newsid));
+				var title=document.getElementById("title");
+				var content=document.getElementById("content");
+				var createDate=document.getElementById("createDate");
+				var imgs=document.getElementById("imgs");
+				var urls = 'http://115.28.16.183:8080/car_server/getNewsByIdServlet';
+				var state = app.getState();
+				mui.ajax(urls, {
+					data:{
+						username: state.account,
+						token:state.token,
+						newsid:ws.newsid
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 10000,
+					success: function(data) {
+						title.innerHTML=data.news['title'];
+						content.innerHTML=data.news['content'];
+						createDate.innerHTML=data.news['createDate'];						
+						imgs.src='../images/ad/ad'+data.news['id']+'.jpg';						
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						if(type=="timeout")
+							{
+								mui.toast("连接超时，请稍后再试");
+							}
+							else if(type=="abort")
+							{
+								mui.toast("您没有连接网络，请连接网络后再试");
+							}
+							else if(type=="error")
+							{
+								mui.toast("服务端异常，请稍后再试");
+							}
+							else{
+								mui.toast(type);
+							}
+						console.log(xhr);
+						console.log(type);
+						console.log(errorThrown);
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav hotel-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">新闻</h1>
+		</header>
+		<div class="mui-content">
+			<div id="title" class="mui-title" style="position: relative;">标题：新闻</div>
+			<div><span id="createDate">2016-06-03 </span></div>
+			<div style="margin-left: 5px;margin-top: 5px;">
+				<img id="imgs"  width="100%" />
+				<p id="content"><!--&nbsp&nbsp&nbsp&nbsp此时，机器人需要根据有限的信息各自采用分布控制策略来运行。在机器人有限的信息获取能力和它们之间有限的信息交流条件下，同时要考虑随时有新机器人加入和原有机器人退出，为保持整个系统的编队形状，本讲座将介绍一种控制方法来实现该控制目标。最后，本讲座将用实例验证该分布式协同控制方法的有效性。--></p>
+			</div>
+		</div>
+	</body>
+
+</html>

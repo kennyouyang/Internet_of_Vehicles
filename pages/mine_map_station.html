@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/map.js"></script>
+
+		<script type="text/javascript">
+			// src="../js/map.js"> 
+			var ws = null,
+				wo = null;
+			var em = null,
+				map = null,
+				pcenter = null;
+			// H5 plus事件处理
+			function plusReady() {
+				if (!em || ws) {
+					return
+				};
+				// 获取窗口对象
+				ws = plus.webview.currentWebview();
+				wo = ws.opener();
+				//高德地图坐标为(116.3974357341,39.9085574220), 百度地图坐标为(116.3975,39.9074)
+				var lon=ws.lon;
+				var lat=ws.lat;
+				var brand = ws.brand;
+				console.log(JSON.stringify(ws))
+				pcenter = new plus.maps.Point(lon, lat);
+				
+				setTimeout(function() {
+					 
+					map = new plus.maps.Map("map");
+					map.centerAndZoom(pcenter, 14);
+					
+					
+					var marker = new plus.maps.Marker(new plus.maps.Point(lon, lat));
+					
+					var icon = "location_buxiang_map.9.png";
+					console.log(brand);
+					if (brand== "社会民营") {
+						icon = "location_minying_map.9.png"
+					} else if (brand== "中石化") {
+						icon = "location_zsh_map.9.png";
+					} else if (brand== "中国航油") {
+						icon = "location_zghy_map.9.png";
+					} else if (brand== "中石油") {
+						icon = "location_zsy_map.9.png";
+					} else if (brand== "国企") {
+						icon = "location_guoqi_map.9.png";
+					} else if (brand== "壳牌") {
+						icon = "location_qiaopai_map.9.png";
+					} else if (brand== "中化道达尔") {
+						icon = "location_daodaer_map.9.png";
+					} else if (brand== "中海油") {
+						icon = "location_zhy_map.9.png";
+					} else if (brand== "中油BP") {
+						icon = "location_zhongyoubp_map.9.png";
+					} else if (brand== "加德士") {
+						icon = "location_jiadeshi_map.9.png";
+					}
+					
+ 					marker.setIcon("../images/brand/" + icon);
+ 					var bubble = new plus.maps.Bubble(ws.stationname);
+
+					marker.setBubble(bubble);
+		 			map.addOverlay(marker);
+					
+					
+				}, 300);
+			 
+	 
+		  
+			}
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+			// DOMContentloaded事件处理
+			document.addEventListener("DOMContentLoaded", function() {
+				em = document.getElementById("map");
+				window.plus && plusReady();
+			}, false);
+
+			 
+		</script>
+		<!--	<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style type="text/css">
+			#map {
+				width: 100%;
+				position: fixed;
+				top: 44px;
+				bottom: 0px;
+				line-height: 200px;
+				text-align: center;
+				background: #FFFFFF;
+			}
+			
+			#header {
+				/*background: #007aff;*/
+				border-bottom: 1px solid rgba(204, 204, 204, 0.8);
+			}
+			
+			#header #searchdiv {
+				/*margin-left: auto;
+				margin-right: auto;*/
+				position: relative;
+				z-index: 1000;
+				width: 85%;
+				float: left;
+			}
+			
+			#divimg {
+				height: 1px;
+				position: relative;
+				z-index: 1000;
+				filter: alpha(opacity=0);
+				-moz-opacity: 0;
+				-khtml-opacity: 0;
+				opacity: 0;
+			}
+			
+			#divimg:active {
+				filter: alpha(opacity=0.2);
+				-moz-opacity: 0.2;
+				-khtml-opacity: 0.2;
+				opacity: 0.2;
+			}
+			
+			#search {
+				position: relative;
+				z-index: -1;
+				outline: none;
+			}
+			
+			#header #setting {
+				float: right;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		 
+		<header id="header" class="mui-bar mui-bar-nav">
+	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"  ></a>
+	    <h1 class="mui-title">加油站</h1>	
+		</header>	
+
+		<div id="map">
+			<br>地图加载中...
+
+		</div>
+
+	</body>
+	<script type="text/javascript" src="../js/immersed.js"></script>
+	<script>
+	</script>
+
+</html>

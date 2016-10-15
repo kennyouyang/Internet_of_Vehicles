@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+<script src ="../js/encrypt/core.js"></script>
+          <script src= "../js/encrypt/hmac.js" ></script>
+          <script src= "../js/encrypt/sha256.js" ></script>
+
+		<script type="text/javascript" src="../js/app.js"></script>
+		<!--		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/car.data.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/addcar-inner.js"></script>-->
+
+		<style>
+			li {
+				list-style-type: none;
+			}
+			/*按钮样式*/
+			
+			.mui-btn-block {
+				margin: 25px 0 0 0;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.carM {
+				height: 60px;
+			}
+			
+			.mui-media-body {
+				padding-top: 7px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.mui-icon {
+				font-size: 20px;
+				color: white;
+				padding-top: 4px;
+			}
+			
+			.mui-input-row .mui-btn {
+				float: left;
+				padding: 6px 10px;
+				position: relative;
+				top: 5px;
+			}
+			
+			.mui-new {
+				position: relative;
+				top: 7px;
+				height: 30px;
+			}
+			
+			input[type=text] {
+				height: 45px
+			}
+			.mui-input-group .mui-input-row:after
+			{
+				bottom: auto;
+			}
+			.p_title{
+				margin-top: 10px;
+				margin-left: 15px;
+				margin-bottom: -5px;
+			}
+		</style>
+		<script>
+			mui.plusReady(function() {
+				document.getElementById("carmodel").addEventListener('tap', function() {
+					document.activeElement.blur(); 
+					mui.openWindow({
+						url: 'ser_add_brands.html',
+						id: 'ser_add_brands.html',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide',
+							hardwareAccelerated: false,
+							softinputMode:"adjustResize"
+						},
+						extras: {
+							action:"add"
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				var state = app.getState();
+				/*alert(JSON.stringify(state));
+				alert(state.account);*/
+				document.getElementById("ser_addcar_provinceCode").addEventListener('tap', function() {
+					mui.openWindow({
+						//url: 'pages/ser_addcarMethod.html',
+						url: 'ser_addcar_provinceCode.html',
+						id: 'ser_addcar_provinceCode',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide',
+							hardwareAccelerated: false
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				document.getElementById("save").addEventListener('tap', function(event) {
+					if (state == "{}" || state.account == "") {
+						mui.toast("请登录后再操作！");
+						return;
+					}
+					var vinNo = document.getElementById("vinNo").value;
+					var plaN = document.getElementById("palteNo").value;
+					var plate_no = document.getElementById("ser_addcar_provinceCode").innerText + plaN;
+					var engineNo = document.getElementById("engineNo").value;
+					var brand = document.getElementById("brand");
+					var model = document.getElementById("bmodel");
+					var remarks = document.getElementById("remarks").value;
+					var light =  document.getElementById("Ligtht").value;
+					var transmission_per =  document.getElementById("Transmission_Per").value;
+					var Engine_Per =  document.getElementById("Engine_Per").value;
+					var Mileage =  document.getElementById("Mileage").value;
+					var Gasoline =  document.getElementById("Gasoline").value;
+					if(remarks=="")
+					{
+						remarks=plate_no;
+					}
+					
+					if (plaN == "") {
+						mui.toast("请填写车牌号");
+						return;
+					}
+					//创建车牌正则表达式 
+  					var re=/^[A-Z]{1}[A-Z_0-9]{5}$/;
+					if(plaN.search(re)==-1)
+					{
+						mui.toast("请填写正确的车牌号");
+						return;
+					}
+					
+					if (vinNo == "") {
+						mui.toast("请填车身架号");
+						return;
+					}
+					if(vinNo.length<6)
+					{
+						mui.toast("车身架号最少输入6位");
+						return;
+					}
+					if (engineNo == "") {
+						mui.toast("请填写发动机号");
+						return;
+					}
+					if(engineNo.length<4)
+					{
+						mui.toast("发动机号最少输入4位");
+						return;
+					}
+					if (brand == null || model == null) {
+						mui.toast("请选择车型");
+						return;
+					}
+					brand = brand.innerText;
+					model = model.innerText;
+					//console.log(brand+"-"+model)
+					var btsave = document.getElementById("save");
+					/*if (bra_model.indexOf("-") > 0) {
+						var s = bra_model.split('-');
+						brand = (s[0]);
+						model = (s[1]);
+					}*/
+					 
+					var sign = CryptoJS.HmacSHA256(state.token + state.account+plate_no+vinNo+engineNo,state.token)+"";
+					console.log(state.token +"-"+ state.account+"-"+plate_no+"-"+vinNo+"-"+engineNo);
+  					console.log(sign);
+					mui.ajax('http://115.28.16.183:8080/car_server/CreateCarServlet', {
+						data: {
+							username: state.account, 
+							remarks: remarks,
+							plate_no: plate_no,
+							vin_no: vinNo,
+							engine_no: engineNo,
+							brand: brand,
+							model: model,
+							light: light,
+							transmission_per: transmission_per,
+							engine_per: Engine_Per,
+							mileage:Mileage,
+							gasoline:Gasoline,
+							sign:sign 
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						beforeSend: function(xhr) {
+							btsave.innerText = "正在处理...";
+							btsave.setAttribute("disabled", "disabled");
+						},
+						success: function(data) {
+							btsave.innerText = "保存";
+							btsave.removeAttribute("disabled", "disabled");
+							//服务器返回响应，根据响应结果，分析是否注册成功；
+							if (data.result_code == '1') {
+								plus.nativeUI.toast("添加成功！");
+								wvCarM = plus.webview.getWebviewById("carManage-inner");
+								wvCarM.evalJS("ajax_list();");
+								wv = plus.webview.currentWebview().parent();
+								wv.close();
+							} else {
+								/*plus.nativeUI.toast(data.result_code);*/
+								plus.nativeUI.toast(data.result_code);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							btsave.innerText = "保存";
+							btsave.removeAttribute("disabled", "disabled");
+							//异常处理；
+							if(type=="timeout")
+							{
+								mui.toast("连接超时，请稍后再试");
+							}
+							else if(type=="abort")
+							{
+								mui.toast("您没有连接网络，请连接网络后再试");
+							}
+							else if(type=="error")
+							{
+								mui.toast("服务端异常，请稍后再试");
+							}
+							else{
+								mui.toast(type);
+							}
+							console.log(xhr);
+							console.log(type);
+							console.log(errorThrown);
+						}
+					});
+				});
+			});
+			/*function cz(stylename) {
+				var carmodel = document.getElementById("carmodel");
+				stylename = stylename.replace(/"/, "");
+				stylename = stylename.replace(/"/, "");
+				carmodel.innerText = stylename;
+				//alert(stylename);
+			}*/
+			function cz2(stylename, barand, imgsrc) {
+				/*				var bmodel = document.getElementById("bmodel");
+								bmodel.innerText = barand + '-' + stylename;
+								var modelimg = document.getElementById("modelimg");
+								modelimg.src = imgsrc;*/
+				var img_model = document.getElementById("img_model");
+				img_model.innerHTML = '<img   align=\"absmiddle\" style=\"height: 35px;margin-right: 10px;\" src=\"' + imgsrc + '\">' + '<span id = "brand" hidden>' + barand + '</span><span id = \"bmodel\">' + stylename + '</span>'
+				/*img_model.innerHTML = '<img  id =\"modelimg\" align=\"absmiddle\" style=\"eight: 35px;margin-right: 10px;\" src=\"'+
+				imgsrc+'\"><span id = "brand" hidden>'+
+				barand + '</span><span id = \"bmodel\">' + stylename+'</span>';*/
+				/*alert(stylename);
+				alert(barand);
+				alert(imgsrc);*/
+			}
+
+			function getCity(city) {
+				document.getElementById("ser_addcar_provinceCode").innerText = city;
+			}
+			function myCar(mycar) {
+				
+			  //alert(mycar);
+			  var car = JSON.parse(mycar);
+			  document.getElementById("vinNo").value=car["vinNo"];
+			  document.getElementById("engineNo").value=car["engineNo"];
+			  
+			  document.getElementById("palteNo").value=car["plate_no"].substring(1);
+			  document.getElementById("ser_addcar_provinceCode").innerText=car["plate_no"].substring(0,1);
+			  
+			var img_model = document.getElementById("img_model");
+			img_model.innerHTML = '<img   align=\"absmiddle\" style=\"height: 35px;margin-right: 10px;\"  >' + '<span id = "brand" hidden>' + 
+			car["brand"] + '</span><span id = \"bmodel\">' + 
+			car["model"] + '</span>';
+			
+			 document.getElementById("Mileage").value =car["mileage"];
+			 document.getElementById("Engine_Per").value=car["engine_per"];
+			 document.getElementById("Transmission_Per").value=car["transmission_per"];
+			 //document.getElementById("Gasoline").value=car["Gasoline"];
+			 document.getElementById("Ligtht").value=car["light"];
+			 document.getElementById("Gasoline").value=car["gasLine"];
+			   
+			 
+				//document.getElementById("ser_addcar_provinceCode").innerText = city;
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="addcar-inner">
+			<!--<form class="mui-input-group">
+
+				<li class="mui-table-view-cell carM">
+					<a class="mui-navigate-right" id="carmodel">
+						
+				 	<span >车型</span>
+						<span id="img_model" style="float: right;margin-right: 25px;">
+							 <img id ="modelimg"  align="absmiddle" style="height: 40px;margin-right: 10px;" src="http://img1.bitautoimg.com/autoalbum/files/20130121/275/0329492751_6.jpg"><span id = "bmodel">
+								奥迪-X6 
+						 
+						</span>
+						
+					</a>
+				</li>
+
+				<div>
+					<label style="width:26%;padding-left: 15px;padding-right: 5px;">车牌号码</label>
+					<button id='ser_addcar_provinceCode' type="button" class="mui-btn mui-btn-primary mui-icon mui-icon-arrowright mui-right mui-new">京</button>
+					 
+					<input type="text" id="palteNo" maxlength="6" placeholder="请输入车牌号" style="width: 55%;">
+				</div>
+
+			</form>-->
+			<p class="p_title">车辆信息(必填)<p> 
+			<form class="mui-input-group">
+				
+				<div>
+					<label style="width:26%;padding-left: 15px;padding-right: 5px;">车牌号码</label>
+					<button id='ser_addcar_provinceCode' type="button" class="mui-btn mui-btn-primary mui-icon mui-icon-arrowright mui-right mui-new">京</button>
+					<!--<label id='' style="width: 40px;">京</label><a><span class="mui-icon mui-icon-arrowright" ></span></a>-->
+					<input type="text" id="palteNo" maxlength="6" placeholder="请输入车牌号"  style="width: 55%;">
+				</div>
+
+				<div class="mui-input-row">
+					<label>车身架号</label>
+					<input type="text" id="vinNo" placeholder="请输入车架号后6位">
+				</div>
+				<div class="mui-input-row">
+					<label>发动机号</label>
+					<input type="text" id="engineNo" placeholder="请输入发动机号后4位">
+				</div>
+
+			</form>
+			
+			
+			<p class="p_title">车辆描述(必填)<p> 
+			<div >
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<a style="   height: 57px;" class="mui-navigate-right" id="carmodel">
+							<span id="img_model" style="float: right; margin: 0 25px 0 0; vertical-align: middle;">
+							<!--<img   align="absmiddle" style="height: 35px;margin-right: 10px;" src="http://img1.bitautoimg.com/autoalbum/files/20130121/275/0329492751_6.jpg">
+							<span style="height: 35px;" class="  ">奥迪-X6</span>-->
+							</span>
+
+							<div class="mui-media-body">
+								车型
+							</div>
+						</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<div class="mui-input-row">
+						<label>车辆备注</label>
+						<input type="text" id="remarks" placeholder="如丈母娘的车">
+					</div>
+				</ul>
+			</div>
+			<p class="p_title">选填信息<p> 
+			<div >
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#" style="text-align: center;">展开更多车辆信息</a>
+						<div class="mui-collapse-content">
+							<form class="mui-input-group">
+								<div class="mui-input-row">
+									<label>保养里程</label>
+									<input type="text" id="Mileage" placeholder="请输入当前行驶里程数">
+								</div>
+								<div class="mui-input-row">
+									<label>发动机性能</label>
+									<input type="text" id="Engine_Per" placeholder="正常/异常">
+								</div>
+
+								<div class="mui-input-row">
+									<label>变速器性能</label>
+									<input type="text" id="Transmission_Per" placeholder="正常/异常">
+								</div>
+								<div class="mui-input-row">
+									<label>油量</label>
+									<input type="text" id="Gasoline" placeholder="百分比">
+								</div>
+								<div class="mui-input-row">
+									<label>车灯</label>
+									<input type="text" id="Ligtht" placeholder="正常/异常">
+								</div>
+								<!--<div class="mui-button-row">
+								<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">保存</button>&nbsp;&nbsp;
+								<button class="mui-btn mui-btn-primary" type="button" onclick="return false;">取消</button>
+							</div>-->
+							</form>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="mui-content-padded">
+				<button id="save" class="mui-btn mui-btn-block mui-btn-primary">保存</button>
+
+			</div>
+		</div>
+
+	</body>
+
+</html>

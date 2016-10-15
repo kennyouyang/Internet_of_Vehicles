@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.indexedlist.css" rel="stylesheet" />
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+			
+			li img {
+				height: 40px;
+				vertical-align: middle;
+				padding-bottom: 6px;
+				margin-right: 10px;
+			}
+		 
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a id="notfind" class="mui-icon mui-pull-right" style="color: #999;"><h6>找不到？</h6></a>
+		
+			<h1 class="mui-title">汽车品牌选择</h1>
+			 
+		</header>
+		<div class="mui-content">
+			<div id='list' class="mui-indexed-list">
+				<div class="mui-indexed-list-search mui-input-row mui-search">
+					<input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="搜索汽车品牌">
+				</div> 
+				<div class="mui-indexed-list-bar">
+					<a>A</a>
+					<a>B</a>
+					<a>C</a>
+					<a>D</a>
+					<a>E</a>
+					<a>F</a>
+					<a>G</a>
+					<a>H</a>
+					<a>I</a>
+					<a>J</a>
+					<a>K</a>
+					<a>L</a>
+					<a>M</a>
+					<a>N</a>
+					<a>O</a>
+					<a>P</a>
+					<a>Q</a>
+					<a>R</a>
+					<a>S</a>
+					<a>T</a>
+					<a>U</a>
+					<a>V</a>
+					<a>W</a>
+					<a>X</a>
+					<a>Y</a>
+					<a>Z</a>
+				</div>
+				<div class="mui-indexed-list-alert"></div>
+				<div id="innerlist" class="mui-indexed-list-inner">
+					<div class="mui-indexed-list-empty-alert">没有数据</div>
+					
+					 
+					
+					<ul class="mui-table-view">
+
+						<li data-group="A" class="mui-table-view-divider mui-indexed-list-group">A</li>
+						<li data-value="AD" class="mui-table-view-cell mui-indexed-list-item" value="9"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/9.png" /><span>奥迪</span></li>
+						<li data-value="ASD MD" class="mui-table-view-cell mui-indexed-list-item" value="97"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/97.png" /><span>阿斯顿·马丁</span></li>
+
+						<li data-group="B" class="mui-table-view-divider mui-indexed-list-group">B</li>
+						<li data-value="BT" class="mui-table-view-cell mui-indexed-list-item" value="26"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/26.png" /><span>本田</span></li>
+						<li data-value="BM" class="mui-table-view-cell mui-indexed-list-item" value="3"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/3.png" /><span>宝马</span></li>
+						<li data-value="BC" class="mui-table-view-cell mui-indexed-list-item" value="2"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/2.png" /><span>奔驰</span></li>
+						<li data-value="BK" class="mui-table-view-cell mui-indexed-list-item" value="127"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/127.png" /><span>别克</span></li>
+						<li data-value="BZ" class="mui-table-view-cell mui-indexed-list-item" value="5"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/5.png" /><span>标致</span></li>
+						<li data-value="BYD" class="mui-table-view-cell mui-indexed-list-item" value="15"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/15.png" /><span>比亚迪</span></li>
+						<li data-value="BJ" class="mui-table-view-cell mui-indexed-list-item" value="157"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/157.png" /><span>宝骏</span></li>
+						<li data-value="BT" class="mui-table-view-cell mui-indexed-list-item" value="59"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/59.png" /><span>奔腾</span></li>
+						<li data-value="BJQC" class="mui-table-view-cell mui-indexed-list-item" value="163"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/163.png" /><span>北京</span></li>
+						<li data-value="BQXNY" class="mui-table-view-cell mui-indexed-list-item" value="216"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/216.png" /><span>北汽新能源</span></li>
+						<li data-value="B" class="mui-table-view-cell mui-indexed-list-item" value="211"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/211.png" /><span>北汽幻速</span></li>
+						<li data-value="BQWW" class="mui-table-view-cell mui-indexed-list-item" value="168"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/168.png" /><span>北汽威旺</span></li>
+						<li data-value="BQZZ" class="mui-table-view-cell mui-indexed-list-item" value="14"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/14.png" /><span>北汽制造</span></li>
+						<li data-value="B" class="mui-table-view-cell mui-indexed-list-item" value="195"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/195.png" /><span>北汽绅宝</span></li>
+						<li data-value="BSJ" class="mui-table-view-cell mui-indexed-list-item" value="82"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/82.png" /><span>保时捷</span></li>
+						<li data-value="BL" class="mui-table-view-cell mui-indexed-list-item" value="85"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/85.png" /><span>宾利</span></li>
+						<li data-value="BBS" class="mui-table-view-cell mui-indexed-list-item" value="172"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/172.png" /><span>巴博斯</span></li>
+
+						<li data-group="C" class="mui-table-view-divider mui-indexed-list-group">C</li>
+						<li data-value="CAJC" class="mui-table-view-cell mui-indexed-list-item" value="136"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/136.png" /><span>长安轿车</span></li>
+						<li data-value="CC" class="mui-table-view-cell mui-indexed-list-item" value="21"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/21.png" /><span>长城</span></li>
+						<li data-value="CASY" class="mui-table-view-cell mui-indexed-list-item" value="159"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/159.png" /><span>长安商用</span></li>
+						<li data-value="C" class="mui-table-view-cell mui-indexed-list-item" value="230"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/230.png" /><span>长安跨越</span></li>
+						<li data-value="CH" class="mui-table-view-cell mui-indexed-list-item" value="129"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/129.png" /><span>昌河</span></li>
+
+						<li data-group="D" class="mui-table-view-divider mui-indexed-list-group">D</li>
+						<li data-value="DZ" class="mui-table-view-cell mui-indexed-list-item" value="8"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/8.png" /><span>大众</span></li>
+						<li data-value="DS" class="mui-table-view-cell mui-indexed-list-item" value="179"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/179.png" /><span>DS</span></li>
+						<li data-value="DN" class="mui-table-view-cell mui-indexed-list-item" value="29"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/29.png" /><span>东南</span></li>
+						<li data-value="DFFD" class="mui-table-view-cell mui-indexed-list-item" value="197"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/197.png" /><span>东风风度</span></li>
+						<li data-value="D" class="mui-table-view-cell mui-indexed-list-item" value="215"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/215.png" /><span>东风御风</span></li>
+						<li data-value="D" class="mui-table-view-cell mui-indexed-list-item" value="235"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/235.png" /><span>东风·郑州日产</span></li>
+						<li data-value="DFFX" class="mui-table-view-cell mui-indexed-list-item" value="115"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/115.png" /><span>东风风行</span></li>
+						<li data-value="DFFS" class="mui-table-view-cell mui-indexed-list-item" value="141"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/141.png" /><span>东风风神</span></li>
+						<li data-value="D" class="mui-table-view-cell mui-indexed-list-item" value="205"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/205.png" /><span>东风小康</span></li>
+						<li data-value="DJ" class="mui-table-view-cell mui-indexed-list-item" value="113"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/113.png" /><span>道奇</span></li>
+
+						<li data-group="F" class="mui-table-view-divider mui-indexed-list-group">F</li>
+						<li data-value="FT" class="mui-table-view-cell mui-indexed-list-item" value="7"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/7.png" /><span>丰田</span></li>
+						<li data-value="FT" class="mui-table-view-cell mui-indexed-list-item" value="17"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/17.png" /><span>福特</span></li>
+						<li data-value="FLL" class="mui-table-view-cell mui-indexed-list-item" value="91"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/91.png" /><span>法拉利</span></li>
+						<li data-value="FYT" class="mui-table-view-cell mui-indexed-list-item" value="40"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/40.png" /><span>菲亚特</span></li>
+						<li data-value="F" class="mui-table-view-cell mui-indexed-list-item" value="208"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/208.png" /><span>福汽启腾</span></li>
+						<li data-value="FD" class="mui-table-view-cell mui-indexed-list-item" value="67"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/67.png" /><span>福迪</span></li>
+						<li data-value="FT" class="mui-table-view-cell mui-indexed-list-item" value="128"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/128.png" /><span>福田</span></li>
+						<li data-value="FCSWC" class="mui-table-view-cell mui-indexed-list-item" value="199"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/199.png" /><span>飞驰商务车</span></li>
+
+						<li data-group="G" class="mui-table-view-divider mui-indexed-list-group">G</li>
+						<li data-value="GQCQ" class="mui-table-view-cell mui-indexed-list-item" value="147"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/147.png" /><span>广汽传祺</span></li>
+						<li data-value="GZQC" class="mui-table-view-cell mui-indexed-list-item" value="182"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/182.png" /><span>观致汽车</span></li>
+						<li data-value="GMC" class="mui-table-view-cell mui-indexed-list-item" value="109"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/109.png" /><span>GMC</span></li>
+						<li data-value="GQJA" class="mui-table-view-cell mui-indexed-list-item" value="63"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/63.png" /><span>广汽吉奥</span></li>
+
+						<li data-group="H" class="mui-table-view-divider mui-indexed-list-group">H</li>
+						<li data-value="HF" class="mui-table-view-cell mui-indexed-list-item" value="196"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/196.png" /><span>哈弗</span></li>
+						<li data-value="HM" class="mui-table-view-cell mui-indexed-list-item" value="32"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/32.png" /><span>海马</span></li>
+						<li data-value="HQ" class="mui-table-view-cell mui-indexed-list-item" value="58"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/58.png" /><span>红旗</span></li>
+						<li data-value="HZ" class="mui-table-view-cell mui-indexed-list-item" value="45"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/45.png" /><span>汇众</span></li>
+						<li data-value="H" class="mui-table-view-cell mui-indexed-list-item" value="225"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/225.png" /><span>华颂</span></li>
+						<li data-value="HTQC" class="mui-table-view-cell mui-indexed-list-item" value="181"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/181.png" /><span>恒天汽车</span></li>
+						<li data-value="HG" class="mui-table-view-cell mui-indexed-list-item" value="170"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/170.png" /><span>海格</span></li>
+						<li data-value="HT" class="mui-table-view-cell mui-indexed-list-item" value="112"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/112.png" /><span>华泰</span></li>
+						<li data-value="HMSYC" class="mui-table-view-cell mui-indexed-list-item" value="149"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/149.png" /><span>海马商用车</span></li>
+						<li data-value="HH" class="mui-table-view-cell mui-indexed-list-item" value="52"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/52.png" /><span>黄海</span></li>
+
+						<li data-group="J" class="mui-table-view-divider mui-indexed-list-group">J</li>
+						<li data-value="JL" class="mui-table-view-cell mui-indexed-list-item" value="34"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/34.png" /><span>吉利汽车</span></li>
+						<li data-value="JP" class="mui-table-view-cell mui-indexed-list-item" value="4"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/4.png" /><span>Jeep</span></li>
+						<li data-value="JH" class="mui-table-view-cell mui-indexed-list-item" value="35"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/35.png" /><span>江淮</span></li>
+						<li data-value="HF" class="mui-table-view-cell mui-indexed-list-item" value="31"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/31.png" /><span>哈飞</span></li>
+						<li data-value="JB" class="mui-table-view-cell mui-indexed-list-item" value="98"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/98.png" /><span>捷豹</span></li>
+						<li data-value="JL" class="mui-table-view-cell mui-indexed-list-item" value="37"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/37.png" /><span>江铃</span></li>
+						<li data-value="J" class="mui-table-view-cell mui-indexed-list-item" value="224"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/224.png" /><span>江铃集团轻汽</span></li>
+						<li data-value="JB" class="mui-table-view-cell mui-indexed-list-item" value="39"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/39.png" /><span>金杯</span></li>
+						<li data-value="JLKC" class="mui-table-view-cell mui-indexed-list-item" value="161"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/161.png" /><span>金旅客车</span></li>
+						<li data-value="JL" class="mui-table-view-cell mui-indexed-list-item" value="152"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/152.png" /><span>九龙</span></li>
+
+						<li data-group="K" class="mui-table-view-divider mui-indexed-list-group">K</li>
+						<li data-value="KDLK" class="mui-table-view-cell mui-indexed-list-item" value="107"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/107.png" /><span>凯迪拉克</span></li>
+						<li data-value="KLSL" class="mui-table-view-cell mui-indexed-list-item" value="51"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/51.png" /><span>克莱斯勒</span></li>
+						<li data-value="KR" class="mui-table-view-cell mui-indexed-list-item" value="150"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/150.png" /><span>开瑞</span></li>
+						<li data-value="K" class="mui-table-view-cell mui-indexed-list-item" value="220"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/220.png" /><span>凯翼</span></li>
+						<li data-value="K" class="mui-table-view-cell mui-indexed-list-item" value="241"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/241.png" /><span>康迪</span></li>
+						<li data-value="K" class="mui-table-view-cell mui-indexed-list-item" value="213"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/213.png" /><span>卡威</span></li>
+
+						<li data-group="L" class="mui-table-view-divider mui-indexed-list-group">L</li>
+						<li data-value="LH" class="mui-table-view-cell mui-indexed-list-item" value="96"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/96.png" /><span>路虎</span></li>
+						<li data-value="LKSS" class="mui-table-view-cell mui-indexed-list-item" value="94"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/94.png" /><span>雷克萨斯</span></li>
+						<li data-value="LN" class="mui-table-view-cell mui-indexed-list-item" value="99"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/99.png" /><span>雷诺</span></li>
+						<li data-value="LM" class="mui-table-view-cell mui-indexed-list-item" value="16"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/16.png" /><span>铃木</span></li>
+						<li data-value="LF" class="mui-table-view-cell mui-indexed-list-item" value="36"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/36.png" /><span>陆风</span></li>
+						<li data-value="LK" class="mui-table-view-cell mui-indexed-list-item" value="95"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/95.png" /><span>林肯</span></li>
+						<li data-value="LH" class="mui-table-view-cell mui-indexed-list-item" value="146"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/146.png" /><span>莲花</span></li>
+						<li data-value="LBQC" class="mui-table-view-cell mui-indexed-list-item" value="153"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/153.png" /><span>猎豹汽车</span></li>
+						<li data-value="LF" class="mui-table-view-cell mui-indexed-list-item" value="76"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/76.png" /><span>力帆</span></li>
+						<li data-value="LBJN" class="mui-table-view-cell mui-indexed-list-item" value="86"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/86.png" /><span>兰博基尼</span></li>
+						<li data-value="LSLS" class="mui-table-view-cell mui-indexed-list-item" value="80"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/80.png" /><span>劳斯莱斯</span></li>
+						<li data-value="LN" class="mui-table-view-cell mui-indexed-list-item" value="166"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/166.png" /><span>理念</span></li>
+						<li data-value="LHFC" class="mui-table-view-cell mui-indexed-list-item" value="200"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/200.png" /><span>蓝海房车</span></li>
+
+						<li data-group="M" class="mui-table-view-divider mui-indexed-list-group">M</li>
+						<li data-value="MZD" class="mui-table-view-cell mui-indexed-list-item" value="18"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/18.png" /><span>马自达</span></li>
+						<li data-value="MINI" class="mui-table-view-cell mui-indexed-list-item" value="81"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/81.png" /><span>MINI</span></li>
+						<li data-value="M" class="mui-table-view-cell mui-indexed-list-item" value="79"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/79.png" /><span>MG</span></li>
+						<li data-value="MSLD" class="mui-table-view-cell mui-indexed-list-item" value="93"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/93.png" /><span>玛莎拉蒂</span></li>
+						<li data-value="MKL" class="mui-table-view-cell mui-indexed-list-item" value="183"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/183.png" /><span>迈凯伦</span></li>
+						<li data-value="MY" class="mui-table-view-cell mui-indexed-list-item" value="55"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/55.png" /><span>美亚</span></li>
+
+						<li data-group="N" class="mui-table-view-divider mui-indexed-list-group">N</li>
+						<li data-value="NZJ" class="mui-table-view-cell mui-indexed-list-item" value="155"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/155.png" /><span>纳智捷</span></li>
+
+						<li data-group="O" class="mui-table-view-divider mui-indexed-list-group">O</li>
+						<li data-value="OG" class="mui-table-view-cell mui-indexed-list-item" value="84"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/84.png" /><span>讴歌</span></li>
+						<li data-value="OL" class="mui-table-view-cell mui-indexed-list-item" value="171"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/171.png" /><span>欧朗</span></li>
+						<li data-value="OB" class="mui-table-view-cell mui-indexed-list-item" value="104"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/104.png" /><span>欧宝</span></li>
+
+						<li data-group="Q" class="mui-table-view-divider mui-indexed-list-group">Q</li>
+						<li data-value="QY" class="mui-table-view-cell mui-indexed-list-item" value="28"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/28.png" /><span>起亚</span></li>
+						<li data-value="QR" class="mui-table-view-cell mui-indexed-list-item" value="42"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/42.png" /><span>奇瑞</span></li>
+						<li data-value="QC" class="mui-table-view-cell mui-indexed-list-item" value="156"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/156.png" /><span>启辰</span></li>
+						<li data-value="QL" class="mui-table-view-cell mui-indexed-list-item" value="43"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/43.png" /><span>庆铃</span></li>
+
+						<li data-group="R" class="mui-table-view-divider mui-indexed-list-group">R</li>
+						<li data-value="RC" class="mui-table-view-cell mui-indexed-list-item" value="30"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/30.png" /><span>日产</span></li>
+						<li data-value="RW" class="mui-table-view-cell mui-indexed-list-item" value="78"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/78.png" /><span>荣威</span></li>
+
+						<li data-group="S" class="mui-table-view-divider mui-indexed-list-group">S</li>
+						<li data-value="SKD" class="mui-table-view-cell mui-indexed-list-item" value="10"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/10.png" /><span>斯柯达</span></li>
+						<li data-value="SBL" class="mui-table-view-cell mui-indexed-list-item" value="111"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/111.png" /><span>斯巴鲁</span></li>
+						<li data-value="SL" class="mui-table-view-cell mui-indexed-list-item" value="25"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/25.png" /><span>三菱</span></li>
+						<li data-value="S" class="mui-table-view-cell mui-indexed-list-item" value="89"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/89.png" /><span>smart</span></li>
+						<li data-value="S" class="mui-table-view-cell mui-indexed-list-item" value="165"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/165.png" /><span>上汽大通MAXUS</span></li>
+						<li data-value="S" class="mui-table-view-cell mui-indexed-list-item" value="244"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/244.png" /><span>上喆汽车</span></li>
+
+						<li data-group="T" class="mui-table-view-divider mui-indexed-list-group">T</li>
+						<li data-value="TESLA" class="mui-table-view-cell mui-indexed-list-item" value="189"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/189.png" /><span>特斯拉</span></li>
+						<li data-value="TS" class="mui-table-view-cell mui-indexed-list-item" value="175"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/175.png" /><span>腾势</span></li>
+
+						<li data-group="W" class="mui-table-view-divider mui-indexed-list-group">W</li>
+						<li data-value="WEW" class="mui-table-view-cell mui-indexed-list-item" value="19"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/19.png" /><span>沃尔沃</span></li>
+						<li data-value="WL" class="mui-table-view-cell mui-indexed-list-item" value="48"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/48.png" /><span>五菱</span></li>
+						<li data-value="WSL" class="mui-table-view-cell mui-indexed-list-item" value="132"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/132.png" /><span>五十铃</span></li>
+						<li data-value="WL" class="mui-table-view-cell mui-indexed-list-item" value="140"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/140.png" /><span>威麟</span></li>
+						<li data-value="W" class="mui-table-view-cell mui-indexed-list-item" value="207"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/207.png" /><span>潍柴英致</span></li>
+
+						<li data-group="X" class="mui-table-view-divider mui-indexed-list-group">X</li>
+						<li data-value="XD" class="mui-table-view-cell mui-indexed-list-item" value="13"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/13.png" /><span>现代</span></li>
+						<li data-value="XFL" class="mui-table-view-cell mui-indexed-list-item" value="49"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/49.png" /><span>雪佛兰</span></li>
+						<li data-value="XTL" class="mui-table-view-cell mui-indexed-list-item" value="6"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/6.png" /><span>雪铁龙</span></li>
+						<li data-value="X" class="mui-table-view-cell mui-indexed-list-item" value="57"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/57.png" /><span>厦门金龙</span></li>
+						<li data-value="XK" class="mui-table-view-cell mui-indexed-list-item" value="71"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/71.png" /><span>新凯</span></li>
+						<li data-value="XYT" class="mui-table-view-cell mui-indexed-list-item" value="87"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/87.png" /><span>西雅特</span></li>
+
+						<li data-group="Y" class="mui-table-view-divider mui-indexed-list-group">Y</li>
+						<li data-value="YFND" class="mui-table-view-cell mui-indexed-list-item" value="100"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/100.png" /><span>英菲尼迪</span></li>
+						<li data-value="YQ" class="mui-table-view-cell mui-indexed-list-item" value="53"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/53.png" /><span>一汽</span></li>
+						<li data-value="YWK" class="mui-table-view-cell mui-indexed-list-item" value="41"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/41.png" /><span>依维柯</span></li>
+						<li data-value="YY" class="mui-table-view-cell mui-indexed-list-item" value="75"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/75.png" /><span>永源</span></li>
+
+						<li data-group="Z" class="mui-table-view-divider mui-indexed-list-group">Z</li>
+						<li data-value="ZH" class="mui-table-view-cell mui-indexed-list-item" value="60"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/60.png" /><span>中华</span></li>
+						<li data-value="ZT" class="mui-table-view-cell mui-indexed-list-item" value="77"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/77.png" /><span>众泰</span></li>
+						<li data-value="ZX" class="mui-table-view-cell mui-indexed-list-item" value="33"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/33.png" /><span>中兴</span></li>
+						<li data-value="ZO" class="mui-table-view-cell mui-indexed-list-item" value="167"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/167.png" /><span>中欧奔驰房车</span></li>
+						<li data-value="Z" class="mui-table-view-cell mui-indexed-list-item" value="233"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/233.png" /><span>知豆</span></li>
+						<li data-value="Z" class="mui-table-view-cell mui-indexed-list-item" value="214"><img data-lazyload="http://image.bitautoimg.com/wap/car/2/214.png" /><span>浙江卡尔森</span></li>
+				</div>
+
+				<!--<!--<!--<!--<!--<!--<!--
+<div id = "groupA"> <li data-group="A" class="mui-table-view-divider mui-indexed-list-group">A</li>
+<li data-value="AD"  class="mui-table-view-cell mui-indexed-list-item" value="9"><img src="http://image.bitautoimg.com/wap/car/2/9.png" /><span>奥迪</span></li>
+<li data-value="ASD MD"  class="mui-table-view-cell mui-indexed-list-item" value="97"><img src="http://image.bitautoimg.com/wap/car/2/97.png" /><span>阿斯顿·马丁</span></li>
+</div> <div id = "groupB"> <li data-group="B" class="mui-table-view-divider mui-indexed-list-group">B</li>
+<li data-value="BT"  class="mui-table-view-cell mui-indexed-list-item" value="26"><img src="http://image.bitautoimg.com/wap/car/2/26.png" /><span>本田</span></li>
+<li data-value="BM"  class="mui-table-view-cell mui-indexed-list-item" value="3"><img src="http://image.bitautoimg.com/wap/car/2/3.png" /><span>宝马</span></li>
+<li data-value="BC"  class="mui-table-view-cell mui-indexed-list-item" value="2"><img src="http://image.bitautoimg.com/wap/car/2/2.png" /><span>奔驰</span></li>
+<li data-value="BK"  class="mui-table-view-cell mui-indexed-list-item" value="127"><img src="http://image.bitautoimg.com/wap/car/2/127.png" /><span>别克</span></li>
+<li data-value="BZ"  class="mui-table-view-cell mui-indexed-list-item" value="5"><img src="http://image.bitautoimg.com/wap/car/2/5.png" /><span>标致</span></li>
+<li data-value="BYD"  class="mui-table-view-cell mui-indexed-list-item" value="15"><img src="http://image.bitautoimg.com/wap/car/2/15.png" /><span>比亚迪</span></li>
+<li data-value="BJ"  class="mui-table-view-cell mui-indexed-list-item" value="157"><img src="http://image.bitautoimg.com/wap/car/2/157.png" /><span>宝骏</span></li>
+<li data-value="BT"  class="mui-table-view-cell mui-indexed-list-item" value="59"><img src="http://image.bitautoimg.com/wap/car/2/59.png" /><span>奔腾</span></li>
+<li data-value="BJQC"  class="mui-table-view-cell mui-indexed-list-item" value="163"><img src="http://image.bitautoimg.com/wap/car/2/163.png" /><span>北京</span></li>
+<li data-value="BQXNY"  class="mui-table-view-cell mui-indexed-list-item" value="216"><img src="http://image.bitautoimg.com/wap/car/2/216.png" /><span>北汽新能源</span></li>
+<li data-value="B"  class="mui-table-view-cell mui-indexed-list-item" value="211"><img src="http://image.bitautoimg.com/wap/car/2/211.png" /><span>北汽幻速</span></li>
+<li data-value="BQWW"  class="mui-table-view-cell mui-indexed-list-item" value="168"><img src="http://image.bitautoimg.com/wap/car/2/168.png" /><span>北汽威旺</span></li>
+<li data-value="BQZZ"  class="mui-table-view-cell mui-indexed-list-item" value="14"><img src="http://image.bitautoimg.com/wap/car/2/14.png" /><span>北汽制造</span></li>
+<li data-value="B"  class="mui-table-view-cell mui-indexed-list-item" value="195"><img src="http://image.bitautoimg.com/wap/car/2/195.png" /><span>北汽绅宝</span></li>
+<li data-value="BSJ"  class="mui-table-view-cell mui-indexed-list-item" value="82"><img src="http://image.bitautoimg.com/wap/car/2/82.png" /><span>保时捷</span></li>
+<li data-value="BL"  class="mui-table-view-cell mui-indexed-list-item" value="85"><img src="http://image.bitautoimg.com/wap/car/2/85.png" /><span>宾利</span></li>
+<li data-value="BBS"  class="mui-table-view-cell mui-indexed-list-item" value="172"><img src="http://image.bitautoimg.com/wap/car/2/172.png" /><span>巴博斯</span></li>
+</div> <div id = "groupC"> <li data-group="C" class="mui-table-view-divider mui-indexed-list-group">C</li>
+
+<div id = "groupA"> <li data-group="A" class="mui-table-view-divider mui-indexed-list-group">A</li>
+
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/469f2440cdfa608def5dbf08c2dad897.gif" /><span>阿尔法罗密欧</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/ba6ab8e671f08631e4ffb61e052b0e06.gif" /><span>阿斯顿马丁</span></li>
+<li value="acaf5ec2fc64142a04890d114e75786f49c5f1e02a4c18c4653530bc28d273a544f958115e04dc9a412c3f1facb52e96d95a980a5db00562" class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/df2587068f969d96e49416e47e8f7ee7.gif" /><span>安驰</span></li>
+<li value="acaf5ec2fc64142a04890d114e75786f49c5f1e02a4c18c475dceffb6d1ee709932f85be4531656f412c3f1facb52e96d95a980a5db00562" class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/d578eec9f95b7b969b5a5065660750d6.gif" /><span>奥迪</span></li>
+</div> <div id = "groupB"> <li data-group="B" class="mui-table-view-divider mui-indexed-list-group">B</li>
+
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/1307dfacb466d2c3f8d4c0d50084c838.gif" /><span>巴博斯</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/5d1b65fd6cd5c909c948cc03613cfcfc.gif" /><span>宝骏</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/45187c9111d9e289485db192aa2d6bad.gif" /><span>宝龙</span></li>
+<li value="acaf5ec2fc64142a04890d114e75786f49c5f1e02a4c18c4d0a19bd1451f16f8d45731dccd09c874412c3f1facb52e96d95a980a5db00562" class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/38682f11c18c9d777706b10c9c0d1b00.gif" /><span>宝马</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/87b3c27db40753fbc540536efc8f654a.gif" /><span>保时捷</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/3d548164f10102a8f22724f7b4e87929.gif" /><span>北京汽车</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/5fdeca26f0f35b170616563aaedbb6d2.gif" /><span>北汽幻速</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/ee5b18a6ceb4a46e66e5393f59044ce7.gif" /><span>北汽制造</span></li>
+<li value="acaf5ec2fc64142a04890d114e75786f49c5f1e02a4c18c44b5d022e898a63c144f958115e04dc9a412c3f1facb52e96d95a980a5db00562" class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/1df1aa9a0a86d10f9fe23cb8c59f26d6.gif" /><span>奔驰</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/b149c6b18dcc18d70008b1f37d000555.gif" /><span>奔腾</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/3b01fa6d218455c3e18ad496c02a9db8.gif" /><span>本田</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/1de9a5e2ea19a724e8917330088b5e16.gif" /><span>比亚迪</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/377ef068c4d15cf0a1341999a1b761e2.gif" /><span>标致</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/3ee9fb2c87cf555d3573913f56d96dae.gif" /><span>别克</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/e007b068cede15b626dc57d5491160e1.gif" /><span>宾利</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/8c240d6ae64168344346ef02a8af5794.gif" /><span>布加迪</span></li>
+
+<li data-group="C" class="mui-table-view-divider mui-indexed-list-group">C</li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/3a7ff741dd66abad496f5f8d18f0a7a1.gif" /><span>昌河
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/a47e3b7657681354a34c17eed2e8bb25.gif"/><span>川汽
+
+<li data-group="D" class="mui-table-view-divider mui-indexed-list-group">D</li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/585d201f28a8f6f9919dd3a3db5b7077.gif"/><span>大迪</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/21ef6cc13886430ce641700bc5c3f03e.gif" /><span>大宇</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/c3f70203da24f043de5d59bf97bfc12d.gif" /><span>大众</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/f05dec8490a704498f3bd331fc72b62c.gif" /><span>道奇</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/c554ef0e539e6f7684161e452c3e23c7.gif" /><span>帝豪</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/0ca2de02b38fcddc77903914efad73df.gif" /><span>东风</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/0a865e391561d2b4b37ceaa86eddc5fa.gif" /><span>东南</span></li>
+
+<li data-group="F" class="mui-table-view-divider mui-indexed-list-group">F</li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/9be6211723964c44a812d19f58d2c300.gif" /><span>法拉利</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/a182cde0ce12d7685f1fbd064e1e5b21.gif" /><span>菲斯克</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/50d0b558a6f4fccb7142aab81f673e83.gif" /><span>菲亚特</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/c77696caad0a4448ed9542aaec22c9bb.gif" /><span>丰田</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/1d7dabed1d3f25ac1bec31835a71910a.gif" /><span>丰田Scion</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/88211711a38488cef955bffb816d9582.gif" /><span>福迪</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/895a57fe6be345c45cfdcd390f41f287.gif" /><span>福特</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/87c331694ad98fdeab1a22c17a0f69d5.gif" /><span>福田</span></li>
+
+<li data-group="G" class="mui-table-view-divider mui-indexed-list-group">G</li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/5f539625417f6a2e7fa1682ae35452d5.gif" /><span>观致</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/52604b10627c8d3471d9ccdb68ff7ba0.gif" /><span>光冈</span></li>
+<li class="mui-table-view-cell mui-indexed-list-item"><img src="../images/carlogo/1f8d836dfd8b865cf79f8bb4b8abaa31.gif" /><span>广汽</span></li>-->
+
+				<!--<li data-value="AKU" data-tags="AKeSu" class="mui-table-view-cell mui-indexed-list-item">阿克苏机场</li>
+<li data-value="BPL" data-tags="ALaShanKou" class="mui-table-view-cell mui-indexed-list-item">阿拉山口机场</li>
+<li data-value="AAT" data-tags="ALeTai" class="mui-table-view-cell mui-indexed-list-item">阿勒泰机场</li>
+<li data-value="NGQ" data-tags="ALiKunSha" class="mui-table-view-cell mui-indexed-list-item">阿里昆莎机场</li>
+<li data-value="AQG" data-tags="AnQingTianZhuShan" class="mui-table-view-cell mui-indexed-list-item">安庆天柱山机场</li>
+<li data-value="MFM" data-tags="AoMenGuoJi" class="mui-table-view-cell mui-indexed-list-item">澳门国际机场</li>
+<li data-group="B" class="mui-table-view-divider mui-indexed-list-group">B</li>
+<li data-value="BSD" data-tags="BaoShan" class="mui-table-view-cell mui-indexed-list-item">保山机场</li>
+<li data-value="BAV" data-tags="BaoTou" class="mui-table-view-cell mui-indexed-list-item">包头机场</li>
+<li data-value="BHY" data-tags="BeiHaiFuCheng" class="mui-table-view-cell mui-indexed-list-item">北海福成机场</li>
+<li data-value="NAY" data-tags="BeiJingNanYuan" class="mui-table-view-cell mui-indexed-list-item">北京南苑机场</li>
+<li data-value="PEK" data-tags="BeiJingShouDuGuoJi" class="mui-table-view-cell mui-indexed-list-item">北京首都国际机场</li>
+<li data-group="C" class="mui-table-view-divider mui-indexed-list-group">C</li>
+<li data-value="NBS" data-tags="ChangBaiShan" class="mui-table-view-cell mui-indexed-list-item">长白山机场</li>
+<li data-value="CGQ" data-tags="ChangChunLongJiaGuoJi" class="mui-table-view-cell mui-indexed-list-item">长春龙嘉国际机场</li>
+<li data-value="CGD" data-tags="ChangDeTaoHuaYuan" class="mui-table-view-cell mui-indexed-list-item">常德桃花源机场</li>
+<li data-value="BPX" data-tags="ChangDuBangDa" class="mui-table-view-cell mui-indexed-list-item">昌都邦达机场</li>
+<li data-value="CSX" data-tags="ChangShaHuangHuaGuoJi" class="mui-table-view-cell mui-indexed-list-item">长沙黄花国际机场</li>
+<li data-value="CIH" data-tags="ChangZhiWangCun" class="mui-table-view-cell mui-indexed-list-item">长治王村机场</li>
+<li data-value="CZX" data-tags="ChangZhouBenNiu" class="mui-table-view-cell mui-indexed-list-item">常州奔牛机场</li>
+<li data-value="CTU" data-tags="ChengDuShuangLiuGuoJi" class="mui-table-view-cell mui-indexed-list-item">成都双流国际机场</li>
+<li data-value="CIF" data-tags="ChiFeng" class="mui-table-view-cell mui-indexed-list-item">赤峰机场</li>
+<li data-group="D" class="mui-table-view-divider mui-indexed-list-group">D</li>
+<li data-value="DLU" data-tags="DaLi" class="mui-table-view-cell mui-indexed-list-item">大理机场</li>
+<li data-value="DLC" data-tags="DaLianZhouShuiZiGuoJi" class="mui-table-view-cell mui-indexed-list-item">大连周水子国际机场</li>
+<li data-value="DQA" data-tags="DaQingSaErTu" class="mui-table-view-cell mui-indexed-list-item">大庆萨尔图机场</li>
+<li data-value="DAT" data-tags="DaTongDongWangZhuang" class="mui-table-view-cell mui-indexed-list-item">大同东王庄机场</li>
+<li data-value="DAX" data-tags="DaZhouHeShi" class="mui-table-view-cell mui-indexed-list-item">达州河市机场</li>
+<li data-value="DDG" data-tags="DanDongLangTou" class="mui-table-view-cell mui-indexed-list-item">丹东浪头机场</li>
+<li data-value="LUM" data-tags="DeHongMangShi" class="mui-table-view-cell mui-indexed-list-item">德宏芒市机场</li>
+<li data-value="DIG" data-tags="DiQingXiangGeLiLa" class="mui-table-view-cell mui-indexed-list-item">迪庆香格里拉机场</li>
+<li data-value="DOY" data-tags="DongYing" class="mui-table-view-cell mui-indexed-list-item">东营机场</li>
+<li data-value="DNH" data-tags="DunHuang" class="mui-table-view-cell mui-indexed-list-item">敦煌机场</li>
+<li data-group="E" class="mui-table-view-divider mui-indexed-list-group">E</li>
+<li data-value="DSN" data-tags="EErDuoSi" class="mui-table-view-cell mui-indexed-list-item">鄂尔多斯机场</li>
+<li data-value="ENH" data-tags="EnShiXuJiaPing" class="mui-table-view-cell mui-indexed-list-item">恩施许家坪机场</li>
+<li data-value="ERL" data-tags="ErLianHaoTeSaiWuSuGuoJi" class="mui-table-view-cell mui-indexed-list-item">二连浩特赛乌苏国际机场</li>
+<li data-group="F" class="mui-table-view-divider mui-indexed-list-group">F</li>
+<li data-value="FUG" data-tags="FuYangXiGuan" class="mui-table-view-cell mui-indexed-list-item">阜阳西关机场</li>
+<li data-value="FOC" data-tags="FuZhouChangLeGuoJi" class="mui-table-view-cell mui-indexed-list-item">福州长乐国际机场</li>
+<li data-group="G" class="mui-table-view-divider mui-indexed-list-group">G</li>
+<li data-value="KOW" data-tags="GanZhouHuangJin" class="mui-table-view-cell mui-indexed-list-item">赣州黄金机场</li>
+<li data-value="GOQ" data-tags="GeErMu" class="mui-table-view-cell mui-indexed-list-item">格尔木机场</li>
+<li data-value="GYU" data-tags="GuYuanLiuPanShan" class="mui-table-view-cell mui-indexed-list-item">固原六盘山机场</li>
+<li data-value="GYS" data-tags="GuangYuanPanLong" class="mui-table-view-cell mui-indexed-list-item">广元盘龙机场</li>
+<li data-value="CAN" data-tags="GuangZhouBaiYunGuoJi" class="mui-table-view-cell mui-indexed-list-item">广州白云国际机场</li>
+<li data-value="KWL" data-tags="GuiLinLiangJiangGuoJi" class="mui-table-view-cell mui-indexed-list-item">桂林两江国际机场</li>
+<li data-value="KWE" data-tags="GuiYangLongDongBaoGuoJi" class="mui-table-view-cell mui-indexed-list-item">贵阳龙洞堡国际机场</li>
+<li data-group="H" class="mui-table-view-divider mui-indexed-list-group">H</li>
+<li data-value="HRB" data-tags="HaErBinTaiPingGuoJi" class="mui-table-view-cell mui-indexed-list-item">哈尔滨太平国际机场</li>
+<li data-value="HMI" data-tags="HaMi" class="mui-table-view-cell mui-indexed-list-item">哈密机场</li>
+<li data-value="HAK" data-tags="HaiKouMeiLanGuoJi" class="mui-table-view-cell mui-indexed-list-item">海口美兰国际机场</li>
+<li data-value="HLD" data-tags="HaiLaErDongShanGuoJi" class="mui-table-view-cell mui-indexed-list-item">海拉尔东山国际机场</li>
+<li data-value="HDG" data-tags="HanDan" class="mui-table-view-cell mui-indexed-list-item">邯郸机场</li>
+<li data-value="HZG" data-tags="HanZhong" class="mui-table-view-cell mui-indexed-list-item">汉中机场</li>
+<li data-value="HGH" data-tags="HangZhouXiaoShanGuoJi" class="mui-table-view-cell mui-indexed-list-item">杭州萧山国际机场</li>
+<li data-value="HFE" data-tags="HeFeiLuoGangGuoJi" class="mui-table-view-cell mui-indexed-list-item">合肥骆岗国际机场</li>
+<li data-value="HTN" data-tags="HeTian" class="mui-table-view-cell mui-indexed-list-item">和田机场</li>
+<li data-value="HEK" data-tags="HeiHe" class="mui-table-view-cell mui-indexed-list-item">黑河机场</li>
+<li data-value="HET" data-tags="HuHeHaoTeBaiTaGuoJi" class="mui-table-view-cell mui-indexed-list-item">呼和浩特白塔国际机场</li>
+<li data-value="HIA" data-tags="HuaiAnLianShui" class="mui-table-view-cell mui-indexed-list-item">淮安涟水机场</li>
+<li data-value="TXN" data-tags="HuangShanTunXiGuoJi" class="mui-table-view-cell mui-indexed-list-item">黄山屯溪国际机场</li>
+<li data-group="J" class="mui-table-view-divider mui-indexed-list-group">J</li>
+<li data-value="TNA" data-tags="JiNanYaoQiangGuoJi" class="mui-table-view-cell mui-indexed-list-item">济南遥墙国际机场</li>
+<li data-value="JNG" data-tags="JiNingQuFu" class="mui-table-view-cell mui-indexed-list-item">济宁曲阜机场</li>
+<li data-value="JXA" data-tags="JiXiXingKaiHu" class="mui-table-view-cell mui-indexed-list-item">鸡西兴凯湖机场</li>
+<li data-value="JMU" data-tags="JiaMuSiDongJiao" class="mui-table-view-cell mui-indexed-list-item">佳木斯东郊机场</li>
+<li data-value="JGN" data-tags="JiaYuGuan" class="mui-table-view-cell mui-indexed-list-item">嘉峪关机场</li>
+<li data-value="JNZ" data-tags="JinZhouXiaoLingZi" class="mui-table-view-cell mui-indexed-list-item">锦州小岭子机场</li>
+<li data-value="JDZ" data-tags="JingDeZhen" class="mui-table-view-cell mui-indexed-list-item">景德镇机场</li>
+<li data-value="JGS" data-tags="JingGangShan" class="mui-table-view-cell mui-indexed-list-item">井冈山机场</li>
+<li data-value="JIU" data-tags="JiuJiangLuShan" class="mui-table-view-cell mui-indexed-list-item">九江庐山机场</li>
+<li data-value="JZH" data-tags="JiuZhaiHuangLong" class="mui-table-view-cell mui-indexed-list-item">九寨黄龙机场</li>
+<li data-group="K" class="mui-table-view-divider mui-indexed-list-group">K</li>
+<li data-value="KHG" data-tags="KaShi" class="mui-table-view-cell mui-indexed-list-item">喀什机场</li>
+<li data-value="KRY" data-tags="KeLaMaYi" class="mui-table-view-cell mui-indexed-list-item">克拉玛依机场</li>
+<li data-value="KCA" data-tags="KuCheGuiZi" class="mui-table-view-cell mui-indexed-list-item">库车龟兹机场</li>
+<li data-value="KRL" data-tags="KuErLe" class="mui-table-view-cell mui-indexed-list-item">库尔勒机场</li>
+<li data-value="KMG" data-tags="KunMingWuJiaBaGuoJi" class="mui-table-view-cell mui-indexed-list-item">昆明巫家坝国际机场</li>
+<li data-group="L" class="mui-table-view-divider mui-indexed-list-group">L</li>
+<li data-value="LXA" data-tags="LaSaGongGa" class="mui-table-view-cell mui-indexed-list-item">拉萨贡嘎机场</li>
+<li data-value="LHW" data-tags="LanZhouZhongChuan" class="mui-table-view-cell mui-indexed-list-item">兰州中川机场</li>
+<li data-value="LJG" data-tags="LiJiangSanYi" class="mui-table-view-cell mui-indexed-list-item">丽江三义机场</li>
+<li data-value="HZH" data-tags="LiPing" class="mui-table-view-cell mui-indexed-list-item">黎平机场</li>
+<li data-value="LYG" data-tags="LianYunGangBaiTaBu" class="mui-table-view-cell mui-indexed-list-item">连云港白塔埠机场</li>
+<li data-value="LNJ" data-tags="LinCang" class="mui-table-view-cell mui-indexed-list-item">临沧机场</li>
+<li data-value="LYI" data-tags="LinYi" class="mui-table-view-cell mui-indexed-list-item">临沂机场</li>
+<li data-value="LZY" data-tags="LinZhiMiLin" class="mui-table-view-cell mui-indexed-list-item">林芝米林机场</li>
+<li data-value="LZH" data-tags="LiuZhouBaiLian" class="mui-table-view-cell mui-indexed-list-item">柳州白莲机场</li>
+<li data-value="LCX" data-tags="LongYanGuanZhiShan" class="mui-table-view-cell mui-indexed-list-item">龙岩冠豸山机场</li>
+<li data-value="LZO" data-tags="LuZhouLanTian" class="mui-table-view-cell mui-indexed-list-item">泸州蓝田机场</li>
+<li data-value="LYA" data-tags="LuoYangBeiJiao" class="mui-table-view-cell mui-indexed-list-item">洛阳北郊机场</li>
+<li data-group="M" class="mui-table-view-divider mui-indexed-list-group">M</li>
+<li data-value="NZH" data-tags="ManZhouLiXiJiao" class="mui-table-view-cell mui-indexed-list-item">满洲里西郊机场</li>
+<li data-value="MIG" data-tags="MianYangNanJiao" class="mui-table-view-cell mui-indexed-list-item">绵阳南郊机场</li>
+<li data-value="OHE" data-tags="MoHeGuLian" class="mui-table-view-cell mui-indexed-list-item">漠河古莲机场</li>
+<li data-value="MDG" data-tags="MuDanJiangHaiLang" class="mui-table-view-cell mui-indexed-list-item">牡丹江海浪机场</li>
+<li data-group="N" class="mui-table-view-divider mui-indexed-list-group">N</li>
+<li data-value="KHN" data-tags="NanChangChangBeiGuoJi" class="mui-table-view-cell mui-indexed-list-item">南昌昌北国际机场</li>
+<li data-value="NAO" data-tags="NanChongGaoPing" class="mui-table-view-cell mui-indexed-list-item">南充高坪机场</li>
+<li data-value="NKG" data-tags="NanJingLuKouGuoJi" class="mui-table-view-cell mui-indexed-list-item">南京禄口国际机场</li>
+<li data-value="NNG" data-tags="NanNingWuXu" class="mui-table-view-cell mui-indexed-list-item">南宁吴圩机场</li>
+<li data-value="NTG" data-tags="NanTongXingDong" class="mui-table-view-cell mui-indexed-list-item">南通兴东机场</li>
+<li data-value="NNY" data-tags="NanYangJiangYing" class="mui-table-view-cell mui-indexed-list-item">南阳姜营机场</li>
+<li data-value="NGB" data-tags="NingBoLiSheGuoJi" class="mui-table-view-cell mui-indexed-list-item">宁波栎社国际机场</li>
+<li data-group="P" class="mui-table-view-divider mui-indexed-list-group">P</li>
+<li data-value="SYM" data-tags="PuErSiMao" class="mui-table-view-cell mui-indexed-list-item">普洱思茅机场</li>
+<li data-group="Q" class="mui-table-view-divider mui-indexed-list-group">Q</li>
+<li data-value="NDG" data-tags="QiQiHaErSanJiaZi" class="mui-table-view-cell mui-indexed-list-item">齐齐哈尔三家子机场</li>
+<li data-value="SHP" data-tags="QinHuangDaoShanHaiGuan" class="mui-table-view-cell mui-indexed-list-item">秦皇岛山海关机场</li>
+<li data-value="TAO" data-tags="QingDaoLiuTingGuoJi" class="mui-table-view-cell mui-indexed-list-item">青岛流亭国际机场</li>
+<li data-value="JUZ" data-tags="QuZhou" class="mui-table-view-cell mui-indexed-list-item">衢州机场</li>
+<li data-value="JJN" data-tags="QuanZhouJinJiang" class="mui-table-view-cell mui-indexed-list-item">泉州晋江机场</li>
+<li data-group="R" class="mui-table-view-divider mui-indexed-list-group">R</li>
+<li data-value="RKZ" data-tags="RiKaZeHePing" class="mui-table-view-cell mui-indexed-list-item">日喀则和平机场</li>
+<li data-group="S" class="mui-table-view-divider mui-indexed-list-group">S</li>
+<li data-value="SYX" data-tags="SanYaFengHuangGuoJi" class="mui-table-view-cell mui-indexed-list-item">三亚凤凰国际机场</li>
+<li data-value="SWA" data-tags="ShanTouWaiSha" class="mui-table-view-cell mui-indexed-list-item">汕头外砂机场</li>
+<li data-value="SHA" data-tags="ShangHaiHongQiaoGuoJi" class="mui-table-view-cell mui-indexed-list-item">上海虹桥国际机场</li>
+<li data-value="PVG" data-tags="ShangHaiPuDongGuoJi" class="mui-table-view-cell mui-indexed-list-item">上海浦东国际机场</li>
+<li data-value="SZX" data-tags="ShenChouBaoAnGuoJi" class="mui-table-view-cell mui-indexed-list-item">深圳宝安国际机场</li>
+<li data-value="SHE" data-tags="ShenYangTaoXianGuoJi" class="mui-table-view-cell mui-indexed-list-item">沈阳桃仙国际机场</li>
+<li data-value="SJW" data-tags="ShiJiaZhuangZhengDingGuoJi" class="mui-table-view-cell mui-indexed-list-item">石家庄正定国际机场</li>
+<li data-value="WUX" data-tags="SuNanShuoFangGuoJi" class="mui-table-view-cell mui-indexed-list-item">苏南硕放国际机场</li>
+<li data-group="T" class="mui-table-view-divider mui-indexed-list-group">T</li>
+<li data-value="TCG" data-tags="TaCheng" class="mui-table-view-cell mui-indexed-list-item">塔城机场</li>
+<li data-value="TYN" data-tags="TaiYuanWuSuGuoJi" class="mui-table-view-cell mui-indexed-list-item">太原武宿国际机场</li>
+<li data-value="HYN" data-tags="TaiZhouLuQiao-HuangYanJiChang" class="mui-table-view-cell mui-indexed-list-item">台州路桥机场 (黄岩机场)</li>
+<li data-value="TVS" data-tags="TangShanSanNvHe" class="mui-table-view-cell mui-indexed-list-item">唐山三女河机场</li>
+<li data-value="TCZ" data-tags="TengChongTuoFeng" class="mui-table-view-cell mui-indexed-list-item">腾冲驼峰机场</li>
+<li data-value="TSN" data-tags="TianJinBinHaiGuoJi" class="mui-table-view-cell mui-indexed-list-item">天津滨海国际机场</li>
+<li data-value="TGO" data-tags="TongLiao" class="mui-table-view-cell mui-indexed-list-item">通辽机场</li>
+<li data-value="TEN" data-tags="TongRenFengHuang" class="mui-table-view-cell mui-indexed-list-item">铜仁凤凰机场</li>
+<li data-group="W" class="mui-table-view-divider mui-indexed-list-group">W</li>
+<li data-value="WXN" data-tags="WanZhouWuQiao" class="mui-table-view-cell mui-indexed-list-item">万州五桥机场</li>
+<li data-value="WEF" data-tags="WeiFang" class="mui-table-view-cell mui-indexed-list-item">潍坊机场</li>
+<li data-value="WEH" data-tags="WeiHaiDaShuiBo" class="mui-table-view-cell mui-indexed-list-item">威海大水泊机场</li>
+<li data-value="WNH" data-tags="WenShanPuZheHei" class="mui-table-view-cell mui-indexed-list-item">文山普者黑机场</li>
+<li data-value="WNZ" data-tags="WenZhouYongQiangGuoJi" class="mui-table-view-cell mui-indexed-list-item">温州永强国际机场</li>
+<li data-value="WUA" data-tags="WuHai" class="mui-table-view-cell mui-indexed-list-item">乌海机场</li>
+<li data-value="WUH" data-tags="WuHanTianHeGuoJi" class="mui-table-view-cell mui-indexed-list-item">武汉天河国际机场</li>
+<li data-value="HLH" data-tags="WuLanHaoTe" class="mui-table-view-cell mui-indexed-list-item">乌兰浩特机场</li>
+<li data-value="URC" data-tags="WuLuMuQiDiWoBaoGuoJi" class="mui-table-view-cell mui-indexed-list-item">乌鲁木齐地窝堡国际机场</li>
+<li data-value="WUS" data-tags="WuYiShan" class="mui-table-view-cell mui-indexed-list-item">武夷山机场</li>
+<li data-value="WUZ" data-tags="WuZhouChangZhouDao" class="mui-table-view-cell mui-indexed-list-item">梧州长洲岛机场</li>
+<li data-group="X" class="mui-table-view-divider mui-indexed-list-group">X</li>
+<li data-value="XIY" data-tags="XiAnXianYangGuoJi" class="mui-table-view-cell mui-indexed-list-item">西安咸阳国际机场</li>
+<li data-value="XIC" data-tags="XiChangQingShan" class="mui-table-view-cell mui-indexed-list-item">西昌青山机场</li>
+<li data-value="XIL" data-tags="XiLinHaoTe" class="mui-table-view-cell mui-indexed-list-item">锡林浩特机场</li>
+<li data-value="XNN" data-tags="XiNingCaoJiaBao" class="mui-table-view-cell mui-indexed-list-item">西宁曹家堡机场</li>
+<li data-value="JHG" data-tags="XiShuangBanNaGaSa" class="mui-table-view-cell mui-indexed-list-item">西双版纳嘎洒机场</li>
+<li data-value="XMN" data-tags="XiaMenGaoQiGuoJi" class="mui-table-view-cell mui-indexed-list-item">厦门高崎国际机场</li>
+<li data-value="HKG" data-tags="XiangGangGuoJi" class="mui-table-view-cell mui-indexed-list-item">香港国际机场</li>
+<li data-value="XFN" data-tags="XiangYangLiuJi" class="mui-table-view-cell mui-indexed-list-item">襄阳刘集机场</li>
+<li data-value="ACX" data-tags="XingYi" class="mui-table-view-cell mui-indexed-list-item">兴义机场</li>
+<li data-value="XUZ" data-tags="XuZhouGuanYin" class="mui-table-view-cell mui-indexed-list-item">徐州观音机场</li>
+<li data-group="Y" class="mui-table-view-divider mui-indexed-list-group">Y</li>
+<li data-value="ENY" data-tags="YanAnErShiLiBao" class="mui-table-view-cell mui-indexed-list-item">延安二十里堡机场</li>
+<li data-value="YNZ" data-tags="YanCheng" class="mui-table-view-cell mui-indexed-list-item">盐城机场</li>
+<li data-value="YNJ" data-tags="YanJiChaoYangChuan" class="mui-table-view-cell mui-indexed-list-item">延吉朝阳川机场</li>
+<li data-value="YNT" data-tags="YanTaiLaiShanGuoJi" class="mui-table-view-cell mui-indexed-list-item">烟台莱山国际机场</li>
+<li data-value="YBP" data-tags="YiBinCaiBa" class="mui-table-view-cell mui-indexed-list-item">宜宾菜坝机场</li>
+<li data-value="YIH" data-tags="YiChangSanXia" class="mui-table-view-cell mui-indexed-list-item">宜昌三峡机场</li>
+<li data-value="LDS" data-tags="YiChunLinDu" class="mui-table-view-cell mui-indexed-list-item">伊春林都机场</li>
+<li data-value="YIN" data-tags="YiNing" class="mui-table-view-cell mui-indexed-list-item">伊宁机场</li>
+<li data-value="YIW" data-tags="YiWu" class="mui-table-view-cell mui-indexed-list-item">义乌机场</li>
+<li data-value="INC" data-tags="YinChuanHeDong" class="mui-table-view-cell mui-indexed-list-item">银川河东机场</li>
+<li data-value="LLF" data-tags="YongZhouLingLing" class="mui-table-view-cell mui-indexed-list-item">永州零陵机场</li>
+<li data-value="UYN" data-tags="YuLinYuYang" class="mui-table-view-cell mui-indexed-list-item">榆林榆阳机场</li>
+<li data-value="YUS" data-tags="YuShuBaTang" class="mui-table-view-cell mui-indexed-list-item">玉树巴塘机场</li>
+<li data-value="YCU" data-tags="YunChengZhangXiao" class="mui-table-view-cell mui-indexed-list-item">运城张孝机场</li>
+<li data-group="Z" class="mui-table-view-divider mui-indexed-list-group">Z</li>
+<li data-value="ZHA" data-tags="ZhanJiang" class="mui-table-view-cell mui-indexed-list-item">湛江机场</li>
+<li data-value="ZAT" data-tags="ZhaoTong" class="mui-table-view-cell mui-indexed-list-item">昭通机场</li>
+<li data-value="CGO" data-tags="ZhengZhouXinZhengGuoJi" class="mui-table-view-cell mui-indexed-list-item">郑州新郑国际机场</li>
+<li data-value="HJJ" data-tags="ZhiJiang" class="mui-table-view-cell mui-indexed-list-item">芷江机场</li>
+<li data-value="CKG" data-tags="ZhongQingJiangBeiGuoJi" class="mui-table-view-cell mui-indexed-list-item">重庆江北国际机场</li>
+<li data-value="ZHY" data-tags="ZhongWeiXiangShan" class="mui-table-view-cell mui-indexed-list-item">中卫香山机场</li>
+<li data-value="HSN" data-tags="ZhouShanZhuJiaJian" class="mui-table-view-cell mui-indexed-list-item">舟山朱家尖机场</li>
+<li data-value="ZUH" data-tags="ZhuHaiSanZao" class="mui-table-view-cell mui-indexed-list-item">珠海三灶机场</li>-->
+				</ul>
+			</div>
+		</div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.indexedlist.js"></script>
+		<script src="../js/mui.lazyload.js"></script>
+		<script src="../js/mui.lazyload.img.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			(function($) {
+				$(document).imageLazyload({
+					placeholder: '../images/60x60.gif'
+				});
+			})(mui);
+			
+			
+			mui.plusReady(function() {
+				main = plus.webview.currentWebview();
+				/*main.setStyle({softinputMode:"adjustResize"}); */
+				//alert(main.action);  
+				/*wv = plus.webview.currentWebview();
+				alert( "是否开启硬件加速："+wv.isHardwareAccelerated() ); */
+				
+				//打开新页面
+				mui("#innerlist").on('tap', 'li', function() {
+					var barand = this.querySelector("span").innerText;
+					var livalue = this.getAttribute("value");
+					//alert(livalue);
+					//alert(barand);
+					var h = plus.webview.getWebviewById('ser_add_bra_model.html');
+					if (h != null) //已存在ser_add_bra_model.html页面，需要先关闭ser_add_bra_model.html页面，再打开
+					{
+						plus.webview.close('ser_add_bra_model.html', 'none');
+					}
+					mui.openWindow({
+						id: 'ser_add_bra_model.html',
+						url: '../pages/ser_add_bra_model.html',
+						extras: {
+							barand: barand,
+							livalue: livalue,
+							action:main.action
+							 
+						},
+                        show : {
+                                 niShow : 'pop-in'
+                         },
+                        styles : {
+                            top: "45px",
+							left: "16%",
+							width: '90%',
+							bottom: "0%",
+							zindex: 9997,
+                           popGesture : 'hide',
+                            hardwareAccelerated:false  
+                        },
+                        
+                       waiting : {
+                             autoShow : false
+                           }
+ 
+						/*show: {
+						autoShow: true, //页面loaded事件发生后自动显示，默认为true
+						aniShow: 'slide-in-top', //'slide-in-top', //页面显示动画，默认为”slide-in-right“；
+						duration: 100 //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+						},*/
+					});
+				});
+				
+				var btn_notfind = document.getElementById("notfind");
+				//监听点击事件
+				btn_notfind.addEventListener("tap",function () {
+				   		mui.openWindow({
+						id: 'ser_notfind.html',
+						url: '../pages/ser_notfind.html',
+						  show : {
+                                          aniShow : 'pop-in'
+                                     },
+                                    styles : {
+                                          popGesture : 'hide',
+					hardwareAccelerated :false
+                                     },extras: {
+										action:main.action
+									},
+                                    waiting : {
+                                          autoShow : false
+                                     }
+
+					});
+				});
+
+				
+				
+			});
+			mui.ready(function() {
+				var header = document.querySelector('header.mui-bar');
+				var list = document.getElementById('list');
+				//calc hieght
+				list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
+				//create
+				window.indexedList = new mui.IndexedList(list);
+			});
+			
+		</script>
+	</body>
+
+</html>

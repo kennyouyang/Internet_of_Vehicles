@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/default.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type='text/javascript' src='../js/qrcode/jquery.min.js'></script>
+		<script type="text/javascript" src="../js/app.js"></script>
+		<script type="text/javascript" src="../js/qrcode/jquery.qrcode.min.js"></script>
+		<script src ="../js/encrypt/core.js"></script>
+		  <script src= "../js/encrypt/hmac.js" ></script>
+		  <script src= "../js/encrypt/sha256.js" ></script>
+
+	</head>
+	<style>
+		.mui-table-view .mui-media-object {
+			height: 40px;
+		}
+		
+		.mui-table-view {
+			margin-bottom: 5px;
+		}
+		
+		.mui-card {
+			margin-left: 5px;
+			margin-right: 5px;
+		}
+		
+		i.mui-media-object {
+			color: #ccc;
+			font-size: 18px;
+		}
+		
+		.hotel-right {
+			position: absolute;
+			right: 0px;
+		}
+		
+		.hotel-right-padded {
+			position: absolute;
+			right: 20px;
+		}
+		
+		.hotel-right-text {
+			position: absolute;
+			font-size: 14px;
+			height: 16px;
+			line-height: 16px;
+			right: 40px;
+			top: 50%;
+			margin-top: -8px;
+		}
+		
+		.hotel-bar-order-info {
+			position: relative;
+			padding: 10px;
+		}
+		
+		.hotel-tips {
+			margin: 10px;
+			font-size: 10px;
+			background-color: #fff;
+			padding: 8px;
+			border-radius: 3px;
+		}
+		
+		.hotel-order-action {
+			margin: 0px;
+			padding: 0px 10px;
+			position: relative;
+			text-align: center;
+			color: #666;
+			height: 45px;
+			font-size: 0px;
+		}
+		
+		.hotel-order-action li {
+			background-color: #fff;
+			border: solid 1px #c8c7cc;
+			border-left: none;
+			display: inline-block;
+			padding: 10px 7px;
+			margin: 0px;
+			width: 33.3%;
+			font-size: 11px;
+			text-align: center;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+		
+		.hotel-order-action li:first-child {
+			border-left: solid 1px #c8c7cc;
+		}
+		
+		.hotel-order-action li:active {
+			border: solid 1px #099fde;
+			color: #099fde;
+		}
+		
+		.hotel-costomer-btn {
+			margin-bottom: 20px;
+			padding: 10px;
+			font-size: 14px;
+		}
+		
+		.mui-content {
+			margin-top: 5px;
+		}
+		
+		#dcode {
+			height: 23px;
+		}
+		
+		#bg {
+			display: none;
+			position: absolute;
+			top: 0%;
+			left: 0%;
+			width: 100%;
+			height: 100%;
+			background-color: white;
+			z-index: 1001;
+			-moz-opacity: 0.7;
+			opacity: .95;
+			filter: alpha(opacity=70);
+		}
+		
+		#show {
+			display: none;
+			position: absolute;
+			top: 25%;
+			left: 0;
+			right: 0;
+			text-align: center;
+			/*	width: 100%;
+				left: 22%;
+				height: 49%;
+				border: 8px solid #E8E9F7;*/
+			padding: 8px;
+			z-index: 1002;
+			overflow: auto;
+		}
+		
+		#qrcode2 {
+			text-align: center
+		}
+		
+		#dcodeclose {
+			color: black;
+			font-size: 22px;
+			text-align: center
+		}
+		
+		#detail_action button {
+			display: none;			
+			float: right;
+			margin-left: 15px;
+		}
+		
+		.btn-posi{
+			position: fixed;
+			bottom: -5px;
+			left: 0px;
+			right: 0px;
+			background: #f7f7f7;
+		}
+	</style>
+	<script>
+		//mui初始化
+		mui.init();
+		mui.plusReady(function() {
+			wvorder = plus.webview.getWebviewById("map_orderGas");
+			console.log(wvorder);
+			if (wvorder != null) {
+				//wvorder.close();
+				wvorder.close("map_orderGas", "none");
+				console.log("close")
+			}
+			//alert(plus.webview.currentWebview().parent().orderid)
+			//获取订单详情 
+			
+
+			ajax_init();
+			document.getElementById("dcodediv").addEventListener('tap', function(event) {
+					
+				var qcode = document.getElementById("orderid").innerText;
+				if (qcode == "") {
+					mui.toast("您太心急啦，请重试");
+					return;
+				}
+				floatWebview(qcode);
+			});
+			document.getElementById("bg").addEventListener('tap', function(event) {
+				document.getElementById("qrcode2").innerHTML = "";
+				document.getElementById("bg").style.display = 'none';
+				document.getElementById("show").style.display = 'none';
+			});
+			document.getElementById("qrcode2").addEventListener('tap', function(event) {
+				document.getElementById("qrcode2").innerHTML = "";
+				document.getElementById("bg").style.display = 'none';
+				document.getElementById("show").style.display = 'none';
+			});
+			document.getElementById("li_map").addEventListener('tap', function(event) {
+				var lon = document.getElementById("stastion_position_lon").innerText;
+				var lat = document.getElementById("stastion_position_lat").innerText;
+				var brand = document.getElementById("stastion_brand").innerText;
+				var stationname = document.getElementById("station_name").innerText;
+				console.log(brand + "detail");
+				//alert(lon+"-"+lat)
+				mui.openWindow({
+					url: 'mine_map_station.html',
+					id: 'mine_map_station',
+					show: {
+						aniShow: 'pop-in'
+					},
+					styles: {
+						popGesture: 'hide'
+					},
+					extras: {
+						lon: lon,
+						lat: lat,
+						brand: brand,
+						stationname: stationname
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+			});
+			document.getElementById("btpayment").addEventListener('tap', function() {
+				mui.openWindow({
+				                              url: 'map_orderWay.html' ,
+				                               id: 'map_orderWay' ,
+				                               show : {
+				                                          aniShow : 'pop-in'
+				                                     },
+				                                    styles : {
+				                                          popGesture : 'hide',
+								scrollIndicator: 'none',
+								hardwareAccelerated :false
+				                                     },
+				                                    waiting : {
+				                                          autoShow : false
+				                                    }, 
+				                                     extras: {
+														orderid: document.getElementById("orderid").innerText,
+														gasStation:document.getElementById("station_name").innerText,
+														sum:document.getElementById("sp_sum").innerText
+													} 
+				                             }); 
+				/*var btnArray = ['否', '是'];
+				mui.confirm('是否要付款，确认？', '提示', btnArray, function(e) {
+					if (e.index == 1) {
+						
+							 
+								
+						 
+			
+						//action(plus.webview.currentWebview().parent().orderid, 1);
+					} else {
+						return;
+					}
+				});*/
+			});
+			document.getElementById("btcancel").addEventListener('tap', function() {
+				var btnArray = ['否', '是'];
+				mui.confirm('是否要取消该订单，确认？', '提示', btnArray, function(e) {
+					if (e.index == 1) {
+						action(plus.webview.currentWebview().parent().orderid, 2);
+						//payment(plus.webview.currentWebview().parent().orderid);
+					} else {
+						return;
+					}
+				});
+			});
+			document.getElementById("btconsume").addEventListener('tap', function() {
+			 
+				
+				
+			var qcode = document.getElementById("orderid").innerText;
+			if (qcode == "") {
+				mui.toast("您太心急啦，请重试");
+				return;
+			}
+			floatWebview(qcode);
+				
+			});
+			document.getElementById("btcomment").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'mine_evaluate.html',
+					id: 'mine_evaluate',
+					show: {
+						aniShow: 'pop-in'
+					},
+					styles: {
+						popGesture: 'hide',
+						scrollIndicator: 'none',
+						hardwareAccelerated: false
+					},
+					extras: {
+						orderid: document.getElementById("orderid").innerText,
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+			});
+			document.getElementById("btdel").addEventListener('tap', function() {
+				var btnArray = ['否', '是'];
+				mui.confirm('是否要删除该订单，确认？', '提示', btnArray, function(e) {
+					if (e.index == 1) {
+						//payment(plus.webview.currentWebview().parent().orderid);
+					} else {
+						return;
+					}
+				});
+			});
+			document.getElementById("btagain").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'map_orderGas_again.html',
+					id: 'map_orderGas_again',
+					show: {
+						aniShow: 'pop-in'
+					},
+					styles: {
+						popGesture: 'hide',
+						scrollIndicator: 'none',
+						hardwareAccelerated: false
+					},
+					extras: {
+						station: document.getElementById("station_name").innerText,
+						brand: document.getElementById("stastion_brand").innerText,
+						lon: document.getElementById("stastion_position_lon").innerText,
+						lat: document.getElementById("stastion_position_lat").innerText,
+						gas_types: document.getElementById("oil_type").innerText,
+						gas_price: document.getElementById("pricePerLitre").innerText,
+						phone: document.getElementById("phone").innerText,
+						name: document.getElementById("name").innerText
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+			})
+		});
+
+
+function ajax_init(){  
+	var state = app.getState();
+			var sign = CryptoJS.HmacSHA256(state.token+state.account +plus.webview.currentWebview().parent().orderid,state.token)+""; 
+			console.log(state.account +"-"+state.token+"-"+plus.webview.currentWebview().parent().orderid);
+			console.log(sign);
+	mui.ajax('http://115.28.16.183:8080/car_server/GetOrderByOrderIdServlet', { 
+				data: {
+					username: state.account,
+					orderId: plus.webview.currentWebview().parent().orderid,  
+					sign:sign 
+				}, 
+				dataType: 'json', //服务器返回json格式数据 
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) { 
+					//alert("获取订单详情成功:" + JSON.stringify(data));
+					//服务器返回响应，根据响应结果，分析是否登录成功；
+					console.log(JSON.stringify(data));
+					if (data.result_code != ""&&data.result_code != "非法访问") {   
+						console.log(JSON.stringify(data));
+						/*console.log(data.order.phone)
+								console.log(JSON.parse(data.order.phone)["lat"] )
+								return;*/
+						var status = data.order.orderStatus;
+						document.getElementById("orderid").innerText = data.order.orderId;
+						document.getElementById("phone").innerText = data.order.phone;
+						document.getElementById("name").innerText = data.order.name;
+						document.getElementById("oil_type").innerText = data.order.gasType;
+						document.getElementById("pricePerLitre").innerText = "￥" + data.order.gasPricePerLitre;
+						document.getElementById("booking_time").innerText = data.order.createDate;
+						document.getElementById("sp_arrive").innerHTML = data.order.sp_date + "&nbsp;&nbsp;&nbsp;" + data.order.sp_time;
+						document.getElementById("sp_sum").innerText = "￥" + data.order.yuan;
+						document.getElementById("station_name").innerText = data.order.gasStationName; 
+						document.getElementById("stastion_position_lon").innerText = JSON.parse(data.order.gasStationPosition)["lng"];
+						document.getElementById("stastion_position_lat").innerText = JSON.parse(data.order.gasStationPosition)["lat"];
+						document.getElementById("stastion_brand").innerText = data.order.gasStationBrand;
+						document.getElementById("sp_mycar").innerText = data.order.plateNo;
+						//console.log(JSON.parse(data.order.gasStationPosition)["lng"]);return;
+						
+						if (status == "待付款") {
+							document.getElementById("btcancel").style.display = 'block';
+							document.getElementById("btpayment").style.display = 'block';
+							
+							document.getElementById("btconsume").style.display = 'none';
+							document.getElementById("btcomment").style.display = 'none';
+							document.getElementById("btdel").style.display = 'none';
+							document.getElementById("btagain").style.display = 'none';
+							//document.getElementById("detail_action").innerHTML = "<button id=\"btcancel\" data-event='tap>cancelOrder' style=\"margin-right: 10px;\">取消订单</button>				<button id=\"btpayment\" type=\"button\" class=\"mui-btn mui-btn-warning\" style=\"margin-left: 10px;\">立即支付</button>			";
+						} else if (status == "待消费") {
+							document.getElementById("btconsume").style.display = 'block';
+							
+							document.getElementById("btcancel").style.display = 'none';
+							document.getElementById("btpayment").style.display = 'none';
+							
+							 
+							document.getElementById("btcomment").style.display = 'none';
+							document.getElementById("btdel").style.display = 'none';
+							document.getElementById("btagain").style.display = 'none';
+							//document.getElementById("detail_action").innerHTML = "	<button id=\"btconsume\" type=\"button\" class=\"mui-btn mui-btn-blue\" style=\"margin-left: 10px;\">消费</button>		";
+						} else if (status == "待评价") {
+							document.getElementById("btcomment").style.display = 'block';
+							
+							document.getElementById("btconsume").style.display = 'none';
+							
+							document.getElementById("btcancel").style.display = 'none';
+							document.getElementById("btpayment").style.display = 'none';
+							
+							 
+							document.getElementById("btdel").style.display = 'none';
+							document.getElementById("btagain").style.display = 'none';
+							//document.getElementById("detail_action").innerHTML = "<button id=\"btcomment\" type=\"button\" class=\"mui-btn mui-btn-green\" style=\"margin-left: 10px;\">评价</button>	";
+						} else if (status == "已取消") {
+							document.getElementById("btdel").style.display = 'block';
+							
+									document.getElementById("btcomment").style.display = 'block';
+							
+							document.getElementById("btconsume").style.display = 'none';
+							
+							document.getElementById("btcancel").style.display = 'none';
+							document.getElementById("btpayment").style.display = 'none';
+							
+						 
+							document.getElementById("btagain").style.display = 'none';
+							//document.getElementById("detail_action").innerHTML = "<button id=\"btdel\" type=\"button\" class=\"mui-btn mui-btn-danger\" style=\"margin-left: 10px;\">删除</button>		";
+						} else if (status == "已完成") {
+							document.getElementById("btagain").style.display = 'block';
+							
+									document.getElementById("btcomment").style.display = 'none';
+								document.getElementById("btdel").style.display = 'none';
+							document.getElementById("btconsume").style.display = 'none';
+							
+							document.getElementById("btcancel").style.display = 'none';
+							document.getElementById("btpayment").style.display = 'none';
+							
+						  
+							//document.getElementById("detail_action").innerHTML = "<button id=\"btagain\" type=\"button\" class=\"mui-btn mui-btn-blue\" style=\"margin-left: 10px;\">再来一单</button>		";
+						}
+						if (data.order.litre == "" || data.order.litre == null || data.order.litre == undefined) {
+							var li_oil_price = document.getElementById("li_oil_price");
+							li_oil_price.parentNode.removeChild(li_oil_price);
+						} else {
+							document.getElementById("oil_price").innerText = data.order.litre + "L";
+						}
+						//document.getElementById("ispay").innerText = data.order.isPay;
+						//mui.toast("获取详情成功！");
+					} else {
+						mui.toast("获取详情失败！");
+						//return callback(data.result_code);
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					if(type=="timeout")
+							{
+								mui.toast("连接超时，请稍后再试");
+							}
+							else if(type=="abort")
+							{
+								mui.toast("您没有连接网络，请连接网络后再试");
+							}
+							else if(type=="error")
+							{
+								mui.toast("服务端异常，请稍后再试");
+							}
+							else{
+								mui.toast(type);
+							}
+					console.log(xhr);
+					console.log(type);					
+					console.log(errorThrown);
+				}
+			});
+}
+		function action(orderid, action) {
+			var tips = "";
+			var orderStatus = "";
+			var toastsucc = "";
+			
+		
+			switch (action) {
+				/*case 1:
+					tips = "正在支付...";
+					toastsucc = "支付成功！";
+					orderStatus = "待消费";
+					break;*/
+				case 2:
+					tips = "正在取消...";
+					toastsucc = "取消成功！";
+					orderStatus = "已取消";
+					break;
+				case 5:
+					tips = "正在删除...";
+					toastsucc = "删除成功！";
+					orderStatus = "已删除";
+					break;
+				default:
+					break;
+			}
+			
+			
+			
+			var waitingwv = null;
+			waitingwv = plus.nativeUI.showWaiting(tips, {
+				loading: {
+					//  icon: "../images/loading/big_loading.gif"
+				}
+			});
+			state = app.getState();
+			var sign = CryptoJS.HmacSHA256(state.token+state.account +orderid+orderStatus,state.token);
+			console.log((state.account +"--"+state.token+orderid+"--"+orderStatus,state.token))
+		 	 console.log(sign);
+
+			mui.ajax('http://115.28.16.183:8080/car_server/updateOrderByOrderIdServlet', {
+				data: {
+					username: state.account, //"kenny",
+					token: state.token,
+					OrderId: orderid,
+					orderStatus: orderStatus,
+					sign:sign
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				beforeSend: function(xhr) {},
+				success: function(data) {
+					waitingwv.close();
+					console.log(data);
+					//服务器返回响应，根据响应结果，分析是否登录成功；
+					if (data.result_code == '1') {
+						updatebutton(action);
+						mui.toast(toastsucc);
+					} else {
+						mui.toast(data.result_code);
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					waitingwv.close();
+					//异常处理；
+					console.log(xhr);
+					console.log(type);
+					if (type == "timeout") {
+						//document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>连接超时，请检查网络连接</p>';
+						mui.toast("连接超时，请检查网络是否连接！");
+					} else if (type == "abort") {
+						//document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>服务端异常，请稍候再试</p>';
+						mui.toast("您没有连接网络，请连接网络后再试...");
+					} else if (type == "error") {
+						//document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>服务端异常，请稍候再试</p>';
+						mui.toast("服务器异常，请稍候再试...");
+					} else {
+						mui.toast(type);
+					}
+					console.log(errorThrown);
+				}
+			});
+		}
+
+		function getQcode() {
+			var qcode = document.getElementById("orderid").innerText;
+			if (qcode == "") {
+				mui.toast("您太心急啦，请重试");
+				return;
+			}
+			document.getElementById("bg").style.display = "block";
+			document.getElementById("show").style.display = "block";
+			jQuery('#qrcode2').qrcode({
+				/*width: 300,height: 300,*/
+				//text: "{\"OrderID\":\"1605030010001\",\"Phone\":\"13800138000\",\"LPN\":\"粤P145852\",\"Gas\":\"40\",\"GasType\":\"#1\",\"Price\":\"200\"}"
+				text: "{\"OrderID\":\"" + qcode + "\"}"
+			});
+		}
+
+		function updatebutton(action) {
+			switch (action) {
+				case 1:
+					document.getElementById("btpayment").style.display = 'none';
+					document.getElementById("btcancel").style.display = 'none';
+					document.getElementById("btconsume").style.display = 'block';
+					break;
+				case 2:
+					document.getElementById("btcancel").style.display = 'none';
+					document.getElementById("btpayment").style.display = 'none';
+					document.getElementById("btdel").style.display = 'block';
+					break;
+				case 5:
+					break;
+				default:
+					break;
+			}
+		}
+		floatw=null;
+		function floatWebview(orderid) {
+				if (floatw) { // 避免快速多次点击创建多个窗口
+					return;
+				}
+				floatw = plus.webview.create("ser_QRCode.html", "ser_QRCode", {
+					width: '300px',
+					height: '300px',
+					margin: "auto",
+					background: "rgba(255,255,255,0.95)",
+					scrollIndicator: 'none',
+					scalable: false,
+					popGesture: 'none'
+				}, {
+					orderid: orderid
+				});
+				floatw.addEventListener("loaded", function() {
+					floatw.show('fade-in', 300);
+					floatw = null;
+				}, false);
+			}
+	</script>
+
+	<body>
+		<span id="stastion_position_lon" hidden="hidden"></span>
+		<span id="stastion_position_lat" hidden="hidden"></span>
+		<span id="stastion_brand" hidden="hidden"></span>
+		<div id="bg"></div>
+		<div id="show">
+			<div id="qrcode2"></div>
+			<!--<span id="dcodeclose">关闭</span>--></div>
+		<div class="mui-content">
+			<ul id="dcodediv" class="mui-table-view mui-card" hidden="hidden">
+				<li class="mui-input-row mui-table-view-cell"> <a> 二维码 <span class="hotel-right-padded  "><img id="dcode" src="../images/dcode.png"></span> </a> </li>
+			</ul>
+			<ul class="mui-table-view mui-card">
+				<li class="mui-input-row mui-table-view-cell">
+					<a> 订单号 
+						<span id="orderid" class="hotel-right-padded  ">
+							<img src="../images/loading/loading1.gif">
+						</span> </a>
+				</li>
+				<li class="mui-input-row mui-table-view-cell"> <a> 手机号 <span id="phone" class="hotel-right-padded"><img src="../images/loading/loading1.gif"></span> </a> </li>
+				<li class="mui-input-row mui-table-view-cell"> <a> 姓名 <span id="name" class="hotel-right-padded"><img src="../images/loading/loading1.gif"></span> </a> </li>
+				<li class="mui-input-row mui-table-view-cell"> <a> 加油车辆 <span id="sp_mycar" class="hotel-right-padded"><img src="../images/loading/loading1.gif"></span> </a> </li>
+				<li id="li_oil_type" class="mui-input-row mui-table-view-cell"> <a> 加油类型 <span id="oil_type" class="hotel-right-padded"><img src="../images/loading/loading1.gif"></span> </a> </li>
+				<li id="li_oil_price" class="mui-input-row mui-table-view-cell">
+					<a> 加油数量（升） 
+						<span id="oil_price" class="hotel-right-padded">
+							<img src="../images/loading/loading1.gif">
+						</span> 
+					</a>
+				</li>
+				<li class="mui-input-row mui-table-view-cell">
+					<a> 油价/每升 
+						<span id="pricePerLitre" class="hotel-right-padded">
+							<img src="../images/loading/loading1.gif">
+						</span> 
+					</a>
+				</li>
+				<li class="mui-input-row mui-table-view-cell"> <a> 预约时间 <span id="booking_time" class="hotel-right-padded"><img src="../images/loading/loading1.gif"></span> </a> </li>
+				<!--<li class="mui-input-row mui-table-view-cell"> <a> 是否已支付 <span id="ispay" class="hotel-right-padded hotel-color-orange"><img src="../images/loading/loading1.gif"></span> </a> </li>-->
+			</ul>
+			<ul class="mui-table-view mui-card">
+				<li id="li_map" class="mui-table-view-cell mui-media"> <i class="fa fa-map-marker mui-media-object mui-pull-left"></i>
+					<div class="mui-media-body mui-navigate-right"> <span id="station_name"><img src="../images/loading/loading1.gif"></span>
+						<p>点击在地图中查看</p> <span class="hotel-color-blue hotel-right-text">地图</span> </div>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="tel:010-88888888"> <i class="fa fa-phone mui-media-object mui-pull-left"></i>
+						<div class="mui-media-body mui-navigate-right"> 010-88888888
+							<p>点击拨打电话</p> <span class="hotel-color-blue hotel-right-text">联系加油站</span> </div>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view mui-card" style="margin-bottom: 60px;">
+				<li class="mui-input-row mui-table-view-cell"> <a> 最晚到达时间 <span id="sp_arrive" class="hotel-right-padded"><img src="../images/loading/loading1.gif"></span> </a> </li>
+				<li class="mui-input-row mui-table-view-cell"> <a> 总金额 <span id="sp_sum" class="hotel-right-padded"><img src="../images/loading/loading1.gif"></span> </a> </li>
+			</ul>
+			<div class="btn-posi ">
+			<ul id="detail_action" class="hotel-order-action" style="text-align: right;">
+				<button id="btpayment" type="button" class="mui-btn mui-btn-warning" style="height: 85%;">立即支付</button>
+
+				<button id="btcancel" type="button" class="mui-btn" style="height: 85%;">取消订单</button>
+				<button id="btconsume" type="button" class="mui-btn mui-btn-blue" style="height: 85%;">消费</button>
+				<button id="btcomment" type="button" class="mui-btn mui-btn-green" style="height: 85%;">评价</button>
+				<button id="btdel" type="button" class="mui-btn mui-btn-danger" style="height: 85%;">删除</button>
+				<button id="btagain" type="button" class="mui-btn mui-btn-blue" style="height: 85%;">再来一单</button>
+			</ul>
+			</div>
+		</div>
+	</body>
+
+</html>

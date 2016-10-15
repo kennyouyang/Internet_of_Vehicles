@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>导航</title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/common.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			//mui初始化
+			mui.init();
+			//不要滑动条
+			mui.plusReady(function() {
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					scrollIndicator: "none",
+					hardwareAccelerated :false
+				});
+				//搜索历史
+				myroute();
+				document.getElementById("change").addEventListener('tap', function() {
+					//alert("起点终点互换");
+					if (document.getElementById("sp_start").innerText == "输入起点") {
+						mui.toast("请先输入起点");
+						return;
+					} else if (document.getElementById("sp_end").innerText == "输入终点") {
+						mui.toast("请先输入终点");
+						return;
+					}
+					var temp = document.getElementById("sp_start").innerText;
+					document.getElementById("sp_start").innerText = document.getElementById("sp_end").innerText;
+					document.getElementById("sp_end").innerText = temp;
+				})
+				document.getElementById("sp_start").addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'map_route_point.html',
+						id: 'map_route_point',
+						styles: {
+							popGesture: 'hide',
+							scrollIndicator: 'none',
+							hardwareAccelerated: false
+						},
+						extras: {
+							ctype: "0"
+						},
+						show: {
+							autoShow: true,
+							aniShow: 'pop-in', //'none', 
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				})
+				document.getElementById("sp_end").addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'map_route_point_end.html',
+						id: 'map_route_point_end',
+						styles: {
+							popGesture: 'hide',
+							scrollIndicator: 'none',
+							hardwareAccelerated: false
+						},
+						extras: {
+							ctype: "1"
+						},
+						show: {
+							autoShow: true,
+							aniShow: 'pop-in', //'none', 
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+		/*		document.getElementById("btdiv").addEventListener('tap', function() {
+					
+				});*/
+				document.getElementById("btsearch").addEventListener('tap', function() {
+					
+					wv_map = plus.webview.getWebviewById("pages/maps.html");
+					var sp_start = document.getElementById("sp_start").innerText;
+					var sp_end = document.getElementById("sp_end").innerText;
+					 
+					if (sp_start == "" || sp_end == "") {
+						mui.toast("请输入起点或终点再进行路线查询");
+						return;
+					}
+					if (sp_start == "输入起点" || sp_end == "输入终点") {
+						mui.toast("请输入起点或终点再进行路线查询");
+						return;
+					}
+					
+				
+					var route = new Object();
+					route.start = sp_start;
+					route.end = sp_end;
+					/*console.log(route.end);*/
+					var routes = JSON.parse(localStorage.getItem('$routes') || '[]');
+					routes.push(route);
+					localStorage.setItem('$routes', JSON.stringify(routes));
+					/*alert(sp_start + "','" + sp_end)
+					return */
+					wv_map.evalJS("transitSearch('" + sp_start + "','" + sp_end + "')");
+					plus.webview.currentWebview().parent().close();
+					
+					
+				});
+				//清空搜索历史 
+				document.getElementById("clean").addEventListener('tap', function() {
+					 
+					var route1 = [];
+					localStorage.setItem('$routes', JSON.stringify(route1));
+					 myroute();
+					mui.toast("清除成功");
+					document.getElementById("clean").setAttribute("hidden","hidden");
+					route2 = JSON.parse(localStorage.getItem('$routes') || '[]');
+					console.log(route2.length);
+				});
+				 
+				//点击搜索历史，自动输入起点终点
+				mui("#innerlist").on('tap', '.mui-table-view-cell', function() {
+					var sp_start = document.getElementById("sp_start");
+					var sp_end = document.getElementById("sp_end");
+					sp_start.innerText = this.querySelector(".mui-start").innerText;
+					sp_end.innerText = this.querySelector(".mui-end").innerText;
+				}); 
+			});
+
+			function start_point(add,point) {
+				//alert(add);
+				if (add == "") {
+					document.getElementById("sp_start").innerText = "输入起点";
+				} else {
+					document.getElementById("sp_start").innerText = add; 
+				}
+			}
+
+			function end_point(add) {
+				//alert(add);
+				if (add == "") {
+					document.getElementById("sp_end").innerText = "输入终点";
+				} else {
+					document.getElementById("sp_end").innerText = add;
+				}
+			}
+
+			function myroute() {
+				//显示搜索历史
+				var route = JSON.parse(localStorage.getItem('$routes') || '[]');
+				/*console.log(route[0]['end']);*/
+				var str = '';
+				if(route.length!=0)
+				{ 
+					document.getElementById("clean").removeAttribute("hidden");
+					for (i = route.length - 1; i >= 0; i--) {
+					if (route.length - i <= 10) {
+						str += '<li class=\"mui-table-view-cell\"><span class=\"mui-start\">' +
+							route[i]['start'] + '</span><span style=\"margin: 0 5px;\">-</span><span class=\"mui-end\">' +
+							route[i]['end'] + '</span></li>';
+						}
+					}
+					
+				}
+				document.getElementById("innerlist").innerHTML = str;
+				
+				
+			}
+		</script>
+		<style>
+			input[type=text] {
+				height: 25px
+			}
+			
+			.innnerdiv {
+				float: left;
+			}
+			
+			#maindiv {
+				background: white;
+				width: 100%;
+				height: 70px;
+				vertical-align: middle;
+			}
+			
+			.routebox-content {
+				height: auto!important;
+				position: relative;
+			}
+			
+			.searchbox-content-common {
+				box-sizing: border-box;
+				/*float: left;*/
+				width: 329px;
+				height: 38px;
+			}
+			
+			.routebox-revert {
+				width: 39px;
+				height: 100%;
+				position: absolute;
+				left: 0;
+				top: 0;
+				cursor: pointer;
+			}
+			
+			.routebox-inputs {
+				margin-left: 39px;
+			}
+			
+			.routebox-input {
+				height: 55px;
+				width: 289px;
+				border-bottom: 1px solid #eaebed;
+				position: relative;
+			}
+			/*.route-start{
+				background:url(../images/map/route_start.png) no-repeat 0 0;
+			}*/
+			
+			.route-input-icon-start {
+				position: absolute;
+				left: 5%;
+				top: 60%;
+				width: 15px;
+				height: 14px;
+				margin-left: -9px;
+				margin-top: -7px;
+				background: url(../images/map/new-route-retian_39406a2.png) no-repeat -276px -24px;
+				background-size: 428px auto;
+			}
+			
+			.route-input-icon-end {
+				position: absolute;
+				left: 5%;
+				top: 60%;
+				width: 15px;
+				height: 14px;
+				margin-left: -9px;
+				margin-top: -7px;
+				background: url(../images/map/new-route-retian_39406a2.png) no-repeat -291px -24px;
+				background-size: 428px auto;
+			}
+			
+			.routebox-input input {
+				box-sizing: border-box;
+				border: 0;
+				height: 100%;
+				width: 100%;
+				padding: 10px 0;
+				font-size: 14px;
+				border-left: 20px solid transparent;
+				border-right: 27px solid transparent;
+				line-height: 20px;
+			}
+			
+			.routebox-input span {
+				box-sizing: border-box;
+				border: 0;
+				height: 100%;
+				width: 100%;
+				padding: 18px 0;
+				font-size: 14px;
+				border-left: 20px solid transparent;
+				border-right: 27px solid transparent;
+				line-height: 20px;
+				background: white;
+				color: #A9A9A9;
+				text-rendering: auto;
+				letter-spacing: normal;
+				word-spacing: normal;
+				text-transform: none;
+				text-indent: 0px;
+				text-shadow: none;
+				display: inline-block;
+				text-align: start;
+				margin: 0em 0em 0em 0em;
+			}
+			
+			.input-iploc {
+				color: #3385ff;
+			}
+			
+			.routebox-revert-icon {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				width: 18px;
+				height: 14px;
+				margin-left: -9px;
+				margin-top: -7px;
+				background: url(../images/map/revert_9adb172.png) no-repeat 0 0;
+			}
+			
+			.sp_input:active {
+				background: #FBFBFB;
+			}
+			
+			#change:active {
+				background: #FBFBFB;
+			}
+			
+			.mui-start {
+				font-size: 15px;
+				color: #A9A9A9;
+			}
+			
+			.mui-end {
+				font-size: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--	<form class="mui-input-group formroute">
+			<ul class="mui-table-view">
+
+				<div id="maindiv2">
+					<div class="innnerdiv" align="absmiddle">
+						<img src="../images/switch.png" style="float: left;" />
+
+					</div>
+
+					<div class="innnerdiv" align="absmiddle">
+						<span class="sp_input">我的位置</span>
+						<span class="sp_input">输入终点</span>-->
+
+		<!--<li class="mui-table-view-cell" style="position: relative;left:-40px">	
+						 
+			                 <input type="text" id="myposition" class="mui-input-clear" placeholder="我的位置" > 
+					</li>
+					<li class="mui-table-view-cell">	
+					 
+			                <input type="text" id="terminal" class="mui-input-clear" placeholder="输入终点" >	            
+					</li>-->
+		<!--</div>
+
+				</div>
+
+			</ul>
+		</form>-->
+
+		<div id="maindiv" class="searchbox-content-common routebox-content">
+			<div id="change" class="routebox-revert" title="切换起终点">
+				<div class="routebox-revert-icon"> </div>
+			</div>
+
+			<div class="routebox-inputs">
+				<div class="routebox-input route-start">
+					<div class="route-input-icon-start"> </div>
+					<span id="sp_start" class="sp_input route-end-input mui-ellipsis">输入起点</span>
+
+					<!--<input autocomplete="off" maxlength="256" placeholder="输入起点或在图区上选点" class="route-start-input input-iploc" type="text" value="">-->
+					<!--<div class="input-clear" title="清空" style="display: block;"> </div>
+					<div class="route-input-add-icon"> </div>-->
+				</div>
+				<div class="routebox-input route-end">
+					<div class="route-input-icon-end"> </div>
+					<span id="sp_end" class="sp_input route-end-input mui-ellipsis">输入终点</span>
+
+					<!--<input autocomplete="off" maxlength="256" placeholder="输入终点或在图区上选点" class="route-end-input" type="text" value="">
+					<div class="input-clear" title="清空" style="display: none;"> </div>-->
+				</div>
+			</div>
+		</div>
+		<div>
+			<ul id="innerlist" class="mui-table-view" style="margin-top: 10px;">
+				<!--<li class="mui-table-view-cell" >
+					<span class="mui-start">起点</span>
+					<span style="margin: 0 5px;">-</span>
+					<span class="mui-end">终点</span>
+				</li>
+				<li class="mui-table-view-cell"  >
+					<span class="mui-start">起点</span>
+					<span style="margin: 0 5px;">-</span>
+					<span class="mui-end">终点</span>
+				</li>-->
+			</ul>
+			<ul id="clean" class="mui-table-view" hidden="hidden">
+				<li class="mui-table-view-cell" style="text-align: center;">
+					<span  style="font-size: 15px;color: #A9A9A9;"> 清空搜索历史</span>
+				</li>
+			</ul>
+		</div>
+		<div class="mui-content-padded">
+			<div id="btdiv">
+				<button id="btsearch" type="button" class="mui-btn mui-btn-blue mui-btn-block">查询</button>
+			</div>
+		</div>
+
+	</body>
+
+</html>

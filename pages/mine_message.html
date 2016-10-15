@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="../js/mui.min.js"></script>
+    <script type="text/javascript" src="../js/app.js" ></script>
+    <link href="../css/common.css" rel="stylesheet" />
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+<script type="text/javascript" charset="utf-8">
+			//mui初始化
+			mui.init();
+			//添加内页
+			var menu = null,
+				main = null;
+			var showMenu = false;
+			mui.init({
+				swipeBack: false,
+				statusBarBackground: '#f7f7f7',
+				gestureConfig: {
+					doubletap: true
+				},
+				subpages: [{
+					id: 'mine_message-inner',
+					url: 'mine_message-inner.html',
+					styles: {
+						top: '51px',
+						bottom: 0,
+						bounce: 'vertical',
+						hardwareAccelerated :false 
+						
+					}
+				}]
+			});
+			//不要滑动条
+			mui.plusReady(function() {
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					scrollIndicator: "none"
+				});
+				document.getElementById("clean").addEventListener('tap',function(){
+						var btnArray = ['否', '是'];
+						mui.confirm('是否要清空所有消息，确认？', '提示', btnArray, function(e) {
+							if (e.index == 1) {
+								ajax_clean_all();
+							}  
+						})
+						 
+				});
+			})
+			
+			function ajax_clean_all() {
+			plus.nativeUI.showWaiting("清空中...");
+			 var state = app.getState();
+			 
+				
+				mui.ajax('http://115.28.16.183:8080/car_server/deleteMessageByUsernameServlet', { 
+					data: {
+						username: state.account
+						 
+					},
+					datatype: "json",
+					type: "post",
+					timeout: 10000,
+					success: function(data) {
+						 
+						data = JSON.parse(data);
+						plus.nativeUI.closeWaiting();
+						console.log((data)); 
+						console.log(JSON.stringify(data)); 
+						if (data.result_code == 1) { 
+							mui.toast('清空成功');     
+							plus.webview.getWebviewById("mine_message-inner").evalJS("ajax_list();");
+							
+						} else {
+							mui.toast(data.result_code);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						
+						plus.nativeUI.closeWaiting();
+						if(type=="timeout")
+							{
+								mui.toast("连接超时，请稍后再试");
+							}
+							else if(type=="abort")
+							{
+								mui.toast("您没有连接网络，请连接网络后再试");
+							}
+							else if(type=="error")
+							{
+								mui.toast("服务端异常，请稍后再试");
+							}
+							else{
+								mui.toast(type);
+							}
+						//异常处理；
+						console.log(xhr);
+						console.log(type);
+						console.log(errorThrown);
+					}
+				});
+			}
+		</script>
+</head>
+<body>
+	<header id="header" class="mui-bar mui-bar-nav hotel-header">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"  ></a>
+	    <h1 class="mui-title">消息中心</h1>	
+	    <a  id="clean" class=" mui-icon mui-icon-trash mui-pull-right"  ></a>
+	    
+	 </header>
+	 
+</body>
+</html>

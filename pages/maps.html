@@ -1,0 +1,253 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/map.js"></script>
+
+		<script type="text/javascript">
+			// src="../js/map.js"> 
+			var ws = null,
+				wo = null;
+			var em = null,
+				map = null,
+				pcenter = null;
+			// H5 plus事件处理
+			function plusReady() {
+				if (!em || ws) {
+					return
+				};
+				// 获取窗口对象
+				ws = plus.webview.currentWebview();
+				wo = ws.opener();
+				//高德地图坐标为(116.3974357341,39.9085574220), 百度地图坐标为(116.3975,39.9074)
+				pcenter = new plus.maps.Point(110.344248, 25.289869);
+				setTimeout(function() {
+					map = new plus.maps.Map("map");
+					map.centerAndZoom(pcenter, 14);
+					//map.setTraffic(true); //设置是否显示交通信息图层
+					//map.setMapType( plus.maps.MapType.MAPTYPE_SATELLITE  );// 卫星视图
+					//map.hide();//隐藏地图控件
+					userLocation();
+					//mapSearch(); //检索POI
+					transitSearch(); 
+					//createRoute();
+					//createMarker(); 	
+					//createOilMarker();  
+					//createOilMarker2();
+					// 创建子窗口
+					createSubview();
+					/*map.showZoomControls(true)*/
+					//用户点击地图事件
+					//mapOnclice();
+					//getPosition();
+				 
+					 //createOilMarker();
+		/*进入地图是先createOilMarker2*/ 
+				map.getCurrentCenter(function(state, point) {
+						if (0 == state) {
+							//map.clearOverlays();//清楚所有覆盖物 
+							createOilMarker2(point.getLng(), point.getLat());
+						} else {
+							alert("Failed!");
+						}
+					});
+					map.onstatuschanged = function(e) {
+						//alert(map.getZoom()); 
+						// 获取当前地图显示的地图中心点位置
+						if(MapMode=="gas")
+						{
+							map.getCurrentCenter(function(state, point) {
+							if (0 == state) {
+								//map.clearOverlays();//清楚所有覆盖物 
+								createOilMarker2(point.getLng(), point.getLat());
+							} else {
+								alert("Failed!");
+							}
+						});
+						}
+						
+						
+					}
+					
+					
+				}, 300);
+				
+				
+				setTimeout(function() {
+					music = mui.preload({
+						id: 'ser_music.html',
+						url: 'ser_music.html',
+						styles: {
+							/*left: "30%",
+							width: '70%',
+							zindex: 9997*/
+							hardwareAccelerated: false
+						}
+					});
+				}, 300);
+				
+				document.getElementById("music").addEventListener('tap', function() {
+					openmusic();
+				});
+				document.getElementById("divimg").addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'map_search.html',
+						id: 'map_search.html',
+						show: {
+							autoShow: true,
+							aniShow: 'fade-in', //'none',
+							duration: 200
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				/*document.getElementById("search").addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'map_search.html',
+						id: 'map_search.html',
+					});
+				});*/
+				// 显示页面并关闭等待框
+				/*	ws.show("pop-in");
+					setTimeout(function() {
+						//侧滑菜单默认隐藏，这样可以节省内存；
+						menu = mui.preload({
+							id: 'menu',
+							url: 'menu.html',
+							styles: {
+								left: 0,
+								width: '70%',
+								zindex: 9997
+							}
+						});
+					}, 300);*/
+				/*alert( "是否开启硬件加速："+ws.isHardwareAccelerated() ); */
+			}
+			if (window.plus) {
+				plusReady();
+				userLocation(); 
+				console.log("userLocation();")
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+			// DOMContentloaded事件处理
+			document.addEventListener("DOMContentLoaded", function() {
+				em = document.getElementById("map");
+				window.plus && plusReady();
+			}, false);
+
+			function openmusic() {
+				plus.webview.show("ser_music.html", 'zoom-fade-out');
+				//music.show();
+			}
+		</script>
+		<!--	<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style type="text/css">
+			#map {
+				width: 100%;
+				position: fixed;
+				top: 44px;
+				bottom: 0px;
+				line-height: 200px;
+				text-align: center;
+				background: #FFFFFF;
+			}
+			
+			#header {
+				/*background: #007aff;*/
+				border-bottom: 1px solid rgba(204, 204, 204, 0.8);
+			}
+			
+			#header #searchdiv {
+				/*margin-left: auto;
+				margin-right: auto;*/
+				position: relative;
+				z-index: 1000;
+				width: 85%;
+				float: left;
+			}
+			
+			#divimg {
+				height: 1px;
+				position: relative;
+				z-index: 1000;
+				filter: alpha(opacity=0);
+				-moz-opacity: 0;
+				-khtml-opacity: 0;
+				opacity: 0;
+			}
+			
+			#divimg:active {
+				filter: alpha(opacity=0.2);
+				-moz-opacity: 0.2;
+				-khtml-opacity: 0.2;
+				opacity: 0.2;
+			}
+			
+			#search {
+				position: relative;
+				z-index: -1;
+				outline: none;
+			}
+			
+			#header #setting {
+				float: right;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<!--<header id="header">
+
+			<div class="nvbt"> 
+
+				<span class="mui-icon mui-icon-gear"></span>
+			</div>
+			<div class="nvtt">地图</div>
+
+			<div class="nvbt ipos" onclick="userLocation();"></div>
+		
+			<input id="search" type="search" class="mui-input-speech mui-input-clear" placeholder="搜索">
+		</div>
+			
+		</header>-->
+		<header id="header" class="mui-bar mui-bar-nav">
+			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">标题</h1>-->
+
+			<!--			<div id="searchdiv" class="mui-input-row mui-search mui-plus-visible">-->
+			<div id="searchdiv" class="mui-input-row mui-search ">
+				<div id="divimg"><img src="../images/search_bg.png" /></div>
+				<input id="search" type="search" class="mui-input-speech mui-input-clear" placeholder="搜索某地附近加油站">
+
+			</div>
+			<!--		<div id="setting">
+				<a id="moreStation" class="mui-action-menu  mui-icon mui-icon-weibo mui-pull-rigth"></a>
+			</div>-->
+			<div id="setting">
+				<a id="music" class="mui-action-menu  mui-icon mui-icon-weibo mui-pull-rigth"></a>
+			</div>
+		</header>
+
+		<div id="map">
+			<br>地图加载中...
+
+		</div>
+
+	</body>
+	<script type="text/javascript" src="../js/immersed.js"></script>
+	<script>
+	</script>
+
+</html>

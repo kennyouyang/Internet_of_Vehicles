@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head> 
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<title>Hello H5+</title>
+		<script type="text/javascript">
+			function resetMap() {
+				plus.webview.currentWebview().opener().evalJS('resetMap()');
+			}
+			//放大
+			function zoomIn() {
+				plus.webview.currentWebview().opener().evalJS('zoomIn()');
+			}
+			//缩小
+			function zoomOut() {
+				plus.webview.currentWebview().opener().evalJS('zoomOut()');
+			}
+			//路况
+			function trafficCon() {
+				plus.webview.currentWebview().opener().evalJS('trafficCon()');
+				Traffic();
+			}
+			//更多
+			function moreStation() {
+				plus.webview.currentWebview().opener().evalJS('moreStation()');
+			 	
+			}
+			//定位到用户位置
+			function userLocation() {
+				plus.webview.currentWebview().opener().evalJS('userLocation()');
+			}
+			function getTraffic() {
+				plus.webview.currentWebview().opener().evalJS('getTraffic()');
+			}
+			function Traffic()
+			{
+				var trafficConimg = document.getElementById("trafficConimg");
+				var str = trafficConimg.src;
+				 
+				if(str.indexOf('false')>0)
+				{
+					trafficConimg.src = '../images/traffic_true.png';
+					 mui.toast("实时路况已打开");
+					
+				 
+				}
+				else//if(str.indexOf('true')>0) 
+				{
+					trafficConimg.src = '../images/traffic_false.png';
+					mui.toast("实时路况已关闭");
+					
+				}
+				
+				
+				 
+			}
+			 
+		</script>
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		 
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+		<style type="text/css">
+			html,
+			body {
+				overflow: hidden; 
+			}
+			.button
+			{
+				width: 40px;
+				margin: 0 0 5px 0;
+			}
+			div img{
+				height: 40px;
+			}
+			div
+			{
+				height: 40px;
+				width: 40px;
+				margin: 0 0 5px 0;
+			}
+			#userLocation
+			{
+				background-image: url(../images/v_location.png);
+				background-size: contain; 
+				background-repeat: no-repeat;
+				 
+			}
+			#userLocation:active
+			{
+				background-image: url(../images/v_location_pressed.png); 
+			}
+			
+			#moreStation
+			{
+				background-image: url(../images/moreStation.png);
+				background-size: contain; 
+				background-repeat: no-repeat;
+				 
+			}
+			#moreStation:active
+			{
+				background-image: url(../images/moreStation_pressed.png); 
+			}
+		</style>
+	</head>
+
+	<body>
+<div id="moreStation" onclick="moreStation()"><!--<img  src="../images/v_location.png"/>--></div>	
+
+<div  id="trafficCon" onclick="trafficCon()"><img id="trafficConimg" src="../images/traffic_false.png"/></div>
+ 
+<div id="userLocation" onclick="userLocation()"><!--<img  src="../images/v_location.png"/>--></div>
+
+ 
+	</body>
+
+</html>

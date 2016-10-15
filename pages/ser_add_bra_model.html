@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script src="../js/mui.lazyload.js"></script>
+		<script src="../js/mui.lazyload.img.js"></script>
+
+		<style>
+			.mui-table-view .mui-media-object {
+				line-height: 42px;
+				max-width: 100px;
+				height: 42px;
+			}
+		</style>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+					
+				
+					var waitingwv = plus.nativeUI.showWaiting("正在加载，请等待...", {
+					style: "black",
+					color: "#000",
+					background: "rgba(0,0,0,0)",
+					loading: {
+						 icon:"../images/loading/car2.gif"    
+					}
+				});
+				main = plus.webview.currentWebview();
+			  
+			 	action = main.action;
+			 
+				//alert('选择的是：' + main.barand);
+				//var typeurl = 'http://www.ok619.com/app.do?softtype=qjy&mm=acaf5ec2fc64142a04890d114e75786f49c5f1e02a4c18c445d11fd9fca9074fd833f9829097a742412c3f1facb52e96d95a980a5db00562&method=queryClxhDict&ostype=android&tempid=android-88c86b6e88ad324f33b7dc31cc3ec749&version=4.0&';
+				//alert(main.livalue);
+				var typeurl = 'http://app.cheyooh.com/i.ashx?m=car_brand&uid=87a5786fa2e24409b5af7515a1ab17c2&location_cityid=107&ver=4.3.1&channel=C074%E5%8D%8E%E4%B8%BAv4.3.1&key=e1d68d0aad7351329b38f0ece9717caf&tagversion=va&checkKey=b14bd8946935f9766f9b9298eb4f1672&pageEnter=4&timestamp=0&masterId=' + main.livalue;
+				//解析xml
+				mui.ajax(typeurl, {
+					dataType: 'xml', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						  
+						var groups = data.getElementsByTagName("group");
+						var list = '';
+						for (var i = 0; i < groups.length; i++) {
+							 	
+							//alert(groups[i].getAttribute("name"));
+							//alert(groups[i].getElementsByTagName("brand").length);
+							var brands = data.getElementsByTagName("brand");
+							list += '<li class=\"mui-table-view-cell mui-media\">				 	<div class=\"mui-media-body\">						 						<p class=\"mui-ellipsis\"><h4>' + groups[i].getAttribute("name") + '</h4></p>					</div>			 			</li>';
+							for (var j = 0; j < brands.length; j++) {
+							  
+								//alert(brands[i].getAttribute("csShowName"))
+								list += '<li class=\"mui-table-view-cell mui-media\"><a href=\"javascript:;\"><img data-lazyload=\"' + brands[j].getAttribute("pic") + '\" class=\"mui-media-object mui-pull-left\" \"><div class=\"mui-media-body\">' +
+									'<p class= \"stylename\">' + brands[j].getAttribute("csShowName") + '</p><p class=\"mui-ellipsis\">' +
+									brands[j].getAttribute("price_range") + '万</p></div></a></li>';
+							}
+							//data.getElementsByTagName("group")[0].getElementsByTagName("brand")[0].getAttribute("csShowName")
+						}
+						var respnoseEl = document.getElementById("innerlist");
+						
+						//waitingwv.close();
+						respnoseEl.innerHTML = list;
+					
+						waitingwv.close();
+						
+						
+						//懒加载
+						(function($) {
+							$(document).imageLazyload({
+								placeholder: '../images/60x60.gif'
+							});
+						})(mui);
+						/*	var da = data["list"];
+							var list = '';
+							for (i = 0; i < da.length; i++) {
+								if (da[i]['styleimg'].length > 0) {
+									img = (da[i]['styleimg'].split('&'))[2];
+									imgurl = 'http://images.ok619.com/' + img.substring(9);
+								} else {
+									imgurl = "../images/zwtp.jpg";
+								}
+								list += '<li class=\"mui-table-view-cell mui-media\"><a href=\"javascript:;\"><img class=\"mui-media-object mui-pull-left\"src=\"' +
+									imgurl + '\"><div class=\"mui-media-body\">' +
+									da[i]['breadname'] + '<p class=\"mui-ellipsis\">' +
+									da[i]['stylename'] + '</p></div></a></li>';
+							}
+							var respnoseEl = document.getElementById("innerlist");
+							respnoseEl.innerHTML = list;*/
+					},
+					error: function(xhr, type, errorThrown) { //异常处理；
+						waitingwv.close();
+						if(type=="timeout")
+							{
+								mui.toast("连接超时，请稍后再试");
+							}
+							else if(type=="abort")
+							{
+								mui.toast("您没有连接网络，请连接网络后再试");
+							}
+							else if(type=="error")
+							{
+								mui.toast("服务端异常，请稍后再试");
+							}
+							else{
+								mui.toast(type);
+							}
+
+						//异常处理；
+						console.log(xhr);
+						console.log(type);
+						console.log(errorThrown);
+					}
+				});
+				//解析json
+				/*mui.ajax(typeurl, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var da = data["list"];
+						var list = '';
+						for (i = 0; i < da.length; i++) {
+						 
+							if (da[i]['styleimg'].length > 0) {
+								img = (da[i]['styleimg'].split('&'))[2];
+								imgurl = 'http://images.ok619.com/'+img.substring(9);
+							} else {
+								imgurl = "../images/zwtp.jpg";
+							}
+						
+							list += '<li class=\"mui-table-view-cell mui-media\"><a href=\"javascript:;\"><img class=\"mui-media-object mui-pull-left\"src=\"' +
+								imgurl + '\"><div class=\"mui-media-body\">' +
+								da[i]['breadname'] + '<p class=\"mui-ellipsis\">' +
+								da[i]['stylename'] + '</p></div></a></li>';
+						}
+						
+						var respnoseEl = document.getElementById("innerlist");
+
+						respnoseEl.innerHTML = list;
+						
+					},
+					error: function(xhr, type, errorThrown) { //异常处理；
+						console.log(type);
+					}
+				});*/
+				//打开新页面
+				mui("#innerlist").on('tap', 'li', function() {
+					var stylename = this.querySelector(".stylename").innerText;
+					//alert(main.barand);
+					//alert(stylename);
+					var imgsrc = this.querySelector(".mui-media-object").src;
+					/*	alert(imgsrc);
+						console.log(imgsrc)*/
+					//evalJS传值
+					if(action =="add"){
+							czwv = plus.webview.getWebviewById("addcar-inner");
+					//czwv.evalJS("cz('"+JSON.stringify(main.barand+'-'+stylename)+"')");
+							czwv.evalJS("cz2('" + stylename + "','" + main.barand + "','" + imgsrc + "');");
+							plus.webview.close("ser_add_bra_model.html");
+							plus.webview.close("ser_add_brands.html");
+					}
+					else{
+						 
+						czwv = plus.webview.getWebviewById("ser_editcar-inner");
+					//czwv.evalJS("cz('"+JSON.stringify(main.barand+'-'+stylename)+"')");
+							czwv.evalJS("cz2('" + stylename + "','" + main.barand + "','" + imgsrc + "');");
+							plus.webview.close("ser_add_bra_model.html");
+							plus.webview.close("ser_add_brands.html");
+					}
+					
+				
+					/*				mui.openWindow({
+										id: 'car_list.html',
+										url: '../pages/car_list.html',
+										extras: {
+											barand: barand
+										},
+										styles: {
+											top: "45px",
+											left: "16%",
+											width: '90%',
+											bottom: "0%",
+											zindex: 9997
+										}
+							 
+								});*/
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<ul id="innerlist" class="mui-table-view">  
+ 
+		<!--	<div style="text-align: center;">正在加载...</div>-->
+			<!--<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						<p id = "stylename">G18</p>
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="http://images.ok619.com/images/yhjlzlapi/style/79086c49335a8b206eeca47499475715.jpg">
+					<div class="mui-media-body">
+						G18
+						<p class="mui-ellipsis">G18</p>
+					</div>
+				</a>
+			</li>-->
+
+		</ul>
+	</body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.indexedlist.css" rel="stylesheet" />
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+			.mui-new{
+				height: 41px;
+			}
+			li span{
+				position: relative;
+				top:10px;
+			}
+			.mui-indexed-list-group, .mui-indexed-list-item{
+				padding-right: 35px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">省份简称</h1>
+		</header>
+		<div class="mui-content">
+			<div id='list' class="mui-indexed-list">
+				<div class="mui-indexed-list-search mui-input-row mui-search">
+					<!--<input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="搜索机场">-->
+				</div>
+				<div class="mui-indexed-list-bar">
+					<a>C</a>
+					<a>E</a>
+					<a>G</a>
+					<a>H</a>
+					<a>J</a>
+					<a>L</a>
+					<a>M</a>
+					<a>N</a>
+					<a>Q</a>
+					<a>S</a>
+					<a>W</a>
+					<a>X</a>
+					<a>Y</a>
+					<a>Z</a>
+				</div>
+				<div class="mui-indexed-list-alert"></div>
+				<div class="mui-indexed-list-inner">
+					<div class="mui-indexed-list-empty-alert">没有数据</div>
+					<ul class="mui-table-view">
+						<li data-group="C" class="mui-table-view-divider mui-indexed-list-group">C</li>
+						<li class="mui-new"><span data-value="ch" data-tags="Chuan" class="mui-table-view-cell mui-indexed-list-item">川</span></li>
+						<li data-group="E" class="mui-table-view-divider mui-indexed-list-group">E</li>
+						<li class="mui-new"><span data-value="ee" data-tags="Ee" class="mui-table-view-cell mui-indexed-list-item">鄂</span></li>
+						<li data-group="G" class="mui-table-view-divider mui-indexed-list-group">G</li>
+						<li class="mui-new">
+							<span data-value="gui" data-tags="Gui" class="mui-table-view-cell mui-indexed-list-item">桂</span>
+						    <span data-value="gan" data-tags="Gan" class="mui-table-view-cell mui-indexed-list-item">赣</span>
+						    <span data-value="gui" data-tags="Gui" class="mui-table-view-cell mui-indexed-list-item">贵</span>
+						    <span data-value="gan" data-tags="Gan" class="mui-table-view-cell mui-indexed-list-item">甘</span>
+						</li>
+						<li data-group="H" class="mui-table-view-divider mui-indexed-list-group">H</li>
+						<li class="mui-new">
+							<span data-value="hei" data-tags="Hei" class="mui-table-view-cell mui-indexed-list-item">黑</span>
+						    <span data-value="hu" data-tags="Hu" class="mui-table-view-cell mui-indexed-list-item">沪</span>
+						</li>
+						<li data-group="J" class="mui-table-view-divider mui-indexed-list-group">J</li>
+						<li class="mui-new">
+						<span data-value="jing" data-tags="Jing" class="mui-table-view-cell mui-indexed-list-item">京</span>
+						<span data-value="jin" data-tags="Jin" class="mui-table-view-cell mui-indexed-list-item">津</span>
+						<span data-value="ji" data-tags="Ji" class="mui-table-view-cell mui-indexed-list-item">冀</span>
+						<span data-value="jin1" data-tags="Jin1" class="mui-table-view-cell mui-indexed-list-item">晋</span>
+						<span data-value="ji" data-tags="Ji" class="mui-table-view-cell mui-indexed-list-item">吉</span>
+						</li>
+						<li data-group="L" class="mui-table-view-divider mui-indexed-list-group">L</li>
+						<li class="mui-new">
+						<span data-value="liao" data-tags="Liao" class="mui-table-view-cell mui-indexed-list-item">辽</span>
+						<span data-value="lu" data-tags="Lu" class="mui-table-view-cell mui-indexed-list-item">鲁</span>
+						</li>
+						<li data-group="M" class="mui-table-view-divider mui-indexed-list-group">M</li>
+						<li class="mui-new">
+						<span data-value="meng" data-tags="Meng" class="mui-table-view-cell mui-indexed-list-item">蒙</span>
+						<span data-value="min" data-tags="Min" class="mui-table-view-cell mui-indexed-list-item">闽</span>
+						</li>
+						<li data-group="N" class="mui-table-view-divider mui-indexed-list-group">N</li>
+						<li class="mui-new">
+						<span data-value="ning" data-tags="Ning" class="mui-table-view-cell mui-indexed-list-item">宁</span>
+						</li>
+						<li data-group="Q" class="mui-table-view-divider mui-indexed-list-group">Q</li>
+						<li class="mui-new">
+						<span data-value="qiong" data-tags="Qiong" class="mui-table-view-cell mui-indexed-list-item">琼</span>
+						<span data-value="qing" data-tags="Qing" class="mui-table-view-cell mui-indexed-list-item">青</span>
+						</li>
+						<li data-group="S" class="mui-table-view-divider mui-indexed-list-group">S</li>
+						<li class="mui-new">
+						<span data-value="shan" data-tags="Shan" class="mui-table-view-cell mui-indexed-list-item">陕</span>
+						<span data-value="su" data-tags="Su" class="mui-table-view-cell mui-indexed-list-item">苏</span>
+						</li>
+						<li data-group="W" class="mui-table-view-divider mui-indexed-list-group">W</li>
+						<li class="mui-new">
+						<span data-value="wan" data-tags="Wan" class="mui-table-view-cell mui-indexed-list-item">皖</span>
+						</li>
+						<li data-group="X" class="mui-table-view-divider mui-indexed-list-group">X</li>
+						<li class="mui-new">
+						<span data-value="xiang" data-tags="Xiang" class="mui-table-view-cell mui-indexed-list-item">湘</span>
+						<span data-value="xin" data-tags="Xin" class="mui-table-view-cell mui-indexed-list-item">新</span>
+						</li>
+						<li data-group="Y" class="mui-table-view-divider mui-indexed-list-group">Y</li>
+						<li class="mui-new">
+						<span data-value="yu" data-tags="Yu" class="mui-table-view-cell mui-indexed-list-item">豫</span>
+						<span data-value="yue" data-tags="Yue" class="mui-table-view-cell mui-indexed-list-item">粤</span>
+						<span data-value="yu1" data-tags="Yu1" class="mui-table-view-cell mui-indexed-list-item">渝</span>
+						<span data-value="yun" data-tags="Yun" class="mui-table-view-cell mui-indexed-list-item">云</span>
+						</li>
+						<li data-group="Z" class="mui-table-view-divider mui-indexed-list-group">Z</li>
+						<li class="mui-new">
+						<span data-value="zhe" data-tags="Zhe" class="mui-table-view-cell mui-indexed-list-item">浙</span>
+						<span data-value="zang" data-tags="Zhang" class="mui-table-view-cell mui-indexed-list-item">藏</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.indexedlist.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			mui.ready(function() {
+				var header = document.querySelector('header.mui-bar');
+				
+				mui("li").on('tap','.mui-table-view-cell',function(){
+				   //alert(this.innerText); 
+				   wv = plus.webview.getWebviewById("addcar-inner");
+				  // alert(JSON.stringify(wv))
+				   wv.evalJS("getCity('"+ this.innerText +"')" );
+				   //wv.evalJS("getCity('"+this.innerText+"')");  
+				   plus.webview.currentWebview().close();
+				    
+				}) 
+				
+				var list = document.getElementById('list');
+				//calc hieght
+				list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
+				//create
+				window.indexedList = new mui.IndexedList(list);
+			});
+		</script>
+	</body>
+
+</html>

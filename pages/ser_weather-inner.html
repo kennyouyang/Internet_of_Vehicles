@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+			//不要滑动条
+			mui.plusReady(function() {
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					scrollIndicator: "none",
+					hardwareAccelerated :false
+				})
+				var mlocation = JSON.parse(localStorage.getItem('$myLocation'));
+				var citypy = mlocation["citypy"];
+				var weatherurl1 = 'https://api.thinkpage.cn/v3/weather/now.json?key=kltw7jmgxvmm6qls&location=' + citypy + '&language=zh-Hans&unit=c'
+					//获取当前温度，天气状况
+				mui.ajax(weatherurl1, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data1) {
+						//将信息写入页面
+						nowtem.innerHTML = data1.results[0]['now']['temperature'];
+						myweather.innerHTML = data1.results[0]['now']['text'];
+						//将信息存入key-value中
+						weatherInfo1 = new Object();
+						weatherInfo1.nowtem = data1.results[0]['now']['temperature'];
+						weatherInfo1.myweather = data1.results[0]['now']['text'];
+						localStorage.setItem('$weather1', JSON.stringify(weatherInfo1));
+					},
+					error: function(xhr, type, errorThrown) {
+						if (type == "timeout" || type == "abort") {
+							var weather = JSON.parse(localStorage.getItem('$weather1') || '[]');
+							if (weather != "") {
+								nowtem.innerHTML = weather.nowtem;
+								myweather.innerHTML = weather.myweather;
+							}
+						} else {
+							mui.toast("服务器异常，请稍候再试...");
+						}
+						//异常处理；						
+						console.log(type);
+					}
+				});
+				var weatherurl2 = 'https://api.thinkpage.cn/v3/weather/daily.json?key=kltw7jmgxvmm6qls&location=' + citypy + '&language=zh-Hans&unit=c&start=-1&days=5'
+				mui.ajax(weatherurl2, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						//将信息写入页面
+						var da = data.results[0];
+						myLocation.innerHTML = da['location']['name'];
+						refreshTime.innerHTML = "更新时间：" + da['last_update'].substring(0, 10);
+						var daily = da['daily'];
+						myhigh.innerHTML = daily[0]['high'];
+						var mylow = document.getElementById("mylow");
+						mylow.innerText = daily[0]['low'];
+						mywind.innerHTML = daily[0]['wind_direction'] + "风";
+						for (i = 0; i < daily.length; i++) {
+							var daytemp = "day" + i;
+							var imgtemp = "img" + i;
+							var dayn = document.getElementById(daytemp);
+							var imgn = document.getElementById(imgtemp);
+							dayn.innerHTML = daily[i]['high'] + '/' + daily[i]['low'];
+							imgn.src = '../images/weather/' + daily[i]['code_day'] + '.png';
+						}
+						//将信息存入key-value中
+						weatherInfo2 = new Object();
+						weatherInfo2.myLocation = da['location']['name'];
+						weatherInfo2.refreshTime = da['last_update'].substring(0, 10);
+						weatherInfo2.myhigh = daily[0]['high'];
+						weatherInfo2.mylow = daily[0]['low'];
+						weatherInfo2.mywind = daily[0]['wind_direction'];
+						console.log(JSON.stringify(weatherInfo2) + "weatherInfo2");
+						var ary = [];
+						for (i = 0; i < daily.length; i++) {
+							var daytemp = "day" + i;
+							var imgtemp = "img" + i;
+							var dayn = document.getElementById(daytemp);
+							var imgn = document.getElementById(imgtemp);
+							console.log(daily[i]['high'] + '/' + daily[i]['low']);
+							ary.push({
+								dayn: daily[i]['high'] + '/' + daily[i]['low'],
+								imgn: daily[i]['code_day']
+							});
+						}
+						weatherInfo2.weather = ary;
+						localStorage.setItem('$weather2', JSON.stringify(weatherInfo2));
+						console.log(weatherInfo2.refreshTime);
+						//判断背景图
+						//雨
+						if ((daily[0]['code_day'] >= 10 && daily[0]['code_day'] <= 25) || daily[0]['code_day'] == 37) {
+							var mytops = document.getElementById('mytop');
+							mytops.className = 'mui-top-rain';
+						}
+						//多云
+						else if ((daily[0]['code_day'] >= 4 && daily[0]['code_day'] <= 9) || (daily[0]['code_day'] >= 34 && daily[0]['code_day'] <= 36)) {
+							var mytops = document.getElementById('mytop');
+							mytops.className = 'mui-top-cloud';
+						}
+						//太阳
+						else {
+							var mytops = document.getElementById('mytop');
+							mytops.className = 'mui-top-sunshine';
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						if (type == "timeout" || type == "abort") {
+							var weather = JSON.parse(localStorage.getItem('$weather2') || '[]');
+							console.log(JSON.stringify(weather) + "weather");
+							if (weather != "") {
+								myLocation.innerHTML = weather.myLocation;
+								refreshTime.innerHTML = "更新时间：" + weather.refreshTime;
+								myhigh.innerHTML = weather.myhigh;
+								mylow.innerHTML = weather.mylow;
+								mywind.innerHTML = weather.mywind + "风";
+								weathers = weather.weather;
+								for (i = 0; i < 3 /*weathers.length*/ ; i++) {
+									var daytemp = "day" + i;
+									var imgtemp = "img" + i;
+									var dayn = document.getElementById(daytemp);
+									var imgn = document.getElementById(imgtemp);
+									dayn.innerHTML = weathers[i]['dayn'];
+									console.log(document.body.querySelector(".mui-table-view-cell1").innerHTML + "-body")
+										//console.log(dayn.innerHTML+"-dayn.innerHTML")
+									imgn.src = '../images/weather/' + weathers[i]['imgn'] + '.png';
+								}
+								//判断背景图
+								//雨
+								if ((weathers[0]['code_day'] >= 10 && weathers[0]['code_day'] <= 25) || weathers[0]['code_day'] == 37) {
+									var mytops = document.getElementById('mytop');
+									mytops.className = 'mui-top-rain';
+								}
+								//多云
+								else if ((weathers[0]['code_day'] >= 4 && weathers[0]['code_day'] <= 9) || (weathers[0]['code_day'] >= 34 && weathers[0]['code_day'] <= 36)) {
+									var mytops = document.getElementById('mytop');
+									mytops.className = 'mui-top-cloud';
+								}
+								//太阳
+								else {
+									var mytops = document.getElementById('mytop');
+									mytops.className = 'mui-top-sunshine';
+								}
+							}
+						} else {
+							mui.toast("服务器异常，请稍候再试...");
+						}
+						//异常处理；						
+						console.log(type);
+					}
+				});
+			});
+		</script>
+		<style>
+			@font-face {
+				font-family: 'iconfont';
+				src: url('//at.alicdn.com/t/font_1464061645_0937264.eot');
+				/* IE9*/
+				src: url('//at.alicdn.com/t/font_1464061645_0937264.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+				url('//at.alicdn.com/t/font_1464061645_0937264.woff') format('woff'), /* chrome、firefox */
+				url('//at.alicdn.com/t/font_1464061645_0937264.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+				url('//at.alicdn.com/t/font_1464061645_0937264.svg#iconfont') format('svg');
+				/* iOS 4.1- */
+			}
+			
+			.iconfont {
+				font-family: "iconfont";
+				font-style: normal;
+			}
+			
+			.mui-top-rain {
+				background-image: url(../images/weather/rain.jpg);
+				height: 200px;
+			}
+			
+			.mui-top-cloud {
+				background-image: url(../images/weather/cloud.jpg);
+				height: 200px;
+			}
+			
+			.mui-top-sunshine {
+				background-image: url(../images/weather/sunshine.jpg);
+				height: 200px;
+			}
+			
+			.mui-place {
+				margin-left: 10px;
+				margin-bottom: 15px;
+				padding-top: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="ser_weather-inner">
+			<div id="mytop" style="height: 200px;">
+				<div id="myLocation" class="mui-place">桂林</div>
+				<div>
+					<div style="margin: 10px 0 10px 10px;">
+						<span id="nowtem" style="font-size: 50px;">21</span>
+						<span class="iconfont" style="font-size: 50px;">&#8451</span>
+						<span id="mywind" style="float: right;margin: 15px 10px 0  0 ;">南风</span>
+					</div>
+					<div style="margin: 10px 0 10px 10px;">
+						<span style="font-size: 20px;">
+							<span id="myhigh">25</span>
+						<span>/</span>
+						<span id="mylow">18</span>
+						</span>
+						<span class="iconfont" style="font-size: 20px;">&#8451</span>
+
+						<span id="myweather" style="float: right;margin: 0 10px 0  0 ;">晴</span>
+					</div>
+
+				</div>
+				<div style="float: right;margin: 50px 10px 0  0 ;">
+					<span id="refreshTime"><img class="loading" src="../images/loading/loading1.gif"></span>
+				</div>
+			</div>
+
+			<div class="mui-bottom-new">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell" style="height: 45px;width: 100%;">
+						<label style="position: relative;top:-14px">今天</label>
+						<img id="img0" src="../images/weather/a.png" width="35px" style="margin-left: 30%;" />
+						<span class="iconfont" style="float: right;position: relative;top:4px">&#8451</span>
+						<span id="day0" style="float: right;position: relative;top:4px">20</span>
+					</li>
+					<li class="mui-table-view-cell" style="height: 45px;width: 100%;">
+						<label style="position: relative;top:-14px">明天</label>
+						<img id="img1" src="../images/weather/a.png" width="35px" style="margin-left: 30%;" />
+						<span class="iconfont" style="float: right;position: relative;top:4px">&#8451</span>
+						<span id="day1" style="float: right;position: relative;top:4px">20</span>
+					</li>
+					<li class="mui-table-view-cell" style="height: 45px;">
+						<label style="position: relative;top:-14px">后天</label>
+						<img id="img2" src="../images/weather/a.png" width="35px" style="margin-left: 29%;" />
+						<span class="iconfont" style="float: right;position: relative;top:4px">&#8451</span>
+						<span id="day2" style="float: right;position: relative;top:4px">20</span>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+	</body>
+
+</html>

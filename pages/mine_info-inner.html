@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="../js/app.js"></script>
+		    <script src ="../js/encrypt/core.js"></script>
+          <script src= "../js/encrypt/hmac.js" ></script>
+          <script src= "../js/encrypt/sha256.js" ></script>
+
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+			
+			mui.plusReady(function() {
+				state = app.getState();
+				ajax_info();
+
+				document.getElementById("profile").addEventListener('tap', function() {
+					//alert("修改头像");
+				})
+				document.getElementById("nick").addEventListener('tap', function() {
+					var nick = document.getElementById("sp_nick").innerText;
+					showPrompt("修改昵称", nick, "nick");
+					
+				})
+				document.getElementById("email").addEventListener('tap', function() {
+					var email = document.getElementById("sp_email").innerText;
+					showPrompt("修改邮箱", email, "email");
+				})
+				document.getElementById("password").addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'mine_info_changepassword.html',
+						id: 'mine_info_changepassword',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide',
+							scrollIndicator: 'none',
+							hardwareAccelerated: false
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				})
+				document.getElementById("phone").addEventListener('tap', function() {
+					var phone = document.getElementById("sp_phone").innerText;
+					showPrompt("修改手机号", phone, "phone");
+				})
+			});
+			
+			function ajax_updata(info){
+				//写入个人信息
+			    
+				var state = app.getState();
+				
+				mui.ajax('http://115.28.16.183:8080/car_server/UpdateUserInfoServlet',{
+					data:info, 
+					datatype:"json",
+					type:"post",
+					timeout:10000,
+					success:function(data){
+						data=JSON.parse(data);
+						console.log((data))
+						console.log(JSON.stringify(data))
+						if(data.result_code == '1'){
+							mui.toast("更新成功");
+							ajax_info();
+						}	
+						else{
+							mui.toast("更新失败");
+						}
+					},
+					error:function(xhr, type, errorThrown){ 
+						//异常处理；
+						if(type=="timeout")
+							{
+								mui.toast("连接超时，请稍后再试");
+							}
+							else if(type=="abort")
+							{
+								mui.toast("您没有连接网络，请连接网络后再试");
+							}
+							else if(type=="error")
+							{
+								mui.toast("服务端异常，请稍后再试");
+							}
+							else{
+								mui.toast(type);
+							}
+						console.log(xhr);
+						console.log(type);
+						console.log(errorThrown);
+					}					
+				});
+			}
+			function ajax_info(){
+				//读取个人信息
+				var state = app.getState();
+				var sign = CryptoJS.HmacSHA256(state.token + state.account,state.token)+"";
+  				console.log(sign);
+
+				mui.ajax('http://115.28.16.183:8080/car_server/GetMyInfoServlet', {
+					data: {
+						username: state.account,
+						sign:sign
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					beforeSend: function(xhr) {},
+					success: function(data) {
+						if (data.result_code == '1') {
+							console.log(JSON.stringify(data));
+							var nick = data["userInfo"]["nick"];
+							if (nick == "" || nick == null) {
+								document.getElementById("sp_nick").innerHTML = "<p>您还没有昵称</p>";
+							} else {
+								document.getElementById("sp_nick").innerText = nick;
+							}
+							
+							document.getElementById("sp_email").innerText = data["userInfo"]["email"];
+							document.getElementById("sp_phone").innerText = data["userInfo"]["phone"];
+							document.getElementById("sp_username").innerText = data["userInfo"]["username"];
+						} else {
+							/*plus.nativeUI.toast(data.result_code);*/
+							plus.nativeUI.toast(data.result_code);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						if(type=="timeout")
+							{
+								mui.toast("连接超时，请稍后再试");
+							}
+							else if(type=="abort")
+							{
+								mui.toast("您没有连接网络，请连接网络后再试");
+							}
+							else if(type=="error")
+							{
+								mui.toast("服务端异常，请稍后再试");
+							}
+							else{
+								mui.toast(type);
+							}
+						console.log(xhr);
+						console.log(type);
+						console.log(errorThrown);
+					}
+				});
+			}
+			function showPrompt(message, tip, element_id) {
+				var bts = ["确认", "取消"];
+				plus.nativeUI.prompt(message, function(e) {
+					//e.value=document.getElementById(element_id).innerText;
+					var i = e.index;
+					if (e.index == 0) {
+						if(e.value==""){
+							mui.toast("所填信息为空，请填写后再修改")
+									return;
+						}
+						
+						var state = app.getState();
+						var info = new Object();
+						
+						switch (element_id) {
+							case 'nick':
+							 
+								nick1 = e.value;
+								
+								info={
+									username:state.account,
+									token:state.token,
+									nick:nick1,
+									updatemodel:1}; 
+								 ajax_updata(info);
+								break;
+							case 'email':
+								email1 = e.value;
+								info={
+									username:state.account,
+									token:state.token,
+									email:email1,
+									updatemodel:2};
+								 ajax_updata(info);
+								break;
+							case 'phone':
+								phone1 = e.value;
+								info={
+									username:state.account,
+									token:state.token,
+									phone:phone1,
+									updatemodel:3};
+								 ajax_updata(info);
+								break;
+							default:
+								break;
+						}
+						/*alert("确认");*/
+						/*console.log(nick1);
+						console.log(email1);
+						console.log(phone1);
+						alert(e.value);*/
+					}
+					if (e.index == 1) {
+						/*	alert("取消");*/
+					}
+					//outLine("按\"" + ((i >= 0) ? bts[e.index] : "返回") + "\"关闭：" + e.value);
+				}, "", tip, bts);
+			}
+		</script>
+		<style>
+			.head {
+				float: right;
+				margin-right: 30px;
+			}
+			
+			li a span {
+				float: right;
+				margin-right: 20px;
+			}
+			
+			.loading {}
+		</style>
+	</head>
+
+	<body>
+		<div id="mine_info-inner">
+			<ul class="mui-table-view">
+				<li id="profile" class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						<label style="position: absolute;top:57px">头像</label>
+						<img class="head" style="height: 100px;" src="../images/sidebar_icn_head.png" />
+					</a>
+				</li>
+				<li id="username" class="mui-table-view-cell">
+					<a class=" ">
+						<label>用户名</label>
+						<span id="sp_username"><img class="loading" src ="../images/loading/loading1.gif"></span>
+					</a>
+				</li>
+				<li id="password" class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						<label>密码修改</label>
+						<span id="sp_password"> </span>
+					</a>
+				</li>
+				<li id="nick" class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						<label>昵称</label>
+						<span id="sp_nick"><img class="loading" src ="../images/loading/loading1.gif"></span>
+					</a>
+				</li>
+				<!--<li id="mycar" class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						<label>我的车</label>
+						<span><img class="loading" src ="../images/loading/loading1.gif"></span>
+					</a>
+				</li>-->
+				<li id="phone" class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						<label>手机绑定</label>
+						<span id="sp_phone"><img class="loading" src ="../images/loading/loading1.gif"></span>
+					</a>
+				</li>
+				<li id="email" class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						<label>邮箱</label>
+						<span id="sp_email"><img class="loading" src ="../images/loading/loading1.gif"></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</body>
+
+</html>

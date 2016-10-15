@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type='text/javascript' src='../js/qrcode/jquery.min.js'></script>
+		<script type="text/javascript" src="../js/qrcode/jquery.qrcode.min.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+
+		<!-- 	<link rel="stylesheet" href="../css/mui.min.css" />-->
+
+		<style>
+			#qrcode2 {
+				text-align: center;
+				 
+			}
+			
+			div {
+				text-align: center;
+			}
+			
+			#show {
+				/*	border: solid 20px white;
+				background-color: red;*/
+			}
+			
+			#tips {
+				color: black;
+				font-size: 14px;
+				margin-top: 10px;
+				text-align: center
+			}
+		</style>
+		<script>
+ 
+			mui.plusReady(function() {
+				ws = plus.webview.currentWebview();
+				jQuery('#qrcode2').qrcode({ /*width: 300,height: 300,*/
+					//text: "{\"OrderID\":\""+ws.orderid+"\"}"
+					text: ws.orderid
+				});
+				document.getElementById("tips").innerText="请出示该二维码给加油站人员进行扫码确认";
+				document.getElementById("code_body").addEventListener('tap', function() {
+					ws.close();
+				})
+			})
+		</script>
+
+	</head>
+
+	<body id="code_body">
+
+		<div id="show">
+
+			<div id="qrcode2"></div>
+			<span id="tips"></span>
+		</div>
+
+	</body>
+
+</html>

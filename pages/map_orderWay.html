@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js"></script> 
+		<script src ="../js/encrypt/core.js"></script>
+        <script src= "../js/encrypt/hmac.js" ></script>
+        <script src= "../js/encrypt/sha256.js" ></script>
+
+		<!--<script type="text/javascript" src="../js/common.js"></script>-->
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+			var paytype="none";
+			var pays={};
+			mui.plusReady( function() {
+				curws=plus.webview.currentWebview();
+				document.getElementById("station_name").innerText = curws.gasStation;
+				document.getElementById("orderid").innerText = curws.orderid;
+				document.getElementById("sum").innerText = curws.sum;
+				 
+				 
+					// 获取支付通道
+				plus.payment.getChannels(function(channels){
+					console.log("获取支付通道");
+					var content=document.getElementById('dcontent');
+					var info=document.getElementById("info");
+					var txt="支付通道信息：";
+					for(var i in channels){
+						console.log("获取支付通道"+i); 
+						var channel=channels[i];
+						if(channel.id=='qhpay'||channel.id=='qihoo'){	// 过滤掉不支持的支付通道：暂不支持360相关支付
+							continue;
+						}
+						pays[channel.id]=channel;
+						txt += "id:"+channel.id+", ";
+						txt += "description:"+channel.description+", ";
+						txt += "serviceReady:"+channel.serviceReady+"； ";
+						var de=document.createElement('div');
+						de.setAttribute('class','button');
+						de.setAttribute('onclick','pay(this.id)');
+						de.id=channel.id;
+						de.innerText=channel.description+"支付";
+						//content.appendChild(de);
+						checkServices(channel);
+					}
+					//info.innerText=txt;
+				},function(e){
+					//outLine("获取支付通道失败："+e.message);
+					console.log("获取支付通道失败："+e.message)
+				});
+				
+				
+				
+				 
+				
+				
+				
+				
+				
+				
+				
+				document.getElementById("pay").addEventListener('tap', function() {
+					if(paytype=="none"){
+						mui.toast("请选择支付方式")
+					}
+					else if(paytype=="alipay")
+					{
+						//alert("支付中"+paytype);
+						pay("alipay");  
+					}
+					else if(paytype=="monipay")
+					{
+						//alert("支付中"+paytype) 
+						var btnArray = ['否', '是'];
+						mui.confirm('是否要付款，确认？', '提示', btnArray, function(e) {
+							if (e.index == 1) {
+								payment(document.getElementById("orderid").innerText);
+								 
+							} else {
+									return;
+							}
+						})
+					}
+					
+				});
+				
+				
+				var info = document.getElementById("info");  
+				document.querySelector('.mui-table-view.mui-table-view-radio').addEventListener('selected',function(e){
+				 	//修改支付方式
+					paytype = e.detail.el.querySelector('.paytype').innerText;
+					
+					 
+				});
+			});
+			function payment(orderid) {
+				var tips = "";
+				var orderStatus = "";
+				var toastsucc = "";
+				 
+				tips = "正在支付...";
+				toastsucc = "支付成功！";
+				orderStatus = "待消费";
+						 
+				var waitingwv = null;
+				waitingwv = plus.nativeUI.showWaiting(tips, {
+					loading: {
+						//  icon: "../images/loading/big_loading.gif"
+					}
+				});
+				state = app.getState();
+				
+				var sign = CryptoJS.HmacSHA256(state.token+state.account+orderid+orderStatus ,state.token)+"";
+  				console.log(sign);
+
+				mui.ajax('http://115.28.16.183:8080/car_server/updateOrderByOrderIdServlet', {
+					data: {
+						username: state.account, //"kenny",
+						OrderId: orderid,
+						orderStatus: orderStatus,
+						sign:sign
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					beforeSend: function(xhr) {},
+					success: function(data) {
+						waitingwv.close();
+						console.log(data);
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if (data.result_code == '1') {
+							//updatebutton(action);
+							mui.toast(toastsucc);
+							ws = plus.webview.getWebviewById("mine_advanceOrder-inner");
+							if(ws!=null)
+							{
+								ws.evalJS("ajax_list();"); 
+							}
+							
+							
+							ws2 = plus.webview.getWebviewById("mine_advanceOrderDetail-inner");
+							if(ws2!=null)
+							{
+								ws2.evalJS("ajax_init();"); 
+								 
+								//ws2.close();
+							}
+							/*ws3 = plus.webview.getWebviewById("mine_advanceOrderDetail");
+							if(ws3!=null)
+							{
+								ws3.close();
+							}*/
+							
+							plus.webview.currentWebview().close();
+							
+							//ajax_list();
+						} else {
+							mui.toast(data.result_code);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						waitingwv.close();
+						//异常处理；
+						console.log(xhr);
+						console.log(type);
+						if (type == "timeout") {
+							//document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>连接超时，请检查网络连接</p>';
+							mui.toast("连接超时，请检查网络是否连接！");
+						} else if (type == "abort") {
+							//document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>服务端异常，请稍候再试</p>';
+							mui.toast("您没有连接网络，请连接网络后再试...");
+						} else if (type == "error") {
+							//document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>服务端异常，请稍候再试</p>';
+							mui.toast("服务器异常，请稍候再试...");
+						} else {
+							mui.toast(type);
+						}
+						console.log(errorThrown);
+					}
+				});
+			}
+			
+			// 检测是否安装支付服务
+			function checkServices(pc){
+				if(!pc.serviceReady){
+					var txt=null;
+					switch(pc.id){
+						case "alipay":
+						txt="检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？";
+						break;
+						default:
+						txt="系统未安装“"+pc.description+"”服务，无法完成支付，是否立即安装？";
+						break;
+					}
+					plus.nativeUI.confirm(txt,function(e){
+						if(e.index==0){
+							pc.installService();
+						}
+					},pc.description);
+				}
+			}
+			
+			
+			
+		var w=null;
+		 
+		var PAYSERVER='http://115.28.16.183:8080/car_server/PayService?payid='; 
+ 
+		// 支付
+		function pay(id){
+			
+			console.log("pay:"+id); 
+			if(w){return;}//检查是否请求订单中
+			/*if(id==='appleiap'){
+				//outSet("应用内支付");
+				clicked('payment_iap.html'); 
+				return;
+			}
+			//outSet("----- 请求支付 -----"); */
+			var url=PAYSERVER;
+			if(id=='alipay'||id=='wxpay'){
+				url+=id;
+			}else{
+				plus.nativeUI.alert("当前环境不支持此支付通道！",null,"付款");
+				return;
+			}
+			var appid=plus.runtime.appid;
+			if(navigator.userAgent.indexOf('StreamApp')>=0){
+				appid='Stream';
+			}
+			url+='&appid='+appid+'&total=';
+			
+			w=plus.nativeUI.showWaiting();
+			// 请求支付订单
+			var amount = document.getElementById('sum').innerText;   
+			 amount=amount.replace("￥",""); 
+			var xhr=new XMLHttpRequest();
+			xhr.onreadystatechange=function(){
+				switch(xhr.readyState){
+					case 4: 
+					w.close();w=null;
+					if(xhr.status==200){
+						//outLine("----- 请求订单成功 -----");
+						//outLine( xhr.responseText );
+						console.log("----- 请求订单成功 -----\n"+xhr.responseText ) 
+						var order=xhr.responseText;   
+						//order= "service=\"mobile.securitypay.pay\"&partner=\"2088801273866834\"&_input_charset=\"UTF-8\"&out_trade_no=\"20160805230158\"&subject=\"DCloud项目捐赠\"&payment_type=\"1\"&seller_id=\"payservice@dcloud.io\"&total_fee=\"1\"&body=\"DCloud致力于打造HTML5最好的移动开发工具，包括终端的Runtime、云端的服务和IDE，同时提供各项配套的开发者服务。\"&it_b_pay=\"1d\"&notify_url=\"http://demo.dcloud.net.cn/payment/alipay/notify.php\"&show_url=\"http://www.dcloud.io/helloh5/\"&sign=\"aU2fu5BtJMQKpQ62VflFBM0jfDbwF1YUCcM/ag1DUZ5ts0l6ISDjedSk/qhwQ+/4tD2HbQpv/t9YWoCKKvpYK5PBftwmaf7RUSLzNbfAGuF1+ZVRZa4guryu11iCUBi+apKWsvQpF6gJosdonwaSrWRyy1XJcjfUDBiHQg5J3Q0=\"&sign_type=\"RSA\""
+						//"service=\"mobile.securitypay.pay\"&partner=\"2088801273866834\"&_input_charset=\"UTF-8\"&out_trade_no=\"20160805225523\"&subject=\"DCloud项目捐赠\"&payment_type=\"1\"&seller_id=\"payservice@dcloud.io\"&total_fee=\"1\"&body=\"DCloud致力于打造HTML5最好的移动开发工具，包括终端的Runtime、云端的服务和IDE，同时提供各项配套的开发者服务。\"&it_b_pay=\"1d\"&notify_url=\"http://demo.dcloud.net.cn/payment/alipay/notify.php\"&show_url=\"http://www.dcloud.io/helloh5/\"&sign=\"T2rgbgsYhLMve/xsnOJ9uAHNrMQVK1+Il2LdfEOgQasijjFs6f61BjdQbqm6a9KOscf0pzs0aBLfTEQfN5+YYbhHSInSlL5EyaZSTfaV2r9oK6iOCExThq0KUL82XkOxxOtMOeL065XK28VJkQs4X0YGaablIlpyvXWayaSv5Hw=\"&sign_type=\"RSA\"
+						console.log("var order=xhr.responseText;\n"+order)    
+						plus.payment.request(pays[id],order,function(result){  
+							//outLine("----- 支付成功 -----");
+							//outLine(JSON.stringify(result));
+							console.log(JSON.stringify(result) )
+							plus.nativeUI.alert("支付成功！",function(){
+								back();
+							},"付款");
+						},function(e){
+							//outLine("----- 支付失败 -----");
+							//outLine("["+e.code+"]："+e.message);
+							console.log("["+e.code+"]："+e.message)
+							mui.toast("请选用其他支付方式");
+							//plus.nativeUI.alert("更多错误信息请参考支付(Payment)规范文档：http://www.html5plus.org/#specification#/specification/Payment.html",null,"支付失败："+e.code);
+						});
+					}else{
+						//outLine("----- 请求订单失败 -----");
+						//outLine( xhr.status );
+						console.log(xhr.status);
+						plus.nativeUI.alert("获取订单信息失败！",null,"付款");
+					}
+					break;
+					default:
+					break; 
+				}
+			}
+			console.log(url+amount); 
+			xhr.open('GET',url+amount);
+			//outLine("请求支付订单："+url+amount);
+			console.log("请求支付订单："+url+amount);
+			xhr.send();
+		}
+		</script>
+		<style type="text/css">
+			.mui-pay{
+				padding: 10px 0 10px 10px;
+			}
+			.right-padded {
+			    position: absolute;
+			    right: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav hotel-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">支付订单</h1>
+		</header>
+		<div class="mui-content">
+	 
+			
+				  <ul class="mui-table-view">
+				  	<li class="mui-input-row mui-table-view-cell">
+						<p>加油站
+						<span id="station_name" class="right-padded">
+							<img src="../images/loading/loading1.gif">
+						</span> 
+						</p>
+						
+					</li>
+			       <li class="mui-input-row mui-table-view-cell">
+						<p>订单号 
+						<span id="orderid" class="right-padded">
+							<img src="../images/loading/loading1.gif">
+						</span> 
+						</p>
+						
+					</li>
+					
+					<li class="mui-input-row mui-table-view-cell">
+						<p>订单金额 
+						<span id="sum" class="right-padded">
+							<img src="../images/loading/loading1.gif"> 
+						</span> 
+						</p>
+						
+					</li>
+					
+					
+	 
+			    </ul>	
+			
+				<h5 class="mui-pay">请选择支付方式</h5>
+			    <ul class="mui-table-view mui-table-view-radio">
+			        <li class="mui-table-view-cell mui-media">
+			            <a href="javascript:;" class="mui-navigate-right">
+			                <img class="mui-media-object mui-pull-left" src="../images/zhi.png">
+			                <div class="mui-media-body"> 支付宝
+			                <p class="mui-ellipsis">使用支付宝进行付款</p>
+			                <span class="paytype" hidden="hidden">alipay</span>
+			                </div>
+			            </a>
+			        </li>
+		<!--	        <li class="mui-table-view-cell mui-media">
+			            <a href="javascript:;">
+			                <img class="mui-media-object mui-pull-left" src="../images/wei.png">
+			                <div class="mui-media-body">微信
+			                <p class="mui-ellipsis">使用微信支付进行付款</p>
+			                </div>
+			            </a>
+			        </li>
+			        <li class="mui-table-view-cell mui-media">
+			            <a href="javascript:;">
+			                <img class="mui-media-object mui-pull-left" src="../images/ying.png">
+			                <div class="mui-media-body">银联
+			                <p class="mui-ellipsis">使用银联的网银进行付款</p>
+			                </div>
+			            </a>
+			        </li>-->
+			         <li class="mui-table-view-cell mui-media">
+			            <a href="javascript:;" class="mui-navigate-right">
+			                <img class="mui-media-object mui-pull-left" src="../images/monipay.png">
+			                <div class="mui-media-body">模拟支付
+			                <p class="mui-ellipsis">模拟付款</p>
+			                 <span class="paytype" hidden="hidden">monipay</span>
+			                </div>
+			            </a>
+			        </li>
+			    </ul>			    
+		</div>
+		
+	 
+		
+		
+		
+		<div class="mui-content-padded">
+			
+			<button id='pay' class="mui-btn mui-btn-block mui-btn-warning">确定支付</button>
+				<!--<button id='pay' class="mui-btn mui-btn-block mui-btn-primary">确定支付</button>-->
+		</div> 
+		 
+		
+	</body>
+
+</html>

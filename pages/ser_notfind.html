@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/mui.min.css" />
+
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script>
+			mui.init();
+			mui.plusReady(function() {
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					scrollIndicator: "none",
+					hardwareAccelerated :false
+				});
+				 
+				action = ws.action;
+				document.getElementById("btComfirm").addEventListener("tap",function(){
+				  	
+				  	
+				  	if(action =="add"){
+						czwv = plus.webview.getWebviewById("addcar-inner");
+						//czwv.evalJS("cz('"+JSON.stringify(main.barand+'-'+stylename)+"')");
+						  
+						
+					}
+					else{
+						 
+						czwv = plus.webview.getWebviewById("ser_editcar-inner");
+					//czwv.evalJS("cz('"+JSON.stringify(main.barand+'-'+stylename)+"')");
+						
+							 
+					}
+				  	stylename = document.getElementById("model").value;
+						brand = document.getElementById("brand").value;
+							var imgsrc ="";
+							czwv.evalJS("cz2('" + stylename + "','" + brand + "','" + imgsrc + "');");
+						
+				  	plus.webview.close("ser_add_bra_model.html");
+						plus.webview.close("ser_add_brands.html");
+						plus.webview.currentWebview().close();
+				  	
+					
+				});
+			})
+		</script>
+	</head>
+
+	<body>
+			 
+			<header id="header" class="mui-bar mui-bar-nav hotel-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">找不到车型</h1>
+
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>品牌</label>
+					<input id="brand" type="text" class="mui-input-clear" placeholder="请输入车的品牌">
+				</div>
+				<div class="mui-input-row">
+					<label>车型</label>
+					<input id="model" type="text" class="mui-input-clear" placeholder="请输入车的型号">
+				</div>
+			</form>
+		</div>
+		<div class="mui-content-padded">
+			<button id="btComfirm" class="mui-btn mui-btn-block mui-btn-primary">确定车型</button>
+
+		</div>
+	</body>
+
+</html>

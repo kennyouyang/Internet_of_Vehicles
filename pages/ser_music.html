@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/common.css" rel="stylesheet" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/smusic.css" />
+		<script src="../js/smusic.min.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">音乐</h1>
+		</header>
+
+		<div class="kePublic" style="text-align: center;">
+			<!--效果html开始-->
+			<div class="grid-music-container f-usn" style="text-align: center;">
+				<div class="m-music-play-wrap" style="text-align: center;">
+
+					<div class="u-cover" style="text-align: center;"></div>
+					<div class="m-now-info" style="text-align: center;">
+						<h1 class="u-music-title"><strong>标题</strong><small>歌手</small></h1>
+						<div class="m-now-controls" style="text-align: center;">
+							<div class="u-control u-process">
+								<span class="buffer-process"></span>
+								<span class="current-process"></span>
+							</div>
+							<div style="text-align: center;">
+								<div class="u-control u-time">00:00/00:00</div>
+								<div class="u-control u-volume">
+									<div class="volume-process" data-volume="0.50">
+										<span class="volume-current"></span>
+										<span class="volume-bar"></span>
+										<span class="volume-event"></span>
+									</div>
+									<a class="volume-control"></a>
+								</div>
+							</div>
+						</div>
+						<div class="m-play-controls" style="text-align: center;">
+							<a class="u-play-btn prev" title="上一曲"></a>
+							<a class="u-play-btn ctrl-play play" title="暂停"></a>
+							<a class="u-play-btn next" title="下一曲"></a>
+						</div>
+						<div class="m-play-controls" style="text-align: center;">
+							<a class="u-play-btn mode mode-list current" title="列表循环"></a>
+							<a class="u-play-btn mode mode-random" title="随机播放"></a>
+							<a class="u-play-btn mode mode-single" title="单曲循环"></a>
+						</div>
+					</div>
+				</div>
+				<div class="f-cb">&nbsp;</div>
+				<div class="m-music-list-wrap"></div>
+			</div>
+
+			<script>
+				mui.init();
+				mui.plusReady(function() {
+var musicList = [{
+						title: '亡灵序曲',
+						singer: '魔兽世界',
+						cover: '../images/Maroon5.jpg',
+						src: '../mp3/TheDawn.mp3'
+					}, {
+						title: 'Summer',
+						singer: '久石让',
+						cover: '../images/1.jpg',
+						src: "../mp3/Summer.mp3"
+					}, {
+						title: '夜的钢琴五',
+						singer: '石进',
+						cover: '../images/Maroon5.jpg',
+						src: '../mp3/piano.mp3'
+					}
+					/*,, {
+											title: '河图',
+											singer: '守',
+											cover: '../images/Maroon5.jpg',
+											src: '../mp3/shou.mp3'
+										}
+										 {
+															title: '手机歌曲2',
+															singer: 'internetke.com',
+															cover: '../images/1.jpg',
+															src: 'file:///storage/sdcard1/Music/郭采洁-我的未来式.mp3'
+														}*/
+				];
+				
+				 
+					new SMusic({
+					musicList: musicList,
+					//defaultVolume:0.5,
+					defaultIndex: 0
+						/*autoPlay: true, //是否自动播放
+						defaultMode: 2, //默认播放模式，随机
+						callback: function(obj) { //返回当前播放歌曲信息
+							//alert(obj)
+							console.log(JSON.stringify(obj));
+						 }*/
+					});
+				});
+				
+				 
+				//alert(musicList[5].src);
+				//console.log(musicList[5].src);
+			</script>
+			<!--效果html结束-->
+			<div class="clear"></div>
+		</div>
+	</body>
+
+</html>

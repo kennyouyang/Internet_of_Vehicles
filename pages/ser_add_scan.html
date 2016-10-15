@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/app.js"></script>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script src ="../js/encrypt/core.js"></script>
+          <script src= "../js/encrypt/hmac.js" ></script>
+          <script src= "../js/encrypt/sha256.js" ></script>
+
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<script type="text/javascript">
+			var ws = null,
+				wo = null;
+			var scan = null,
+				domready = false;
+			// H5 plus事件处理
+			function plusReady() {
+				if (ws || !window.plus || !domready) {
+					return;
+				}
+				// 获取窗口对象
+				ws = plus.webview.currentWebview();
+				wo = ws.opener();
+				// 开始扫描
+				
+				
+				ws.addEventListener('show', function() {
+					scan = new plus.barcode.Barcode('bcid');
+					scan.onmarked = onmarked;
+					scan.start({
+						conserve: true,
+						filename: "_doc/barcode/"
+					});
+				});
+				// 显示页面并关闭等待框
+				ws.show("pop-in");
+				//wo.evalJS("closeWaiting()");
+			}
+			if (window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+			// 监听DOMContentLoaded事件
+			document.addEventListener("DOMContentLoaded", function() {
+				domready = true;
+				plusReady();
+			}, false);
+
+			function onmarked(type, result, file) {
+				switch (type) {
+					case plus.barcode.QR:
+						type = "QR";
+						break;
+					case plus.barcode.EAN13:
+						type = "EAN13";
+						break;
+					case plus.barcode.EAN8:
+						type = "EAN8";
+						break;
+					default:
+						type = "其它" + type;
+						break;
+				}
+				result = result.replace(/\n/g, '');
+				/*	alert(result);
+					
+					alert(result);
+					alert(type);
+					alert(file);*/
+				console.log(result);
+				
+				
+				result = JSON.parse(result);
+				var myCar = new Object();
+				myCar["vinNo"] = result["VNO"];
+				myCar["engineNo"] = result["ENO"];
+				myCar["brand"] = result["BRA"];
+				myCar["model"] = result["MOD"];
+				myCar["mileage"] = result["KM"];
+				myCar["plate_no"] = result["PNO"];
+				myCar["engine_per"] = result["EP"] == "1" ? "好" : "异常";
+				myCar["transmission_per"] = result["TP"] == "1" ? "好" : "异常";
+				myCar["light"] = result["LIG"] == "1" ? "好" : "异常";
+				myCar["gasLine"]=result["GL"];
+				
+				
+				wvCarM = plus.webview.getWebviewById("addcar-inner");
+				wvCarM.evalJS("myCar('"+JSON.stringify(myCar)+"');");
+				plus.webview.currentWebview().close();
+				return;
+				 
+				
+				
+				//return result;
+				/*alert(result["brand"]);*/
+				var vinNo = result["VNO"];
+				var engineNo = result["ENO"];
+				var brand = result["BRA"]
+				var model = result["MOD"]
+				var mileage = result["KM"];
+				var plate_no = result["PNO"]
+				var engine_per = result["EP"] == "1" ? "好" : "异常";
+				var transmission_per = result["TP"] == "1" ? "好" : "异常";
+				var light = result["LIG"] == "1" ? "好" : "异常";
+				var btnArray = ['否', '是'];
+				state=app.getState();
+				mui.confirm('汽车信息如下：\r\n' + '车牌号' + vinNo + '\r\n' + '品牌' + brand + '\r\n' + '型号' + model + '\r\n' + '车架号' + vinNo, '提示', btnArray, function(e) {
+						if (e.index == 1) {
+							
+							var sign = CryptoJS.HmacSHA256(state.token + state.account+plate_no+vinNo+engineNo,state.token)+"";
+  							console.log(sign);
+  							
+
+							mui.ajax('http://115.28.16.183:8080/car_server/CreateCarServlet', {
+								data: {
+									username: state.account, 
+									plate_no: plate_no,
+									vin_no: vinNo,
+									engine_no: engineNo,
+									brand: brand,
+									model: model,
+									light: light,
+									transmission_per: transmission_per,
+									engine_per: engine_per
+								},
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型
+								timeout: 10000, //超时时间设置为10秒；
+								success: function(data) {
+									//服务器返回响应，根据响应结果，分析是否注册成功；
+									if (data.result_code == '1') {
+										plus.nativeUI.toast("添加成功！");
+									} else {
+										/*plus.nativeUI.toast(data.result_code);*/
+										plus.nativeUI.toast(data.result_code);
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									if(type=="timeout")
+							{
+								mui.toast("连接超时，请稍后再试");
+							}
+							else if(type=="abort")
+							{
+								mui.toast("您没有连接网络，请连接网络后再试");
+							}
+							else if(type=="error")
+							{
+								mui.toast("服务端异常，请稍后再试");
+							}
+							else{
+								mui.toast(type);
+							}
+									//异常处理；
+									console.log(xhr);
+									console.log(type);
+									console.log(errorThrown);
+								}
+							});
+							back();
+						} else {}
+					})
+					//wo.evalJS("scaned('" + type + "','" + result + "','" + file + "');");
+					//back();
+			}
+			// 从相册中选择二维码图片 
+			function scanPicture() {
+				plus.gallery.pick(function(path) {
+					plus.barcode.scan(path, onmarked, function(error) {
+						plus.nativeUI.alert("无法识别此图片");
+					});
+				}, function(err) {
+					plus.nativeUI.alert("Failed: " + err.message);
+				});
+			}
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+		<style type="text/css">
+			#bcid {
+				width: 100%;
+				position: absolute;
+				top: 0px;
+				bottom: 44px;
+				text-align: center;
+			}
+			
+			.tip {
+				color: #FFFFFF;
+				font-weight: bold;
+				text-shadow: 0px -1px #103E5C;
+			}
+			
+			footer {
+				width: 100%;
+				height: 44px;
+				position: absolute;
+				bottom: 0px;
+				line-height: 44px;
+				text-align: center;
+				color: #FFF;
+			}
+			
+			.fbt {
+				width: 50%;
+				height: 100%;
+				background-color: #FFCC33;
+				float: left;
+			}
+			
+			.fbt:active {
+				-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5);
+				box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5);
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #000000;">
+		<div id="bcid">
+			<div style="height:40%"></div>
+			<p class="tip">...载入中...</p>
+		</div>
+		<footer>
+			<div class="fbt" onclick="back();">取　 消</div>
+			<div class="fbt" onclick="scanPicture();">从相册选择二维码</div>
+		</footer>
+	</body>
+
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/app.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="UTF-8">
+			mui.init({
+				 
+				gestureConfig: {
+					longtap: true //默认为false 
+				}
+			});
+			mui.plusReady(function() {
+				state = app.getState();
+				ajax_list();
+				  
+				  
+				mui("#ul_mine_message-inner").on('longtap', 'li', function(e) {
+					var btnArray = ['确认', '取消'];
+					var sp_msgid = this.querySelector(".sp_msgid").innerText;
+					var elem = this;
+					mui.confirm('确认删除该消息？', '提示', btnArray, function(e) {
+						if (e.index == 0) {
+							//alert(elem.getAttribute("Cdata"));
+							ajax_delMsg(sp_msgid, elem);
+						} else {
+							setTimeout(function() {
+								mui.swipeoutClose(elem);
+							}, 0);
+						}
+					});
+				});
+				/*mui("#ul_mine_message-inner").on('tap', 'li', function() {
+					alert("tap");
+				});*/
+				
+			});
+			function ajax_list(){
+			 var waitingwv = null;
+				waitingwv = plus.nativeUI.showWaiting("正在加载...", {
+					loading: {
+						//  icon: "../images/loading/big_loading.gif"
+					}
+				});
+				state = app.getState(); 
+				//获取订单列表
+				mui.ajax('http://115.28.16.183:8080/car_server/getMessagesByUsername', {
+					data: {
+						username: state.account, //"kenny",
+						token:state.token
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					beforeSend: function(xhr) {},
+					success: function(data) {
+						
+						console.log(JSON.stringify(data));
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if (data.result_code == '1') {
+							document.getElementById("ul_mine_message-inner").innerHTML="";
+						 	var str = ""; 
+						 	if(data.messages.length==0)
+						 	{ 
+						 		document.getElementById("nomore").innerHTML = '<img src=\"../images/loading/no_message.png\"><p>您还没有消息</p>';
+						 	}
+						 	else{
+						 	 for(var i = 0 ;i<data.messages.length;i++)
+						 	 { 
+						 		str+='<li class=\"mui-table-view-cell mui-media\"><a class=\"mui-navigate-right\"><img class=\"mui-media-object mui-pull-left\"src=\"../images/warning.png\"><div class=\"mui-media-body\"><span hidden=\"hidden\" class=\"sp_msgid\">'+
+						 		data.messages[i]['msg_ID']+'</span><span id=\"message_title\">'+
+						 		data.messages[i]['title']+'</span><span class=\"message_date\">'+
+						 		data.messages[i]['createDate']+'</span><p class=\'mui-ellipsis\'>'+
+						 		data.messages[i]['content']+'</p></div></a></li>';
+						 	 }
+						 	 document.getElementById("ul_mine_message-inner").innerHTML=str;
+						 	}
+						 	
+						 	
+						 
+						 	
+					 		waitingwv.close();
+						 }
+						else {
+							mui.toast(data.result_code);
+							 		waitingwv.close();
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						waitingwv.close();
+						//异常处理；
+						console.log(xhr);
+						console.log(type);
+						if (type == "timeout") {
+							document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>连接超时，请检查网络连接</p>';
+							//mui.toast("连接超时，请检查网络是否连接！");
+						} else if (type == "abort") {
+							document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>服务端异常，请稍候再试</p>';
+							//mui.toast("您没有连接网络，请连接网络后再试...");
+						} else if (type == "error") {
+							document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>服务端异常，请稍候再试</p>';
+							//mui.toast("服务器异常，请稍候再试...");
+						} else {
+							mui.toast(type);
+						}
+						console.log(errorThrown);
+					}
+				});
+			}
+		function ajax_delMsg(sp_msgid, elem){
+				var state = app.getState();
+				var waitingwv = null;
+				console.log(sp_msgid + "-------");
+				mui.ajax('http://115.28.16.183:8080/car_server/deleteMessageByMessageIdServlet', {
+					data: {
+						username: state.account,
+						token:state.token,
+						messageId: sp_msgid
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；   
+					beforeSend: function(xhr) {
+						waitingwv = plus.nativeUI.showWaiting("正在删除，请稍等...", {
+							loading: {
+								/*icon: "../images/loading/big_loading.gif"*/
+							}
+						});
+					},
+					success: function(data) {
+						waitingwv.close();
+						if (data.result_code == '1') {
+							elem.parentNode.removeChild(elem);
+							mui.toast("删除成功");
+						} else {
+							elem.parentNode.removeChild(elem);
+							plus.nativeUI.toast(data.result_code);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						elem.parentNode.removeChild(elem);
+						waitingwv.close();
+						mui.swipeoutClose(elem);
+						if (type == "timeout") {
+							mui.toast("连接超时，请检查网络是否连接！");
+						} else if (type == "error") {
+							mui.toast("服务器异常，请稍候再试...");
+						} else {
+							mui.toast(type);
+						}
+						//异常处理；
+						console.log(xhr);
+						console.log(type);
+						console.log(errorThrown);
+					}
+				});
+			
+		}
+		
+		
+		</script>
+		<style>
+	 .message_date {
+				float: right;
+				font-size: 12px;
+				color: #007AFF;
+			} 
+			
+			.mui-navigate-right:after {
+				content: "";
+			}
+			
+			.mui-table-view-chevron .mui-table-view-cell>a:not(.mui-btn) {
+				margin-right: -116px;
+			}
+			
+			#nomore {
+				text-align: center;
+				margin: 0 auto;
+				 
+			}
+			
+			#nomore img {
+				height: 150px;
+				vertical-align: middle;
+				margin-top: 30%;
+				margin-bottom: 10px;
+			}
+			
+			#nomore p {
+				color: #000000;
+				font-size: 17px;
+			}
+			.mui-table-view{
+				/*position: absolute;*/
+			}
+		</style>
+	</head>
+
+	<body>
+			
+		 <div id="mine_message-inner">
+			<div id="nomore">
+				<!--<img src="../images/loading/no_message.png">
+				<p>您还没有消息</p>-->
+			</div>
+			 <ul id="ul_mine_message-inner" class="mui-table-view mui-table-view-chevron">
+			 		 
+				<!-- <li class="mui-table-view-cell mui-media">
+					<a class="mui-navigate-right"> 
+						<img class="mui-media-object mui-pull-left" src="../images/warning.png">
+						<div class="mui-media-body"> <span id="message_title">温馨提示</span> <span class="message_date">2016-05-17</span>
+							<p class='mui-ellipsis'>您的爱车油量已低于20%，请及时加油！.您的爱车油量已低于20%，请及时加油！.您的爱车油量已低于20%，请及时加油！.您的爱车油量已低于20%，请及时加油！.</p>
+						</div>
+					</a>
+				</li>-->
+				<!--<li class="mui-table-view-cell mui-media">
+					<a class='mui-navigate-right' href="javascript:;"> <img class="mui-media-object mui-pull-left" src="../images/warning.png">
+						<div class="mui-media-body"> <span id="message_title">温馨提示</span> <span class="message_date">2016-05-10</span>
+							<p class='mui-ellipsis'>您的爱车发动机出现异常，请及时检修!</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a class="mui-navigate-right"> <img class="mui-media-object mui-pull-left" src="../images/warning.png">
+						<div class="mui-media-body"> <span id="message_title">温馨提示</span> <span class="message_date">2016-05-07</span>
+							<p class='mui-ellipsis'>您的爱车行驶里程距离您上次维护已超过15000公里，请及时维护!</p>
+						</div>
+					</a> 
+				</li> -->
+			</ul>
+			
+		 
+		</div> 
+	</body>
+
+</html>

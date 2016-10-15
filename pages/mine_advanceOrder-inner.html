@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="../js/app.js"></script>
+		 <script src="../js/encrypt/core.js"></script>
+		  <script src="../js/encrypt/hmac.js"></script>
+		   <script src="../js/encrypt/sha256.js"></script>
+		<script type="text/javascript" charset="UTF-8">
+			var floatw = null;
+			//下拉刷新
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					}
+				},
+				gestureConfig: {
+					longtap: true //默认为false 
+				}
+			});
+			mui.plusReady(function() {
+				//打开评价页面
+				//mui()
+								
+				ws = plus.webview.currentWebview().parent();
+				state = app.getState();
+				//
+				var a_itN = "a_it1";
+				var itemN = "item1";
+				if (ws.listType != "" && ws.listType != null) {
+					a_itN = "a_it" + ws.listType;
+					itemN = "item" + ws.listType;
+				}
+				list_status(a_itN, itemN);
+				ajax_list();
+				//动作 支付、消费、评论
+				mui("#innerlist").on('tap', 'button', function() {
+					var orderid = this.querySelector(".orderid").innerHTML;
+					//alert(orderid);
+					var bt_action = this.innerText;
+					if (bt_action == "付款") {
+						/*var btnArray = ['否', '是'];
+						mui.confirm('是否要付款，确认？', '提示', btnArray, function(e) {
+							if (e.index == 1) {
+								//payment(orderid);
+								action(orderid, 1)
+							} else {
+								return;
+							}
+						})*/
+						gasStation = this.querySelector(".sp_gasStation").innerText;
+						sum = this.querySelector(".sum").innerText; 
+						mui.openWindow({
+				                              url: 'map_orderWay.html' ,
+				                               id: 'map_orderWay' ,
+				                               show : {
+				                                          aniShow : 'pop-in'
+				                                     },
+				                                    styles : {
+				                                          popGesture : 'hide',
+								scrollIndicator: 'none',
+								hardwareAccelerated :false
+				                                     },
+				                                    waiting : {
+				                                          autoShow : false
+				                                    },
+				                                    extras: {
+														orderid: orderid,
+														gasStation:gasStation,
+														sum:"￥"+sum  
+													}
+				                             }); 
+						
+						return;
+					} else if (bt_action == "消费") {
+						floatWebview(orderid);
+						return;
+					} else if (bt_action == "评价") {
+						gasStation = this.querySelector(".sp_gasStation").innerText;
+						
+						mui.openWindow({
+						id: 'mine_evaluate',
+						url: 'mine_evaluate.html',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide',
+					hardwareAccelerated :false
+						},
+						waiting: {
+							autoShow: false
+						},
+						extras: {
+							orderid: orderid,
+							gasStation:gasStation
+						},
+						/*show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							aniShow: 'slide-in-top', //'slide-in-top', //页面显示动画，默认为”slide-in-right“；
+							duration: 100 //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+						},*/
+					});
+						
+						 
+					} else if (bt_action == "再来一单") {
+						var state = app.getState();
+						//获取订单详情 
+						var sign = CryptoJS.HmacSHA256(state.token+state.account +orderid,state.token)+"";
+						  console.log(sign);
+
+						mui.ajax('http://115.28.16.183:8080/car_server/GetOrderByOrderIdServlet', {
+							data: {
+								username: state.account,
+								token:state.token,
+								orderId: orderid,
+								sign:sign
+							},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000, //超时时间设置为10秒；
+							success: function(data) {
+								//alert("获取订单详情成功:" + JSON.stringify(data));
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								//console.log(JSON.stringify(data));
+								if (data.result_code != "") {
+									mui.openWindow({
+										url: 'map_orderGas_again.html',
+										id: 'map_orderGas_again',
+										show: {
+											aniShow: 'pop-in'
+										},
+										styles: {
+											popGesture: 'hide',
+											scrollIndicator: 'none',
+											hardwareAccelerated: false
+										},
+										extras: {
+											station: data.order.gasStationName,
+											brand: data.order.gasStationBrand,
+											lon: JSON.parse(data.order.gasStationPosition)["lng"],
+											lat: JSON.parse(data.order.gasStationPosition)["lat"],
+											gas_types: data.order.gasType,
+											gas_price: data.order.gasPricePerLitre,
+											phone: data.order.phone,
+											name: data.order.name
+										},
+										waiting: {
+											autoShow: false
+										}
+									});
+								} else {
+									mui.toast("获取详情失败！");
+									//return callback(data.result_code);
+								}
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+								if(type=="timeout")
+							{
+								mui.toast("连接超时，请稍后再试");
+							}
+							else if(type=="abort")
+							{
+								mui.toast("您没有连接网络，请连接网络后再试");
+							}
+							else if(type=="error")
+							{
+								mui.toast("服务端异常，请稍后再试");
+							}
+							else{
+								mui.toast(type);
+							}
+								console.log(xhr);
+								console.log(type);								
+								console.log(errorThrown);
+							}
+						});
+					}
+					//alert(bt.innerText);
+				});
+				//查看订单详情
+				mui("#innerlist").on('tap', '.div_detail', function() {
+					var orderid = this.querySelector(".orderid").innerHTML;
+					//alert(orderid);
+					//打开详情
+					mui.openWindow({
+						id: 'mine_advanceOrderDetail',
+						url: 'mine_advanceOrderDetail.html',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide',
+					hardwareAccelerated :false
+						},
+						waiting: {
+							autoShow: false
+						},
+						extras: {
+							orderid: orderid
+						},
+						/*show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							aniShow: 'slide-in-top', //'slide-in-top', //页面显示动画，默认为”slide-in-right“；
+							duration: 100 //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+						},*/
+					});
+				});
+				//左滑删除
+				var btnArray = ['确认', '取消'];
+				//第二个demo，向左拖拽后显示操作图标，释放后自动触发的业务逻辑
+				mui('#innerlist').on('slideleft', '.mui-table-view-cell', function(event) {
+					var orderid = this.querySelector(".orderid").innerHTML;
+					console.log(orderid);
+					var elem = this;
+					mui.confirm('确认删除该订单信息？', '提示', btnArray, function(e) {
+						if (e.index == 0) {
+							//alert(elem.getAttribute("Cdata"));
+							ajax_delCar(orderid, elem);
+						} else {
+							setTimeout(function() {
+								mui.swipeoutClose(elem);
+							}, 0);
+						}
+					});
+				});
+				//长按删除
+				mui('#innerlist').on('longtap', '.mui-table-view-cell', function(event) {
+					var orderid = this.querySelector(".orderid").innerHTML;
+					var elem = this;
+					mui.confirm('确认删除该订单信息？', '提示', btnArray, function(e) {
+						if (e.index == 0) {
+							//alert(elem.getAttribute("Cdata"));
+							ajax_delCar(orderid, elem);
+						} else {
+							setTimeout(function() {
+								mui.swipeoutClose(elem);
+							}, 0);
+						}
+					});
+				});
+				
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					ajax_list();
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 5000);
+			}
+			var count = 0;
+
+			function ajax_list() {
+				var waitingwv = null;
+				waitingwv = plus.nativeUI.showWaiting("正在加载...", {
+					loading: {
+						//  icon: "../images/loading/big_loading.gif"
+					}
+				});
+				state = app.getState();
+				//获取订单列表
+				var sign = CryptoJS.HmacSHA256(state.token+state.account,state.token)+"";
+				  
+				console.log(sign); 
+				mui.ajax('http://115.28.16.183:8080/car_server/GetOrdersServlet', {
+					data: {  
+						username: state.account, //"kenny",
+						sign:sign
+						
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					beforeSend: function(xhr) {},
+					success: function(data) {
+						waitingwv.close();
+						//console.log(data);
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if (data.result_code == '1') {
+							document.getElementById("nomore").innerHTML = "";
+							//alert("获取订单列表成功:" + JSON.stringify(data));
+							var innerlist = document.getElementById("innerlist");
+							var str = "";
+							var str1 = "";
+							var str2 = "";
+							var str3 = "";
+							var str4 = "";
+							for (var i = 0; i < data.orders.length; i++) {
+								//var sum = parseFloat(data.orders[i]["gasPricePerLitre"]) * parseFloat(data.orders[i]["litre"]);
+								//sum = Math.round(sum * 100) / 100;
+								var brabdname = data.orders[i]["gasStationBrand"];
+								//console.log(brabdname);
+								var pic = "../images/brand/yzpp_buxiang_map.9.png";
+								if (brabdname == "中石化") {
+									pic = "../images/brand/yzpp_zsh_map.9.png";
+								} else if (brabdname == "中石油") {
+									pic = "../images/brand/yzpp_zsy_map.9.png";
+									//pic="CNPC.png";
+								} else if (brabdname == "社会民营") {
+									pic = "../images/brand/yzpp_minying_map.9.png";
+								} else if (brabdname == "中国航油") {
+									pic = "../images/brand/yzpp_zghy_map.9.png";
+								} else if (brabdname == "国企") {
+									pic = "../images/brand/yzpp_guoqi_map.9.png";
+								} else if (brabdname == "壳牌") {
+									pic = "../images/brand/yzpp_qiaopai_map.9.png";
+								} else if (brabdname == "中化道达尔") {
+									pic = "../images/brand/yzpp_daodaer_map.9.png";
+								} else if (brabdname == "中海油") {
+									pic = "../images/brand/yzpp_zhy_map.9.png";
+								} else if (brabdname == "中油BP") {
+									pic = "../images/brand/yzpp_zhongyoubp_map.9.png";
+								} else if (brabdname == "加德士") {
+									pic = "../images/brand/yzpp_jiadeshi_map.9.png";
+								}
+								var orderStatus = data.orders[i]["orderStatus"];
+								var orderStatus_action = "";
+								var btstyle = "";
+								/* if(orderStatus=="已取消"){
+									
+								}*/
+								if (orderStatus == "待付款") {
+									orderStatus_action = "付款"; 
+									btstyle = "mui-btn-warning";
+									str1 += '<ul class=\"mui-table-view\"><li class=\"mui-table-view-cell mui-media\" ><div class=\"mui-slider-right mui-disabled\"><a class=\"mui-btn mui-btn-red\">删除</a></div><div class=\"mui-slider-handle\"><div class=\"div_detail\"><div style=\"height:50px\"><label class=\"lb_gasStation\" style=\"float:left;font-size:15px\">' +
+										data.orders[i]["gasStationName"] + '</label><a><span class=\"mui-icon mui-icon-arrowright\"></span></a><div style=\"float:right;font-size:15px;color:#EA8010\">' +
+										orderStatus + '</div></div><a href=\"javascript:;\"><img class=\"brand_img mui-media-object mui-pull-left\" src=\"' +
+										pic + '\"><div class=\"mui-media-body\">' +
+										data.orders[i]["gasType"] + '号汽油<p class=\"mui-ellipsis\">单价：￥' +
+										data.orders[i]["gasPricePerLitre"] + '&nbsp;&nbsp;体积：' +
+										data.orders[i]["litre"] + 'L</p><p style=\"float:right;margin-top:5px\">总计：￥<span class=\"sum\">' +
+										data.orders[i]["yuan"] + '</span>元</p></div></a><span class="orderid" hidden>' +
+										data.orders[i]["orderId"] + '</span></div><div class=\"mui-table-view-cell\"></div><div><span id = "ordertime" class="">预约时间：' +
+										data.orders[i]["createDate"].substring(0, 19) + '</span><button type=\"button\" class=\"mui-btn ' + btstyle + ' \">' +
+										orderStatus_action + '<span class="orderid" hidden>' + 
+										data.orders[i]["orderId"] + '</span><span class="sum" hidden>' +
+										data.orders[i]["yuan"] + '</span></span><span hidden=\"hidden\" class=\"sp_gasStation\">'+
+										data.orders[i]["gasStationName"]+'</span></button></div></div></li></ul>';
+								} else if (orderStatus == "待消费") {
+									orderStatus_action = "消费";
+									btstyle = " mui-btn-blue";
+									str2 += '<ul class=\"mui-table-view\"><li class=\"mui-table-view-cell mui-media\" ><div class=\"mui-slider-right mui-disabled\"><a class=\"mui-btn mui-btn-red\">删除</a></div><div class=\"mui-slider-handle\"><div class=\"div_detail\"><div style=\"height:50px\"><label class=\"lb_gasStation\" style=\"float:left;font-size:15px\">' +
+										data.orders[i]["gasStationName"] + '</label><a><span class=\"mui-icon mui-icon-arrowright\"></span></a><div style=\"float:right;font-size:15px;color:#EA8010\">' +
+										orderStatus + '</div></div><a href=\"javascript:;\"><img class=\"brand_img mui-media-object mui-pull-left\" src=\"' +
+										pic + '\"><div class=\"mui-media-body\">' +
+										data.orders[i]["gasType"] + '号汽油<p class=\"mui-ellipsis\">单价：￥' +
+										data.orders[i]["gasPricePerLitre"] + '&nbsp;&nbsp;体积：' +
+										data.orders[i]["litre"] + 'L</p><p style=\"float:right;margin-top:5px\">总计：￥' +
+										data.orders[i]["yuan"] + '元</p></div></a><span class="orderid" hidden>' +
+										data.orders[i]["orderId"] + '</span></div><div class=\"mui-table-view-cell\"></div><div><span id = "ordertime" class="">预约时间：' +
+										data.orders[i]["createDate"].substring(0, 19) + '</span><button type=\"button\" class=\"mui-btn ' + btstyle + ' \">' +
+										orderStatus_action + '<span class="orderid" hidden>' +
+										data.orders[i]["orderId"] + '</span></button></div></div></li></ul>';
+								} else if (orderStatus == "待评价") {
+									orderStatus_action = "评价";
+									btstyle = "mui-btn-green";
+									str3 += '<ul class=\"mui-table-view\"><li class=\"mui-table-view-cell mui-media\" ><div class=\"mui-slider-right mui-disabled\"><a class=\"mui-btn mui-btn-red\">删除</a></div><div class=\"mui-slider-handle\"><div class=\"div_detail\"><div style=\"height:50px\"><label class=\"lb_gasStation\" style=\"float:left;font-size:15px\">' +
+										data.orders[i]["gasStationName"] + '</label><a><span class=\"mui-icon mui-icon-arrowright\"></span></a><div style=\"float:right;font-size:15px;color:#EA8010\">' +
+										orderStatus + '</div></div><a href=\"javascript:;\"><img class=\"brand_img mui-media-object mui-pull-left\" src=\"' +
+										pic + '\"><div class=\"mui-media-body\">' +
+										data.orders[i]["gasType"] + '号汽油<p class=\"mui-ellipsis\">单价：￥' +
+										data.orders[i]["gasPricePerLitre"] + '&nbsp;&nbsp;体积：' +
+										data.orders[i]["litre"] + 'L</p><p style=\"float:right;margin-top:5px\">总计：￥' +
+										data.orders[i]["yuan"] + '元</p></div></a><span class="orderid" hidden>' +
+										data.orders[i]["orderId"] + '</span></div><div class=\"mui-table-view-cell\"></div><div><span id = "ordertime" class="">预约时间：' +
+										data.orders[i]["createDate"].substring(0, 19) + '</span><button type=\"button\" class=\"mui-btn ' + btstyle + ' \">' +
+										orderStatus_action + '<span class="orderid" hidden>' +
+										data.orders[i]["orderId"] + '</span><span hidden=\"hidden\" class=\"sp_gasStation\">'+
+										data.orders[i]["gasStationName"]+'</span></button></div></div></li></ul>';
+								} else if (orderStatus == "已完成") {
+									orderStatus_action = "再来一单";
+									btstyle = " ";
+								} else {
+									orderStatus_action = "删除";
+									btstyle = "mui-btn-danger";
+								}
+								//console.log(pic);
+								str += '<ul class=\"mui-table-view\"><li class=\"mui-table-view-cell mui-media\" ><div class=\"mui-slider-right mui-disabled\"><a class=\"mui-btn mui-btn-red\">删除</a></div><div class=\"mui-slider-handle\"><div class=\"div_detail\"><div style=\"height:50px\"><label  class=\"lb_gasStation\" style=\"float:left;font-size:15px\">' +
+									data.orders[i]["gasStationName"] + '</label><a><span class=\"mui-icon mui-icon-arrowright\"></span></a><div style=\"float:right;font-size:15px;color:#EA8010\">' +
+									orderStatus + '</div></div><a href=\"javascript:;\"><img class=\"brand_img mui-media-object mui-pull-left\" src=\"' +
+									pic + '\"><div class=\"mui-media-body\">' +
+									data.orders[i]["gasType"] + '号汽油<p class=\"mui-ellipsis\">单价：￥' +
+									data.orders[i]["gasPricePerLitre"] + '&nbsp;&nbsp;体积：' +
+									data.orders[i]["litre"] + 'L</p><p style=\"float:right;margin-top:5px\">总计：￥<span class=\"sum\">' +
+									data.orders[i]["yuan"] + '</span>元</p></div></a><span class="orderid" hidden>' +
+									data.orders[i]["orderId"] + '</span></div><div class=\"mui-table-view-cell\"></div><div><span id = "ordertime" class="">预约时间：' +
+									data.orders[i]["createDate"].substring(0, 19) + '</span><button type=\"button\" class=\"mui-btn ' + btstyle + ' \">' +
+									orderStatus_action + '<span class="orderid" hidden>' +
+									data.orders[i]["orderId"] + '</span><span hidden=\"hidden\" class=\"sp_gasStation\">'+
+										data.orders[i]["gasStationName"]+'</span><span class="sum" hidden>' +
+										data.orders[i]["yuan"] + '</span></button></div></div></li></ul>';
+							}
+							//innerlist.innerHTML = str;
+							document.getElementById("item1").innerHTML = str;
+							document.getElementById("item2").innerHTML = str1;
+							document.getElementById("item3").innerHTML = str2;
+							document.getElementById("item4").innerHTML = str3;
+						} else if (data.result_code == "该用户无订单信息") {
+							document.getElementById("item1").innerHTML = "";
+							document.getElementById("item2").innerHTML = "";
+							document.getElementById("item3").innerHTML = "";
+							document.getElementById("item4").innerHTML = "";
+							document.getElementById("nomore").innerHTML = '<img src=\"../images/loading/mine_order_no_data_logo.png\"><p>还没有相关的订单</p>';
+						} else {
+							mui.toast(data.result_code);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						waitingwv.close();
+						//异常处理；
+						console.log(xhr);
+						console.log(type);
+						if (type == "timeout") {
+							document.getElementById("item1").innerHTML = "";
+							document.getElementById("item2").innerHTML = "";
+							document.getElementById("item3").innerHTML = "";
+							document.getElementById("item4").innerHTML = "";
+							document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>连接超时，请检查网络连接</p>';
+							//mui.toast("连接超时，请检查网络是否连接！");
+						} else if (type == "abort") {
+							document.getElementById("item1").innerHTML = "";
+							document.getElementById("item2").innerHTML = "";
+							document.getElementById("item3").innerHTML = "";
+							document.getElementById("item4").innerHTML = "";
+							document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>您没有连接网络，请连接网络后再试</p>';
+							//mui.toast("您没有连接网络，请连接网络后再试...");
+						} else if (type == "error") {
+							document.getElementById("item1").innerHTML = "";
+							document.getElementById("item2").innerHTML = "";
+							document.getElementById("item3").innerHTML = "";
+							document.getElementById("item4").innerHTML = "";
+							document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>服务端异常，请稍候再试</p>';
+							//mui.toast("服务器异常，请稍候再试...");
+						} else {
+							mui.toast(type);
+						}
+						console.log(errorThrown);
+					}
+				});
+			}
+
+			function ajax_delCar(orderId, elem) {
+				var state = app.getState();
+				var waitingwv = null;
+				console.log(orderId + "-------");
+				var sign = CryptoJS.HmacSHA256(state.token+state.account +orderId+"1",state.token)+""; 
+			  console.log(sign);
+
+				mui.ajax('http://115.28.16.183:8080/car_server/updateOrderByOrderIdServlet', {
+					data: {
+						username: state.account,
+						 
+						OrderId: orderId,
+						orderStatus: 1,
+						sign:sign
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；   
+					beforeSend: function(xhr) {
+						waitingwv = plus.nativeUI.showWaiting("正在删除，请稍等...", {
+							loading: {
+								/*icon: "../images/loading/big_loading.gif"*/
+							}
+						});
+					},
+					success: function(data) {
+						waitingwv.close();
+						if (data.result_code == '1') {
+							elem.parentNode.removeChild(elem);
+							mui.toast("删除成功");
+						} else {
+							elem.parentNode.removeChild(elem);
+							plus.nativeUI.toast(data.result_code);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						elem.parentNode.removeChild(elem);
+						waitingwv.close();
+						mui.swipeoutClose(elem);
+						if (type == "timeout") {
+							mui.toast("连接超时，请检查网络是否连接！");
+						} else if (type == "error") {
+							mui.toast("服务器异常，请稍候再试...");
+						} else {
+							mui.toast(type);
+						}
+						//异常处理；
+						console.log(xhr);
+						console.log(type);
+						console.log(errorThrown);
+					}
+				});
+			}
+
+			function floatWebview(orderid) {
+				if (floatw) { // 避免快速多次点击创建多个窗口
+					return;
+				}
+				floatw = plus.webview.create("ser_QRCode.html", "ser_QRCode", {
+					width: '300px',
+					height: '300px',
+					margin: "auto",
+					background: "rgba(255,255,255,0.95)",
+					scrollIndicator: 'none',
+					scalable: false,
+					popGesture: 'none'
+				}, {
+					orderid: orderid
+				});
+				floatw.addEventListener("loaded", function() {
+					floatw.show('fade-in', 300);
+					floatw = null;
+				}, false);
+			}
+			/*	function payment(orderid) {
+					
+					var waitingwv = null;
+					waitingwv = plus.nativeUI.showWaiting("正在支付...", {
+						loading: {
+							//  icon: "../images/loading/big_loading.gif"
+						}
+					});
+					state = app.getState();
+				 
+					mui.ajax('http://115.28.16.183:8080/car_server/updateOrderByOrderIdServlet', {
+						data: {
+							username: state.account, //"kenny",
+							key: state.token,
+							OrderId:orderid,
+							orderStatus:"待消费"
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						beforeSend: function(xhr) {},
+						success: function(data) {
+							waitingwv.close();
+							console.log(data);
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							if (data.result_code == '1') {
+							 	mui.toast("支付成功！");
+							 	ajax_list();
+							}
+							else {
+								mui.toast(data.result_code);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							waitingwv.close();
+							//异常处理；
+							console.log(xhr);
+							console.log(type);
+							if (type == "timeout") {
+								//document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>连接超时，请检查网络连接</p>';
+								mui.toast("连接超时，请检查网络是否连接！");
+							}
+							else if (type == "abort") {
+								//document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>服务端异常，请稍候再试</p>';
+								mui.toast("您没有连接网络，请连接网络后再试...");
+							} 
+							else if (type == "error") {
+								//document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>服务端异常，请稍候再试</p>';
+								mui.toast("服务器异常，请稍候再试...");
+							} else {
+								mui.toast(type);
+							}
+							console.log(errorThrown);
+						}
+					});
+					}
+					* */
+			function action(orderid, action) {
+				var tips = "";
+				var orderStatus = "";
+				var toastsucc = "";
+				switch (action) {
+					case 1:
+						tips = "正在支付...";
+						toastsucc = "支付成功！";
+						orderStatus = "待消费";
+						break;
+					case 2:
+						tips = "正在取消...";
+						toastsucc = "取消成功！";
+						orderStatus = "已取消";
+						break;
+					case 5:
+						tips = "正在删除...";
+						toastsucc = "删除成功！";
+						orderStatus = "已删除";
+						break;
+					default:
+						break;
+				}
+				var waitingwv = null;
+				waitingwv = plus.nativeUI.showWaiting(tips, {
+					loading: {
+						//  icon: "../images/loading/big_loading.gif"
+					}
+				});
+				state = app.getState();
+				
+				 
+				var sign = CryptoJS.HmacSHA256(state.token+state.account +orderid+orderStatus,state.token)+"";
+ 	 			console.log(sign); 
+
+				mui.ajax('http://115.28.16.183:8080/car_server/updateOrderByOrderIdServlet', {
+					data: {
+						username: state.account, //"kenny", 
+						OrderId: orderid,
+						orderStatus: orderStatus,
+						sign:sign
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					beforeSend: function(xhr) {},
+					success: function(data) {
+						waitingwv.close();
+						console.log(data);
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if (data.result_code == '1') {
+							//updatebutton(action);
+							mui.toast(toastsucc);
+							ajax_list();
+						} else {
+							mui.toast(data.result_code);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						waitingwv.close();
+						//异常处理；
+						console.log(xhr);
+						console.log(type);
+						if (type == "timeout") {
+							document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>连接超时，请检查网络连接</p>';
+							mui.toast("连接超时，请检查网络是否连接！");
+						} else if (type == "abort") {
+							document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>服务端异常，请稍候再试</p>';
+							mui.toast("您没有连接网络，请连接网络后再试...");
+						} else if (type == "error") {
+							document.getElementById("nomore").innerHTML = '<img src=\"../images/trouble/failed.png\"><p>服务端异常，请稍候再试</p>';
+							mui.toast("服务器异常，请稍候再试...");
+						} else {
+							mui.toast(type);
+						}
+						console.log(errorThrown);
+					}
+				});
+			}
+
+			function list_status(itemN, a_itN) {
+				document.getElementById(itemN).setAttribute("class", "mui-control-item mui-active");
+				document.getElementById(a_itN).setAttribute("class", "mui-control-content  mui-active");
+			}
+		</script>
+		<style>
+			.mui-icon {
+				font-size: 20px;
+				color: #BBBBBB;
+			}
+			
+			.mui-table-view-cell {
+				padding: 5px 15px;
+			}
+			
+			.mui-btn,
+			button {
+				padding: 4px 12px;
+				float: right;
+				margin-top: 10px;
+			}
+			
+			ul li {
+				margin-bottom: 5px;
+			}
+			
+			#ordertime {
+				font-size: 13px;
+				float: left;
+				padding: 16px 0 0 5px;
+			}
+			
+			#innerlist {
+				margin-top: 1px;
+			}
+			
+			#nomore {
+				text-align: center;
+				margin: 0 auto;
+			}
+			
+			#nomore img {
+				height: 150px;
+				vertical-align: middle;
+				margin-top: 30%;
+				margin-bottom: 10px;
+			}
+			
+			#nomore p {
+				color: #000000;
+				font-size: 17px;
+			}
+			
+			.mui-table-view .brand_img {
+				max-width: 70px;
+				width: 65px;
+				height: 65px;
+			}
+			
+			#dcode {
+				height: 23px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<!--下拉刷新容器-->
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+				<div id="innerlist">
+					<div id="div_item" style="padding-top: 10px;">
+						<div class="mui-segmented-control mui-segmented-control-inverted mui-bg-primary ">
+							<a id="a_it1" class="mui-control-item " href="#item1">所有</a>
+							<!--mui-active-->
+							<a id="a_it2" class="mui-control-item " href="#item2">待付款</a>
+							<a id="a_it3" class="mui-control-item" href="#item3">待消费</a>
+							<a id="a_it4" class="mui-control-item" href="#item4">待评价</a>
+						</div>
+					</div>
+
+					<div id="nomore">
+						<!--<img src="../images/trouble/failed.png">
+					<p>连接超时，请检查网络连接</p> -->
+					</div>
+
+					<div>
+						<div id="item1" class="mui-control-content ">
+							<!--mui-active-->
+							<div id="scroll" class=" ">
+								<div class="mui-scroll">
+									<!-- <ul class="mui-table-view">
+										<li class="mui-table-view-cell mui-media" Cdata="1">
+											<div class="mui-slider-right mui-disabled">
+												<a class="mui-btn mui-btn-red">删除</a>
+											</div>
+											<div class="mui-slider-handle">
+											<div class="div_detail">
+												<div style="height: 50px;">
+													<label style="float: left; font-size: 15px;">桂电加油站</label><a><span class="mui-icon mui-icon-arrowright" ></span></a>
+													<div style="float: right;font-size: 15px;color: #EA8010;">交易成功</div>
+												</div>
+												<a href="javascript:;">
+													<img class="mui-media-object mui-pull-left" src="../images/shuijiao.jpg">
+													<div class="mui-media-body">
+														#93号汽油
+														<p class='mui-ellipsis'>单价：￥5.4；体积：10L</p>
+														<p style="float: right;margin-top: 5px;">总计：￥54.00</p>
+													</div>
+												</a>
+											</div>
+											<div class="mui-table-view-cell"></div>
+											<div>
+												<span id="ordertime" class="">预约时间：2016年05月16日</span>
+												<button type="button" class="mui-btn mui-btn-warning mui-btn-outlined">确认收货</button>
+											</div>
+											</div>
+										</li>
+									</ul> -->
+								</div>
+							</div>
+						</div>
+
+						<div id="item2" class="mui-control-content"></div>
+
+						<div id="item3" class="mui-control-content"></div>
+
+						<div id="item4" class="mui-control-content"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

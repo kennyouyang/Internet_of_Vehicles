@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/map_gasStation-inner_list.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/default.css" rel="stylesheet" />
+		<style>
+			.mui-media-body p {
+				padding: 1px 30px 1px 0px;
+			}
+			
+			#nomore {
+				text-align: center;
+				margin: 0 auto;
+				background-color: #EFEFF4;
+				height: 100%;
+			}
+			
+			#nomore img {
+				height: 150px;
+				vertical-align: middle;
+				margin-top: 30%;
+				margin-bottom: 10px;
+			}
+			
+			#nomore p {
+				color: #000000;
+				font-size: 17px;
+			}
+			
+			.mui-table-view:after {
+				background-color: #efeff4;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="nomore" hidden="hidden"><img src="../images/loading/no_message.png">
+			<p id="tip">您附近没有加油站</p>
+		</div>
+		<div id="map_gasStation-inner">
+
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view " id="innerlist">
+
+						<!--			<li class="mui-table-view-cell mui-media" data-url="./hotel-detail.html">
+					<img class="mui-media-object mui-pull-left hetol-placeholder" src="myimages/zhongshihua.png">
+					<div class="mui-media-body">
+						中石化桂电加油站
+						<p class='mui-ellipsis'>打折加油站<span class='hotel-away'>1公里</span></p>
+						<p class='mui-ellipsis'>地址：桂林市七星区金鸡岭1路<i class="fa fa-gift hotel-gift"></i></p>
+						<table width="100%" style="margin: 1em 2em 0.5em 0">
+							<tr>
+								<td>
+									<p class="hotel-color-orange">93#</p>
+								</td>
+								<td>
+									<p class="hotel-color-orange">97#</p>
+								</td>
+								<td>
+									<p class="hotel-color-orange">0#</p>
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									<p style="color:#8f8f94">￥5.4</p>
+								</td>
+								<td>
+									<p style="color:#8f8f94">￥5.92</p>
+								</td>
+								<td>
+									<p style="color:#8f8f94">￥5.06</p>
+								</td>
+
+							</tr>
+						</table>
+					</div>
+				</li>-->
+
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					}
+				},
+				gestureConfig: {
+
+					longtap: true //默认为false 
+
+				}
+			});
+
+			mui.plusReady(function() {
+				plus.geolocation.getCurrentPosition(function(p) {
+					lat = p.coords.latitude;
+					lng = p.coords.longitude;
+					console.log(lat);
+				}, function(e) {
+					wv = plus.webview.getWebviewById("map_gasStation-inner");
+					mui.toast("Geolocation error: " + e.message);
+
+					wv.evalJS("locate_error();");
+					document.getElementById("distance").innerText = "";
+				});
+			});
+
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					ajax_list(lat, lng);
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1500);
+			}
+
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			/*function pullupRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					ajax_list(lat, lng);
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //refresh completed
+				}, 1500);
+			}*/
+			/*if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}*/
+			mui.plusReady(function() {
+				//list(); 
+				ws = plus.webview.currentWebview();
+				ws.setStyle({
+					scrollIndicator: "vertical",
+					hardwareAccelerated: false
+				});
+				//打开新页面
+				mui("#innerlist").on('tap', 'li', function() {
+					var idd = this.querySelector(".idd").value; //获取加油站id
+					//打开详情
+					mui.openWindow({
+						id: 'gasStationDetail',
+						url: 'map_gasStationDetail.html',
+						extras: {
+							datas: datas.result.data[idd],
+							entype: "list",
+						},
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide',
+							hardwareAccelerated: false
+						},
+						waiting: {
+							autoShow: false
+						}
+						/*show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							aniShow: 'slide-in-top', //'slide-in-top', //页面显示动画，默认为”slide-in-right“；
+							duration: 100 //页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+						},*/
+					});
+				})
+				console.log("当前页面URL：" + plus.webview.currentWebview().getURL());
+			});
+			//list();
+		</script>
+
+	</body>
+
+</html>

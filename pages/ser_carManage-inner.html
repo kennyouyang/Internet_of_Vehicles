@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/app.js"></script>
+		<script src ="../js/encrypt/core.js"></script>
+
+          <script src= "../js/encrypt/hmac.js" ></script>
+
+          <script src= "../js/encrypt/sha256.js" ></script>
+	
+		<style>
+			.mui-table-view .mui-media-object {
+				width: 70px;
+				max-width: 100px;
+			}
+			
+			.p_item {
+				display: inline;
+				color: #111210;
+			}
+			
+			.p_item label {
+				margin-left: 10px;
+			}
+			
+			#ul_addcar {
+				margin-top: 10px;
+				text-align: center;
+			}
+			
+			.a_mycar {
+				color: black;
+			}
+			
+			.a_mycar:active {
+				color: black;
+			}
+			
+			.p_item_hidden {
+				display: none;
+			}
+			#popover {
+				min-width: 282px;
+				height: 50px;
+				right: 10px;
+			}
+			
+			.mui-popover {
+				background-color: rgba(0, 0, 0, 0);
+				box-shadow: 0 0 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="popover" class="mui-popover">
+			<img src="../images/arrow.png" style="float: right;" />
+			<div style="text-align: right;padding: 50px 10px 0 0;font-size: 20px;">请点击这里添加车辆</div>
+		</div>
+		<!--<div class="mui-backdrop">
+			<img src="../images/arrow.png" style="float: right;" />
+			<div style="text-align: right;padding: 50px 10px 0 0;font-size: 20px;">请点击这里添加车辆</div>
+		</div>-->
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<!--	<div class="mui-scroll">
+				 
+				<ul class="mui-table-view mui-table-view-chevron">
+					
+				</ul>
+			</div>-->
+
+			<div id="searchViolation-inner">
+				<!--			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<div style="position: absolute;top: 25px;"><img src="../images/acar.png"  /></div>
+					<div>
+						<div id="#" style="width: 80%;height: 50px;">
+							<span style="font-size: 20px;margin-left: 5px;margin-top: 5px;position: absolute;left:70px">桂888888</span>
+						 <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">代缴</button> 
+						</div>
+						<div style="position: absolute;top: 45px;left:60px;">
+							<label>违章</label><span>2</span>
+							<label>罚款</label><span>100</span>
+							<label>扣分</label><span>6</span>
+						</div>
+					</div>
+					<div class="mui-navigate-right" ></div>
+				</li>
+				
+				<li class="mui-table-view-cell">
+					<div style="position: absolute;top: 30px;"><img src="../images/aodi.jpg"  /></div>
+					<div>
+						<div id="#" style="width: 80%;height: 50px;">
+							<span style="font-size: 20px;margin-left: 5px;margin-top: 5px;position: absolute;left:70px">桂888888</span>
+							 
+                            	<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">代缴</button>
+                          
+						</div>
+						<div style="position: absolute;top: 45px;left:60px;">
+							<label>违章</label><span>2</span>
+							<label>罚款</label><span>0</span>
+							<label>扣分</label><span>6</span>
+						</div>
+					</div>
+					<div class="mui-navigate-right"></div>
+				</li>
+				<li class="mui-table-view-cell"  style="text-align: center;">
+					<a  id="ser_sv_addcar" class="mui-icon mui-icon-plusempty" style="font-size: 20px;">添加车辆</a>
+				</li>
+				
+				
+			</ul>
+			-->
+
+				<!--
+		 <ul  class="mui-table-view mui-table-view-chevron">
+
+					<li class="mui-table-view-cell mui-media" Cdata="1">
+						
+						<div class="mui-slider-right mui-disabled">
+							<a class="mui-btn mui-btn-red">删除</a>
+						</div>
+
+						<div class="mui-slider-handle mui-table">
+							  
+							<a class="a_mycar">
+								<img class="mui-media-object mui-pull-left" src="../images/aodi.jpg">
+								<div class="mui-media-body mui-ellipsis">
+									<h4>我的车</h4>
+									<p class="p_item plateNo" hidden="hidden">粤A12456</p>
+									<p class="p_item model"><label>阿斯顿马丁 - Vanquish</label></p>
+									<p class="p_item_hidden vinNo" hidden="hidden">vinNo</p>
+									<p class="p_item_hidden engineNo" hidden="hidden">engineNo</p>
+									<p class="p_item_hidden remarks" hidden="hidden">engineNo</p>
+									<p class="p_item_hidden mileage" hidden="hidden">engineNo</p>
+									<p class="p_item_hidden transmissionPer" hidden="hidden">engineNo</p>
+									<p class="p_item_hidden gasoline" hidden="hidden">engineNo</p>
+									<p class="p_item_hidden ligtht" hidden="hidden">engineNo</p>
+									 <p class="p_item_hidden url"  hidden="hidden">engineNo</p>
+								</div>
+							 </a>
+						</div>
+					</li>
+
+				</ul>
+
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell mui-media">
+						<a class="mui-navigate-right">
+							<img class="mui-media-object mui-pull-left" src="../images/BC.jpg">
+							<div class="mui-media-body">
+								<h4>老爸的车</h4>
+								<p class="p_item">粤A58876</p>
+								<p class="p_item"><label>奥迪 - Q5</label></p>
+								 
+							</div>
+						</a>
+					</li>
+
+				</ul>  -->
+
+			</div>
+		</div>
+
+		<!--<div id="carManage-inner">
+			<div class="mui-card">
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" id="ser_addcarMethod">
+		                添加车辆
+		            </a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" id="ser_maintenanceInfor">
+		                 车辆信息维护
+		            </a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+		                 Item 3
+		            </a>
+					</li>
+				</ul>
+			</div>
+		</div>-->
+
+		<!--<ul id="ul_addcar" class="mui-table-view">
+
+			<li class="mui-table-view-cell mui-media">
+				<a id="ser_sv_addcar" class="mui-icon mui-icon-plusempty" style="font-size: 20px;">添加车辆</a>
+			</li>
+
+		</ul>-->
+
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					}
+				},
+				gestureConfig: {
+
+					longtap: true //默认为false 
+
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					ajax_list();
+					//document.getElementById("searchViolation-inner").innerText += "1";
+					/*var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					for (var i = cells.length, len = i + 3; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+						//下拉刷新，新纪录插到最前面；
+						table.insertBefore(li, table.firstChild);
+					}*/
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 5000);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					ajax_list();
+					/*	mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+						var table = document.body.querySelector('.mui-table-view');
+						var cells = document.body.querySelectorAll('.mui-table-view-cell');
+						for (var i = cells.length, len = i + 20; i < len; i++) {
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell';
+							li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+							table.appendChild(li);
+						}*/
+				}, 1000);
+			}
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+			mui.plusReady(function() {
+				/*document.getElementById("ser_addcarMethod").addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'ser_addcarMethod.html',
+						id: 'ser_addcarMethod',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				document.getElementById("ser_maintenanceInfor").addEventListener('tap', function() {
+					mui.openWindow({
+						url: 'ser_maintenanceInfor.html',
+						id: 'ser_maintenanceInfor',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});	*/
+				ajax_list();
+				/*var state = app.getState();
+				mui.ajax('http://115.28.16.183:8080/car_server/GetCarsServlet', {
+					data: {
+						username: state.account
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 5000, //超时时间设置为10秒；   
+					success: function(data) {       
+						if (data.result_code == '1') {  
+							var innerlist = document.getElementById("searchViolation-inner");
+							var str = "";
+							for (var i = 0; i < data.cars.length; i++) {
+								 console.log(data.cars[i]["plateNo"]);
+								str += '<ul class=\"mui-table-view mui-table-view-chevron\"><li class=\"mui-table-view-cell mui-media\"><a class=\"mui-navigate-right\"><img class=\"mui-media-object mui-pull-left\" src=\"'+
+								data.cars[i]["url"]+'\"><div class=\"mui-media-body\"><h4>'+
+								data.cars[i]["remarks"]+'</h4><p class=\"p_item\">' +
+								data.cars[i]["plateNo"] +  '</p><p class=\"p_item\"><label>'+ 
+								data.cars[i]["model"]+'</label></p></div></a></li></ul>';
+								 
+								console.log(data.cars[i]["url"]);
+							}   
+							innerlist.innerHTML = str;
+						} else {
+							plus.nativeUI.toast(data.result_code);
+						}
+						   
+					}, 
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(xhr);
+						console.log(type); 
+						console.log(errorThrown);
+					}
+				});*/
+
+				/*document.getElementById("ser_sv_addcar").addEventListener('tap', function() {
+					mui.openWindow({
+						url: '../pages/ser_addcar.html',
+						id: 'ser_addcar',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});*/
+
+				mui('#searchViolation-inner').on('tap', '.mui-table-view-cell', function() {
+					//alert("click");
+					var carId = this.getAttribute("Cdata");
+
+					var plateNo = this.querySelector(".plateNo").innerText;
+					var engineNo = this.querySelector(".engineNo").innerText;
+					var vinNo = this.querySelector(".vinNo").innerText;
+
+					var remarks = this.querySelector(".remarks").innerText;
+					var model = this.querySelector(".model").innerText;
+					var brand = this.querySelector(".brand").innerText;
+
+					var mileage = this.querySelector(".mileage").innerText;
+					var transmissionPer = this.querySelector(".transmissionPer").innerText;
+					var gasoline = this.querySelector(".gasoline").innerText;
+					var light = this.querySelector(".ligtht").innerText;
+					var url = this.querySelector(".url").innerText;
+					var enginePer = this.querySelector(".enginePer").innerText;
+					//alert(enginePer); return; 
+
+					mui.openWindow({
+						url: '../pages/ser_editcar.html',
+						id: 'ser_editcar',
+						show: {
+							aniShow: 'pop-in'
+						},
+						extras: {
+							carId: carId,
+							plateNo: plateNo,
+							engineNo: engineNo,
+							vinNo: vinNo,
+							remarks: remarks,
+							brand: brand,
+							model: model,
+							mileage: mileage,
+							transmissionPer: transmissionPer,
+							gasoline: gasoline,
+							url: url,
+							enginePer: enginePer,
+							light: light
+
+						},
+						styles: {
+							popGesture: 'hide',
+							hardwareAccelerated: false
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+
+				//左滑删除
+				var btnArray = ['确认', '取消'];
+				//第二个demo，向左拖拽后显示操作图标，释放后自动触发的业务逻辑
+				mui('#searchViolation-inner').on('slideleft', '.mui-table-view-cell', function(event) {
+					var elem = this;
+					mui.confirm('确认删除该汽车信息？', '提示', btnArray, function(e) {
+						if(e.index == 0) {
+							//alert(elem.getAttribute("Cdata"));
+							ajax_delCar(elem.getAttribute("Cdata"), elem);
+
+						} else {
+							setTimeout(function() {
+								mui.swipeoutClose(elem);
+							}, 0);
+						}
+					});
+				});
+				//长按删除
+				mui('#searchViolation-inner').on('longtap', '.mui-table-view-cell', function(event) {
+					var elem = this;
+					mui.confirm('确认删除该汽车信息？', '提示', btnArray, function(e) {
+						if(e.index == 0) {
+							//alert(elem.getAttribute("Cdata"));
+							ajax_delCar(elem.getAttribute("Cdata"), elem);
+
+						} else {
+							setTimeout(function() {
+								mui.swipeoutClose(elem);
+							}, 0);
+						}
+					});
+				});
+			});
+
+			function ajax_list() {
+				var waitingwv = null;
+				waitingwv = plus.nativeUI.showWaiting("正在加载...", {
+					loading: {
+						//  icon: "../images/loading/big_loading.gif"
+					}
+				});
+
+				var state = app.getState();
+				var sign = CryptoJS.HmacSHA256(state.token + state.account,state.token)+"";
+  				console.log(sign);
+
+				mui.ajax('http://115.28.16.183:8080/car_server/GetCarsServlet', {
+					data: {
+						username: state.account,
+						sign: sign
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；   
+					success: function(data) {
+						if(data.result_code == '1') {
+							//判断是否要显示遮罩层
+							if(data.cars == "") {
+								console.log("222222222222");
+								mui("#popover").popover("toggle");
+								/*var ws=plus.webview.currentWebview();
+								ws.setStyle({mask:"rgba(0,0,0,0.5)"});
+								ws.addEventListener("maskClick",function(){
+									ws.setStyle({mask:"none"});
+								},false);
+								mask=mui.createMask();
+								mask.show();
+								ws.addEventListener("maskClick",function(){
+									ws.setStyle({mask:"none"});*/
+							}
+							else
+							{
+								mui("#popover").popover("hide");
+							}
+								
+							
+							var innerlist = document.getElementById("searchViolation-inner");
+							var str = "";
+							for(var i = 0; i < data.cars.length; i++) {
+								console.log(data.cars[i]["plateNo"]);
+								/*str += '<ul class=\"mui-table-view mui-table-view-chevron\"><li class=\"mui-table-view-cell mui-media\"><a class=\"mui-navigate-right\"><img class=\"mui-media-object mui-pull-left\" src=\"' +
+									data.cars[i]["url"] + '\"><div class=\"mui-media-body\"><h4>' +
+									data.cars[i]["remarks"] + '</h4><p class=\"p_item\">' +
+									data.cars[i]["plateNo"] + '</p><p class=\"p_item\"><label>' +
+									data.cars[i]["model"] + '</label></p></div></a></li></ul>';*/
+
+								str += '<ul class=\"mui-table-view mui-table-view-chevron\"><li class=\"mui-table-view-cell    mui-media\"  Cdata=\"' +
+									data.cars[i]["carId"] + '\"><div class=\"mui-slider-right mui-disabled\"> <a class=\"mui-btn mui-btn-red\">删除</a> </div> <div class=\"mui-slider-handle mui-table\"> <a class=\" a_mycar\"><img class=\"mui-media-object mui-pull-left\" src=\"' +
+									data.cars[i]["url"] + '\"><div class=\"mui-media-body mui-ellipsis\"><h4 class=\"remarks\">' +
+									data.cars[i]["remarks"] + '</h4><p class=\"p_item plateNo\">' +
+									data.cars[i]["plateNo"] + '</p><p class=\"p_item model\"><label>' +
+									data.cars[i]["model"] + '</label></p><p class=\"p_item_hidden vinNo\">' +
+									data.cars[i]["vinNo"] + '</p>	<p class=\"p_item_hidden engineNo\">' +
+									data.cars[i]["engineNo"] + '</p><p class=\"p_item_hidden brand\">' +
+									data.cars[i]["brand"] + '</p>	<p class=\"p_item_hidden enginePer\">' +
+									data.cars[i]["enginePer"] + '</p> <p class=\"p_item_hidden mileage\">' +
+									data.cars[i]["mileage"] + '</p>	<p class=\"p_item_hidden transmissionPer\">' +
+									data.cars[i]["transmissionPer"] + '</p> <p class=\"p_item_hidden gasoline\">' +
+									data.cars[i]["gasoline"] + '</p> <p class=\"p_item_hidden ligtht\">' +
+									data.cars[i]["ligtht"] + '</p>               <p class=\"p_item_hidden url\">' +
+									data.cars[i]["url"] + '</p>  </div></a></div></li></ul>';
+
+								console.log(data.cars[i]["url"]);
+							}
+							innerlist.innerHTML = str;
+							waitingwv.close();
+						} else {
+							waitingwv.close();
+							plus.nativeUI.toast(data.result_code);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						waitingwv.close();
+						//异常处理；
+						if(type == "timeout") {
+							mui.toast("连接超时，请稍后再试");
+						} else if(type == "abort") {
+							mui.toast("您没有连接网络，请连接网络后再试");
+						} else if(type == "error") {
+							mui.toast("服务端异常，请稍后再试");
+						} else {
+							mui.toast(type);
+						}
+						console.log(xhr);
+						console.log(type);
+						console.log(errorThrown);
+					}
+				});
+			}
+
+			function ajax_delCar(carId, elem) {
+				var state = app.getState();
+				var waitingwv = null;
+				var sign = CryptoJS.HmacSHA256(state.token + state.account+carId,state.token)+"";
+			  console.log(sign);
+
+				mui.ajax('http://115.28.16.183:8080/car_server/DelCarServlet', {
+					data: {
+						username: state.account,
+						carId: carId,
+						sign:sign
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；   
+					beforeSend: function(xhr) {
+
+						waitingwv = plus.nativeUI.showWaiting("正在删除，请稍等...", {
+							loading: {
+								/*icon: "../images/loading/big_loading.gif"*/
+							}
+						});
+					},
+					success: function(data) {
+						waitingwv.close();
+						if(data.result_code == '1') {
+							elem.parentNode.removeChild(elem);
+							mui.toast("删除成功");
+
+						} else {
+							plus.nativeUI.toast(data.result_code);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						waitingwv.close();
+						mui.swipeoutClose(elem);
+						if(type == "timeout") {
+							mui.toast("连接超时，请稍后再试");
+						} else if(type == "abort") {
+							mui.toast("您没有连接网络，请连接网络后再试");
+						} else if(type == "error") {
+							mui.toast("服务端异常，请稍后再试");
+						} else {
+							mui.toast(type);
+						}
+
+						//异常处理；
+						console.log(xhr);
+						console.log(type);
+						console.log(errorThrown);
+					}
+				});
+			}
+		</script>
+
+	</body>
+
+</html>

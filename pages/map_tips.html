@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-content {
+				/*text-align: center;*/
+				
+			}
+			
+			#row1 button {
+				width: 80px;
+				height: 50px;
+				margin: 30px 10px 10px 10px;
+			}
+			
+			#row2 button {
+				width: 80px;
+				height: 50px;
+				margin: 10px 10px 10px 10px;
+			}
+			.mui-content{
+				/*border: solid #C0C0C0 1px;*/
+				background-color:white ;
+				height: 150px;
+				
+				 
+			}
+			.mui-content span{
+				margin-top:15px ;
+			}
+			.mui-content li{
+				list-style-type:none; 
+				}
+			div h5 img {
+				width: 20px;
+				 
+			} 
+			li img {
+				width: 25px;
+				 
+			}
+			button{
+				height: 55px;
+			}
+		</style>
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+			mui.plusReady(function() {
+			//wv_map_orderGas = plus.webview.getWebviewById("map_orderGas-inner");
+				 wv = plus.webview.currentWebview();
+				 document.getElementById("sp_station").innerText=wv.station.name; 
+				 document.getElementById("sp_address").innerText=wv.station.address; 
+				 
+				 var distance =wv.station.distance;
+				 console.log(distance);
+				 if(distance>1000)
+				 {
+				 	distance=parseFloat(distance/1000).toFixed(1)+"km"
+				 }
+				 else
+				 {
+				 	distance=distance+"m"
+				 }
+				 document.getElementById("p_distance").innerText=distance; 
+				 
+				 console.log(JSON.stringify(wv.station ) )
+				 console.log(JSON.stringify(wv.station.lon ) )
+				 console.log(JSON.stringify(wv.station.lat ) )
+				 var icon = "yzpp_"
+				  //var icon = "yzpp_buxiang_map.9.png";
+					if (wv.station.brandname == "社会民营") {
+						icon+= "minying"
+					} else if (wv.station.brandname == "中石化") {
+						icon+= "zsh";
+					} else if (wv.station.brandname == "中国航油") {
+						icon+= "zghy";
+					} else if (wv.station.brandname == "中石油") {
+						icon+= "zsy";
+					} else if (wv.station.brandname == "国企") {
+						icon+= "guoqi";
+					} else if (wv.station.brandname == "壳牌") {
+						icon+= "qiaopai";
+					} else if (wv.station.brandname == "中化道达尔") {
+						icon+= "daodaer";
+					} else if (wv.station.brandname == "中海油") {
+						icon+= "zhy";
+					} else if (wv.station.brandname == "中油BP") {
+						icon+= "zhongyoubp";
+					} else if (wv.station.brandname == "加德士") {
+						icon+= "jiadeshi";
+					}
+					else{
+						icon+= "buxiang"
+					}
+					icon+="_map.9.png";
+				 	document.getElementById("img_brand").src="../images/brand/"+icon;
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 document.getElementById("goto").addEventListener('tap',function(){
+				 	 
+				 	
+				 	
+				 	//var end_point = new plus.maps.Point( wv.station.lon, wv.station.lat );
+				 	 
+				 	wv_map = plus.webview.getWebviewById("pages/maps.html");
+				 	//wv_map.evalJS("goto('"+end_point+"');"); 
+				 	wv_map.evalJS("goto('" + wv.station.lon + "','" + wv.station.lat + "')");
+		 			plus.webview.currentWebview().close();
+				 	
+				 	
+				 });
+				 document.getElementById("div_main").addEventListener('tap',function(){
+				 	 
+				 	mui.openWindow({
+							id: 'detail',
+							url: 'map_gasStationDetail.html',
+							extras: {
+								entype: "map",
+								datas: wv.station
+							},
+							waiting: {
+								autoShow: false
+							}
+				
+							
+						});
+				 });
+				 
+				 
+				
+			});
+			
+			/*function select10()
+			{
+			 
+				
+				 
+			}*/
+			 
+		</script>
+	</head>
+
+	<body>
+		<div class="mui-content">
+		 	<div id="div_main">
+		 		
+		 	
+			<li class="mui-table-view-cell">
+				<img id="img_brand" src="../images/brand/yzpp_buxiang_map.9.png" style="vertical-align:middle;" align="absmiddle">
+				<span id="sp_station" style="vertical-align:middle;">
+					<img src="../images/loading/loading1.gif">
+				</span> 
+				<p id="p_distance" style="float: right;"></p>
+				<!--<p style="float: right;">详情</p>-->
+			</li>
+		  	
+			 
+			<div id="row1" style="text-align: left;margin: 15px 15px 15px 15px;">
+				<h5 class="mui-ellipsis" ><img src="../images/map-marker.png" style="vertical-align:middle;" align="absmiddle" />地址：<span id="sp_address"><img src="../images/loading/loading1.gif"></span></h5>
+			</div>
+			 </div>
+			<div class="mui-content-padded">
+				<button id='goto' class="mui-btn mui-btn-block mui-btn-primary">我要去</button>
+				 
+			</div>
+		</div>
+	</body>
+
+</html>

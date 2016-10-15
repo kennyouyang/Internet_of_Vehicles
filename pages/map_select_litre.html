@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-content {
+				text-align: center;
+			}
+			
+			#row1 button {
+				width: 80px;
+				height: 50px;
+				margin: 30px 10px 10px 10px;
+			}
+			
+			#row2 button {
+				width: 80px;
+				height: 50px;
+				margin: 10px 10px 10px 10px;
+			}
+			.mui-content{
+				/*border: solid #C0C0C0 1px;*/
+				background-color:white ;
+				height: 220px;
+				
+				 
+			}
+			.mui-content span{
+				margin-top:15px ;
+			}
+		</style>
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+			mui.plusReady(function() {
+			wv_map_orderGas = plus.webview.getWebviewById("map_orderGas-inner");
+				 
+				
+			});
+			
+			function select10()
+			{
+			 
+				wv_map_orderGas.evalJS("price_select('"+10+"');"); 
+		 		plus.webview.currentWebview().close();
+				 
+			}
+			function select20()
+			{
+				wv_map_orderGas.evalJS("price_select('"+20+"');"); 
+		 		plus.webview.currentWebview().close();
+			}
+			function select50()
+			{
+				wv_map_orderGas.evalJS("price_select('"+50+"');"); 
+		 		plus.webview.currentWebview().close();
+			}
+			function select5()
+			{
+				wv_map_orderGas.evalJS("price_select('"+5+"');"); 
+		 		plus.webview.currentWebview().close();
+			}
+			function select30()
+			{
+				wv_map_orderGas.evalJS("price_select('"+30+"');"); 
+		 		plus.webview.currentWebview().close();
+			}
+			function select40()
+			{
+				wv_map_orderGas.evalJS("price_select('"+40+"');"); 
+		 		plus.webview.currentWebview().close();
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<span>请选择加油升数</span>
+			<div id="row1">
+				<button type="button" class="mui-btn mui-btn-primary   mui-btn-outlined" onclick="select5()">5L</button>
+
+				<button  type="button" class="mui-btn mui-btn-primary   mui-btn-outlined" onclick="select10()">10L</button>
+				<button type="button" class="mui-btn mui-btn-primary   mui-btn-outlined" onclick="select20()">20L</button>
+				
+			</div>
+			<div id="row2">
+				<button type="button" class="mui-btn mui-btn-primary   mui-btn-outlined" onclick="select30()">30L</button>
+				<button type="button" class="mui-btn mui-btn-primary   mui-btn-outlined" onclick="select40()">40L</button>
+				<button type="button" class="mui-btn mui-btn-primary   mui-btn-outlined" onclick="select50()">50L</button>
+
+			</div>
+
+		</div>
+	</body>
+
+</html>
