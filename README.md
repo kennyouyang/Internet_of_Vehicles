@@ -1,6 +1,7 @@
 # Internet_of_Vehicles
 第五届 中国软件杯 大学生程序设计大赛 “车联网移动APP”赛题作品 http://www.cnsoftbei.com/
-
+<img src="https://github.com/kennyouyang/Internet_of_Vehicles/blob/master/logo.png">
+<img src="https://raw.githubusercontent.com/kennyouyang/Internet_of_Vehicles/master/logo.png">
 “车联网”移动应用软件
 
 简介
