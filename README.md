@@ -5,7 +5,7 @@
 <br>
 <img src="https://github.com/kennyouyang/Internet_of_Vehicles/blob/master/logo.png">
 <br>
- 
+
 “车联网”移动应用软件
 
 简介
@@ -18,9 +18,9 @@
 index  图片 1
 
 主界面 / 添加车辆
-
-main  addvehicle
-
+ <br>
+<img src="https://github.com/kennyouyang/Internet_of_Vehicles/blob/gh-pages/show/%E9%99%84%E8%BF%91%E5%8A%A0%E6%B2%B9%E7%AB%992.gif">
+ <br>
 地图界面 / 导航
 
 map  mapfind
